@@ -12,7 +12,7 @@ itens | status<br>
 a,b,c | Autorizado<br><br>
 <a href="solicitar.php">Realizar solicitação de itens</a><br>
 <a href="checkListVtr.php">Realizar solicitação da viatura</a><br>
-<a href="solicitacoesAnteriores.php">Solicitações anteriores</a><br>
+<a href="solicitacoesAnterioresSolicitante.php">Solicitações anteriores</a><br>
 
 </body>
 </html>

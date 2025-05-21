@@ -10,7 +10,7 @@
 <body>
     <a href="homeQuarteleiro.php">Voltar</a><br>
     <a href="homeQuarteleiro.php">Home</a><br>
-    <strong><a href="solicitacoesAnteriores.php">Solicitações Anteriores</a></strong>
+    <strong><a href="solicitacoesAnterioresQuarteleiro.php">Solicitações Anteriores</a></strong>
     <h1>Solicitações</h1>
     <h2>Solicitante: <i>Sd. Fábio</i></h2>
     <p> Datas: <br>
