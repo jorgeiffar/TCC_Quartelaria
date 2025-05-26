@@ -16,7 +16,8 @@ $queryEquipamentos = mysqli_query($conexao, $sqlEquipamentos);
 </head>
 
 <body>
-    <a href="homeQuarteleiro.php">Voltar - Home</a>
+    <a href="equipamentos.php">Voltar</a><br>
+    <a href="homeQuarteleiro.php">Home</a>
     <h1>Equipamentos</h1>
     <a href="addEquipamento.php">Adicionar Equipamento</a> |
     <a href="addArmamento.php">Adicionar Armamento</a> |
