@@ -8,7 +8,7 @@
 <body>
 <a href="equipamentos.php">Equipamentos</a> |
 <a href="operacoes.php">Operações</a> |
-<a href="solicitacoes.php">Solicitações</a> |
+<a href="solicitacoesQuarteleiro.php">Solicitações</a> |
 <a href="solicitacoesVtr.php">Solicitações Viatura</a>
 
 <h1>Empréstimos</h1>

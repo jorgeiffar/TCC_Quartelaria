@@ -6,7 +6,7 @@
     <title>Solicitações Anteriores - Quartelaria</title>
 </head>
 <body>
-        <a href="solicitacoes.php">Voltar</a><br>
+        <a href="solicitacoesQuarteleiro.php">Voltar</a><br>
     <a href="homeQuarteleiro.php">Home</a><br>
     <h1>Solicitações Anteriores</h1>
     <table border ='1'>

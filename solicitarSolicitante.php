@@ -1,4 +1,6 @@
 <?php
+
+// FAZER CARRINHO AO INVES DE CHECKBOX!!!!!!!!!!!!!!!!!!
 include("conecta.php");
 
 //armamentos
@@ -23,6 +25,8 @@ while ($row = mysqli_fetch_assoc($resultadoEquipamentos)) {
     }
     $equipamentos_por_tipo[$tipo][] = $row;
 }
+$id_solicitacao= mysqli_insert_id($conexao);
+
 ?>
 
 <!DOCTYPE html>
@@ -35,7 +39,9 @@ while ($row = mysqli_fetch_assoc($resultadoEquipamentos)) {
 </head>
 
 <body>
-    <form method="post" action="">
+    <form method="post" action="processaSolicitacao.php">
+        <!-- ID solicitacao -->
+         <input type="hidden" name="id_solicitacao_itens" value="<?=$id_solicitacao?>">
         <!-- ARMAMENTO -->
         <a href="homeSolicitante.php">Voltar - Home</a>
         <h1> Armamentos </h1>
@@ -61,12 +67,17 @@ while ($row = mysqli_fetch_assoc($resultadoEquipamentos)) {
     <?php endforeach; ?>
 <?php endforeach; ?>
         <hr>
+        <!-- Operação -->
         <h2>Operação/motivo</h2>
         <select name="operacao">
             <option value="">Selecione</option>
             <option value="a">A</option>
             <option value="b">B</option>
         </select>
+        <hr>
+        <!-- Data de devolução prevista -->
+         Data de devolução prevista:
+    <input type="date" name="data_devolucao_item" required>
         <br><input type="submit" value="Solicitar">
     </form>
 </body>
