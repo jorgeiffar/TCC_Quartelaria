@@ -1,7 +1,7 @@
 <?php
 session_start();
 include("conecta.php");
-
+$_SESSION['id_usuario'] = 1;
 // armamentos
 $sqlArmamentos = "SELECT * FROM armamentos";
 $resultadoArmamentos = mysqli_query($conexao, $sqlArmamentos);

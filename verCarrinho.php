@@ -39,3 +39,12 @@ echo "<h3>Data de Devolução Prevista:</h3>";
 echo isset($_SESSION['data_devolucao_item']) ? htmlspecialchars($_SESSION['data_devolucao_item']) : 'Não informada';
 
 echo '<br><br><a href="solicitarSolicitante.php">Voltar</a>';
+
+
+
+if (!empty($_SESSION['carrinho_armamentos']) || !empty($_SESSION['carrinho_equipamentos'])): ?>
+    <form method="post" action="processaSolicitacao.php">
+        <input type="submit" value="Enviar Solicitação">
+    </form>
+<?php endif; ?>
+
