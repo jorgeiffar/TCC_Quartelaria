@@ -10,7 +10,7 @@ if (empty($_SESSION['carrinho_armamentos']) && empty($_SESSION['carrinho_equipam
 // Dados da sessão
 $operacao = $_SESSION['operacao'] ?? '';
 $data_devolucao = $_SESSION['data_devolucao_item'] ?? '';
-$id_usuario = $_SESSION['id_usuario'] ?? 1; // Substitua com o correto, se tiver controle de login
+$id_usuario = $_SESSION['id_usuario'] ?? 1; 
 $armamentos = $_SESSION['carrinho_armamentos'] ?? [];
 $equipamentos = $_SESSION['carrinho_equipamentos'] ?? [];
 

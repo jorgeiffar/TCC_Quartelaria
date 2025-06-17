@@ -1,9 +1,8 @@
 <?php
 include ("conecta.php");
-$nomeEquipamento = $_POST['nomeEquip'];
-$tipoEquipamento = $_POST['tipoEquip'];
+$tipoMaisEquipamento = $_POST['equipamento'];
+list($tipoEquipamento,$nomeEquipamento) = explode("|",$tipoMaisEquipamento);
 $quantidadeEquipamento = $_POST['quantidadeEquip'];
-
 $sql = "INSERT INTO equipamentos(nome_equipamento,tipo_equipamento,quantidade_equipamento) VALUE 
 (\"$nomeEquipamento\",\"$tipoEquipamento\",\"$quantidadeEquipamento\")";
 $query = mysqli_query($conexao,$sql);

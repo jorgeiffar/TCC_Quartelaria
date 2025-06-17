@@ -12,30 +12,35 @@
     <a href="homeQuarteleiro.php">Home</a>
     <h1>Adicionar Equipamento</h1>
     <form action="inserirEquipamento.php" method="post">
-        Nome do Equipamento: <input type="text" name="nomeEquip"><br>
-        Tipo: <select name="tipoEquip"><br>
+        Equipamento: <select name="equipamento"><br>
             <option value="">Selecione</option>
-            <optgroup label="Munições">
-                <option value="7,62x51mm">7,62x51mm</option>
-                <option value="5,56x45mm">5,56 x 45mm</option>
-                <option value="9mm">9mm</option>
-                <option value="12GA">12GA</option>
-                <option value="Spark">Spark</option>
-            </optgroup>
-            <hr>
             <optgroup label="Operação de Controle de Distúrbios">
-                <option value="Escudo">Escudo</option>
-                <option value="Capacete">Capacete</option>
-                <option value="Bastao">Bastão</option>
+                <option value="Disturbios|Escudo">Escudo</option>
+                <option value="Disturbios|Capacete">Capacete</option>
+                <option value="Disturbios|Bastao">Bastão</option>
             </optgroup>
             <hr>
             <optgroup label="Outros">
-                <option value="Carregador">Carregador</option>
-                <option value="Bandoleira">Bandoleira</option>
+                <option value="Outros|Carregador">Carregador</option>
+                <option value="Outros|Bandoleira">Bandoleira</option>
             </optgroup>
         </select><br>
         Quantidade: <input type="number" name="quantidadeEquip"><br>
         <input type="submit" value="Adicionar Equipamento">
+    </form>
+<hr>
+    <h1>Adicionar Munições</h1>
+     <form action="inserirEquipamento.php" method="post">
+        Calibre: <select name="equipamento">
+            <option value="">Selecione</option>
+                <option value="Municao|7,62x51mm">7,62x51mm</option>
+                <option value="Municao|5,56x45mm">5,56x45mm</option>
+                <option value="Municao|9mm">9mm</option>
+                <option value="Municao|12GA">12GA</option>
+                <option value="Municao|Spark">Spark</option>
+        </select><br>
+        Quantidade: <input type="number" name="quantidadeEquip"><br>
+        <input type="submit" value="Adicionar Munições">
     </form>
     <?php
     if (isset($_GET['status'])) {
@@ -56,6 +61,9 @@
             if (msg) {
                 msg.style.display = 'none';
             }
+        const url = new URL(window.location);
+        url.searchParams.delete('status');
+        window.history.replaceState({}, document.title, url);
         }, 3000); // 3000 milissegundos = 3 segundos
     </script>
 </body>
