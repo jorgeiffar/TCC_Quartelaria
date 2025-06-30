@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Tempo de geração: 09-Jun-2025 às 18:53
+-- Tempo de geração: 30-Jun-2025 às 21:02
 -- Versão do servidor: 8.0.31
 -- versão do PHP: 8.0.26
 
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `armamentos` (
   `codigo_armamento` int NOT NULL,
   `status_armamento` int NOT NULL,
   PRIMARY KEY (`id_armamento`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Extraindo dados da tabela `armamentos`
@@ -46,7 +46,8 @@ INSERT INTO `armamentos` (`id_armamento`, `nome_armamento`, `tipo_armamento`, `c
 (3, 'T4', 'Fuzil', '5,56', 123564, 0),
 (4, 'FAL', 'Fuzil', '7,62', 55698, 0),
 (5, 'CBC PUMP Military 3.0', 'Espingarda', '12GA', 123465, 0),
-(6, 'GLOCK', 'Pistola', '9mm', 474956, 0);
+(6, 'GLOCK', 'Pistola', '9mm', 474956, 0),
+(7, 'CBC PUMP Military 3.0', 'Espingarda', '12GA', 789, 0);
 
 -- --------------------------------------------------------
 
@@ -65,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `equipamentos` (
   `data_cadastro_equipamento` datetime NOT NULL,
   `status_equipamento` int NOT NULL,
   PRIMARY KEY (`id_equipamento`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Extraindo dados da tabela `equipamentos`
@@ -73,7 +74,12 @@ CREATE TABLE IF NOT EXISTS `equipamentos` (
 
 INSERT INTO `equipamentos` (`id_equipamento`, `nome_equipamento`, `tipo_equipamento`, `quantidade_equipamento`, `quantidade_disponivel_equipamento`, `estoque_minimo_equipamento`, `data_cadastro_equipamento`, `status_equipamento`) VALUES
 (1, 'T4', 'Carregador', 34, 0, 0, '0000-00-00 00:00:00', 0),
-(2, 'Cassetete', 'Bastao', 50, 0, 0, '0000-00-00 00:00:00', 0);
+(2, 'Cassetete', 'Bastao', 50, 0, 0, '0000-00-00 00:00:00', 0),
+(4, 'Capacete', 'Disturbios', 80, 0, 0, '0000-00-00 00:00:00', 0),
+(6, '12GA', 'Municao', 0, 0, 0, '0000-00-00 00:00:00', 0),
+(7, '9mm', 'Municao', 800, 0, 0, '0000-00-00 00:00:00', 0),
+(8, '5,56x45mm', 'Municao', 1000, 0, 0, '0000-00-00 00:00:00', 0),
+(9, 'Escudo', 'Disturbios', 80, 0, 0, '0000-00-00 00:00:00', 0);
 
 -- --------------------------------------------------------
 
@@ -134,21 +140,43 @@ CREATE TABLE IF NOT EXISTS `solicitacao_itens` (
   `observacao_item` varchar(600) NOT NULL,
   `id_item` int NOT NULL,
   `tipo_item` varchar(50) NOT NULL,
+  `id_solicitacao` int DEFAULT NULL,
   PRIMARY KEY (`id_solicitacao_itens`),
   KEY `fk_id_usuario_solicitacao` (`id_usuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Extraindo dados da tabela `solicitacao_itens`
 --
 
-INSERT INTO `solicitacao_itens` (`id_solicitacao_itens`, `id_usuario`, `motivo_solicitacao`, `data_solicitacao`, `data_devolucao_item`, `status_solicitacao`, `observacao_item`, `id_item`, `tipo_item`) VALUES
-(1, 1, 'a', '2025-06-09 00:00:00', '2025-06-26', 'Pendente', '', 3, 'armamento'),
-(2, 1, 'a', '2025-06-09 00:00:00', '2025-06-26', 'Pendente', '', 4, 'armamento'),
-(3, 1, 'a', '2025-06-09 00:00:00', '2025-06-26', 'Pendente', '', 5, 'armamento'),
-(4, 1, 'a', '2025-06-09 00:00:00', '2025-06-26', 'Pendente', '', 6, 'armamento'),
-(5, 1, 'a', '2025-06-09 00:00:00', '2025-06-26', 'Pendente', '', 1, 'equipamento'),
-(6, 1, 'a', '2025-06-09 00:00:00', '2025-06-26', 'Pendente', '', 2, 'equipamento');
+INSERT INTO `solicitacao_itens` (`id_solicitacao_itens`, `id_usuario`, `motivo_solicitacao`, `data_solicitacao`, `data_devolucao_item`, `status_solicitacao`, `observacao_item`, `id_item`, `tipo_item`, `id_solicitacao`) VALUES
+(1, 1, 'a', '2025-06-09 00:00:00', '2025-06-26', 'Pendente', '', 3, 'armamento', 4),
+(2, 1, 'a', '2025-06-09 00:00:00', '2025-06-26', 'Pendente', '', 4, 'armamento', 4),
+(3, 1, 'a', '2025-06-09 00:00:00', '2025-06-26', 'Pendente', '', 5, 'armamento', 4),
+(4, 1, 'a', '2025-06-09 00:00:00', '2025-06-26', 'Pendente', '', 6, 'armamento', 4),
+(5, 1, 'a', '2025-06-09 00:00:00', '2025-06-26', 'Pendente', '', 1, 'equipamento', 4),
+(6, 1, 'a', '2025-06-09 00:00:00', '2025-06-26', 'Pendente', '', 2, 'equipamento', 4),
+(7, 1, 'a', '2025-06-09 00:00:00', '2025-06-26', 'Pendente', '', 3, 'armamento', 4),
+(8, 1, 'a', '2025-06-09 00:00:00', '2025-06-26', 'Pendente', '', 5, 'armamento', 4),
+(9, 1, 'a', '2025-06-09 00:00:00', '2025-06-26', 'Pendente', '', 6, 'armamento', NULL),
+(10, 1, 'a', '2025-06-09 00:00:00', '2025-06-26', 'Pendente', '', 1, 'equipamento', NULL),
+(11, 1, 'a', '2025-06-10 00:00:00', '2025-06-26', 'Pendente', '', 3, 'armamento', 3),
+(12, 1, 'a', '2025-06-10 00:00:00', '2025-06-26', 'Pendente', '', 5, 'armamento', 3),
+(13, 1, 'a', '2025-06-10 00:00:00', '2025-06-26', 'Pendente', '', 6, 'armamento', 3),
+(14, 1, 'a', '2025-06-10 00:00:00', '2025-06-26', 'Pendente', '', 2, 'equipamento', 3),
+(15, 1, 'a', '2025-06-10 00:00:00', '2025-06-26', 'Pendente', '', 1, 'equipamento', 3),
+(16, 1, '', '2025-06-17 00:00:00', '0000-00-00', 'Pendente', '', 4, 'armamento', 2),
+(17, 1, '', '2025-06-17 00:00:00', '0000-00-00', 'Pendente', '', 5, 'armamento', 2),
+(18, 1, '', '2025-06-17 00:00:00', '0000-00-00', 'Pendente', '', 2, 'equipamento', 2),
+(19, 1, '', '2025-06-17 00:00:00', '0000-00-00', 'Pendente', '', 7, 'equipamento', 2),
+(20, 1, 'a', '2025-06-19 00:00:00', '2025-06-27', 'Pendente', '', 3, 'armamento', 1),
+(21, 1, 'a', '2025-06-19 00:00:00', '2025-06-27', 'Pendente', '', 5, 'armamento', 1),
+(22, 1, 'a', '2025-06-19 00:00:00', '2025-06-27', 'Pendente', '', 4, 'equipamento', 1),
+(23, 1, 'a', '2025-06-19 00:00:00', '2025-06-27', 'Pendente', '', 9, 'equipamento', 1),
+(24, 1, '', '2025-06-19 00:00:00', '0000-00-00', 'Pendente', '', 3, 'armamento', 1),
+(25, 1, 'a', '2025-06-26 00:00:00', '2025-06-07', 'Pendente', '', 3, 'armamento', 1750965991),
+(26, 1, 'a', '2025-06-26 00:00:00', '2025-06-07', 'Pendente', '', 1, 'equipamento', 1750965991),
+(27, 1, 'a', '2025-06-26 00:00:00', '2025-06-07', 'Pendente', '', 2, 'equipamento', 1750965991);
 
 -- --------------------------------------------------------
 

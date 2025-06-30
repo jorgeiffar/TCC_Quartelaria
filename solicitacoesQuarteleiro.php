@@ -45,6 +45,7 @@ $resultListarSolicitacao = mysqli_query($conexao, $queryListarSolicitacao);
         LEFT JOIN armamentos ON solicitacao_itens.id_item = armamentos.id_armamento AND solicitacao_itens.tipo_item = 'armamento'
         WHERE solicitacao_itens.id_solicitacao = $id_solicitacao";
    $resultListarItens = mysqli_query($conexao,$queryListarItens);
+
     if (!$resultListarItens) {
     echo "<p>Erro na query de itens: " . mysqli_error($conexao) . "</p>";
 }
@@ -104,5 +105,7 @@ $resultListarSolicitacao = mysqli_query($conexao, $queryListarSolicitacao);
         </tr>
     </table>
     <button>Negar</button> | <button>Autorizar</button>
+
 </body>
+
 </html>
