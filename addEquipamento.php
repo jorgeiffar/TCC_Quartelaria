@@ -26,6 +26,7 @@
             </optgroup>
         </select><br>
         Quantidade: <input type="number" name="quantidadeEquip"><br>
+        Quantidade mínima:<input type="number" name="quantidadeMin"><br>
         <input type="submit" value="Adicionar Equipamento">
     </form>
 <hr>
@@ -40,6 +41,7 @@
                 <option value="Municao|Spark">Spark</option>
         </select><br>
         Quantidade: <input type="number" name="quantidadeEquip"><br>
+        Quantidade mínima:<input type="number" name="quantidadeMin"><br>
         <input type="submit" value="Adicionar Munições">
     </form>
     <?php

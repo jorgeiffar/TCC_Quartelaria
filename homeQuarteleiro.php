@@ -6,7 +6,7 @@
     <title>Home - Quartelaria</title>
 </head>
 <body>
-<a href="equipamentos.php">Equipamentos</a> |
+<a href="equipamentos.php">Equipamentos - Armamentos</a> |
 <a href="operacoes.php">Operações</a> |
 <a href="solicitacoesQuarteleiro.php">Solicitações</a> |
 <a href="solicitacoesVtr.php">Solicitações Viatura</a>
