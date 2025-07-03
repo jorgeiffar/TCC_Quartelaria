@@ -1,11 +1,7 @@
 <?php
 include ("conecta.php");
-
-// Consultas para equipamentos e armamentos
-$queryEquip = "SELECT * FROM equipamentos";
-$queryArma = "SELECT * FROM armamentos";
-
-// Executa as consultas
+$queryEquip = "SELECT * FROM equipamentos GROUP BY nome_equipamento ORDER BY tipo_equipamento";
+$queryArma = "SELECT * FROM armamentos GROUP BY nome_armamento ";
 $resultEquip = mysqli_query($conexao, $queryEquip);
 $resultArma = mysqli_query($conexao, $queryArma);
 ?>
@@ -31,11 +27,6 @@ $resultArma = mysqli_query($conexao, $queryArma);
                 <th>Nome</th>
                 <th>Tipo</th>
                 <th>Quantidade Disponível</th>
-                <th>Quantidade Total</th>
-                <th>Estoque Mínimo</th>
-                <th>Data de Cadastro</th>
-                <th>Status</th>
-                <th>Opções</th>
             </tr>
         </thead>
         <tbody>";
@@ -43,21 +34,11 @@ $resultArma = mysqli_query($conexao, $queryArma);
     while ($dadosEquip = mysqli_fetch_array($resultEquip)) {
         $nome = $dadosEquip['nome_equipamento'];
         $tipo = $dadosEquip['tipo_equipamento'];
-        $quantidadeTotal = $dadosEquip['quantidade_equipamento'];
         $quantidadeDisponivel = $dadosEquip['quantidade_disponivel_equipamento'];
-        $estoqueMin = $dadosEquip['estoque_minimo_equipamento'];
-        $dataCadastro = $dadosEquip['data_cadastro_equipamento'];
-        $statusEquip = $dadosEquip['status_equipamento'];
-        
         echo "<tr>
             <td>$nome</td>
             <td>$tipo</td>
             <td>$quantidadeDisponivel</td>
-            <td>$quantidadeTotal</td>
-            <td>$estoqueMin</td>
-            <td>$dataCadastro</td>
-            <td>$statusEquip</td>
-            <td>Editar | Excluir</td>
         </tr>";
     }
 
@@ -72,10 +53,7 @@ $resultArma = mysqli_query($conexao, $queryArma);
             <tr>
                 <th>Nome</th>
                 <th>Tipo</th>
-                <th>Calibre</th>
-                <th>Código</th>
-                <th>Status</th>
-                <th>Opções</th>
+                <th>Quantidade Disponível</th>
             </tr>
         </thead>
         <tbody>";
@@ -83,17 +61,12 @@ $resultArma = mysqli_query($conexao, $queryArma);
     while ($dadosArma = mysqli_fetch_array($resultArma)) {
         $nome = $dadosArma['nome_armamento'];
         $tipo = $dadosArma['tipo_armamento'];
-        $calibre = $dadosArma['calibre_armamento'];
-        $codigo = $dadosArma['codigo_armamento'];
-        $statusArma = $dadosArma['status_armamento'];
+        $quantidadeDisponivel = '(definir codigo)';
         
         echo "<tr>
             <td>$nome</td>
             <td>$tipo</td>
-            <td>$calibre</td>
-            <td>$codigo</td>
-            <td>$statusArma</td>
-            <td>Editar | Excluir</td>
+            <td>$quantidadeDisponivel</td>
         </tr>";
     }
 

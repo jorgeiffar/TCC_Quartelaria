@@ -1,7 +1,7 @@
 <?php
 include("conecta.php");
 
-$sqlArmamentos = "SELECT * FROM armamentos";
+$sqlArmamentos = "SELECT * FROM armamentos  ORDER BY nome_armamento DESC";
 $sqlEquipamentos = "SELECT * FROM equipamentos";
 $queryArmamentos = mysqli_query($conexao, $sqlArmamentos);
 $queryEquipamentos = mysqli_query($conexao, $sqlEquipamentos);
@@ -18,62 +18,87 @@ $queryEquipamentos = mysqli_query($conexao, $sqlEquipamentos);
 <body>
     <a href="equipamentos.php">Voltar</a><br>
     <a href="homeQuarteleiro.php">Home</a>
-    <h1>Equipamentos</h1>
+    <h1>Itens - Detalhes</h1>
     <a href="addEquipamento.php">Adicionar Equipamento</a> |
     <a href="addArmamento.php">Adicionar Armamento</a> |
     <a href="verDetalhesItens.php">Ver detalhes</a><br><br>
     <?php
+   
+
+//Equipamentos
+ echo "<table border='1'>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Tipo</th>
+                <th>Quantidade Disponível</th>
+                <th>Quantidade Total</th>
+                <th>Estoque Mínimo</th>
+                <th>Última Atualização do Estoque</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>";
+
+    while ($dadosEquip = mysqli_fetch_array($queryEquipamentos)) {
+        $nome = $dadosEquip['nome_equipamento'];
+        $tipo = $dadosEquip['tipo_equipamento'];
+        $quantidadeTotal = $dadosEquip['quantidade_equipamento'];
+        $quantidadeDisponivel = $dadosEquip['quantidade_disponivel_equipamento'];
+        $estoqueMin = $dadosEquip['estoque_minimo_equipamento'];
+        $dataCadastro = $dadosEquip['data_cadastro_equipamento'];
+        $statusEquip = $dadosEquip['status_equipamento'];
+        
+        echo "<tr>
+            <td>$nome</td>
+            <td>$tipo</td>
+            <td>$quantidadeDisponivel</td>
+            <td>$quantidadeTotal</td>
+            <td>$estoqueMin</td>
+            <td>$dataCadastro</td>
+            <td>$statusEquip</td>
+        </tr>";
+    }
+
+    echo "</tbody></table>";
+
+    
     // Armamentos
-    echo "<tbody> <h1> Armamentos </h1><table border='1'> 
+ ?>
+
+    <h1>Armamentos</h1>
+    <?php
+    echo "<table border='1'>
+        <thead>
             <tr>
                 <th>Nome</th>
                 <th>Tipo</th>
                 <th>Calibre</th>
                 <th>Código</th>
-                <th>Opções</th>
-                
-            </tr>";
-    while ($armamento = mysqli_fetch_assoc($queryArmamentos)) {
-        $nome = $armamento['nome_armamento'];
-        $codigo = $armamento['codigo_armamento'];
-        $tipo = $armamento['tipo_armamento'];
-        $calibre = $armamento['calibre_armamento'];
-        echo "<tr>";
-        echo "<td>$nome</td>
-    <td>$codigo</td>
-    <td>$tipo</td>
-    <td>$calibre</td>
-    <td>Editar | Excluir</td>";
-        echo "</tr>";
-    }echo "</table> </tbody>";
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>";
 
-//Equipamentos
-
-
-    echo "<tbody> <h1> Equipamentos </h1>";
-    echo "</table>";
-    echo "<table border='1'> 
-            <tr>
-                <th>Nome</th>
-                <th>Tipo</th>
-                <th>Qtd. disponível</th>
-                <th>Qtd. em uso</th>
-                <th>Opções</th>
-                
-            </tr>";
-    while ($armamento = mysqli_fetch_assoc($queryEquipamentos)) {
-        $nome = $armamento['nome_equipamento'];
-        $tipo = $armamento['tipo_equipamento'];
-        $quantidade = $armamento['quantidade_equipamento'];
-        echo "<tr>";
-        echo "<td>$nome</td>
-    <td>$tipo</td>
-    <td>$quantidade <br>(Alterar no código, por enquanto ta a total)</td>
-    <td>Y(Alterar no código)</td>
-    <td>Editar | Excluir</td>";
-        echo "</tr>";
+    while ($dadosArma = mysqli_fetch_array($queryArmamentos)) {
+        $nome = $dadosArma['nome_armamento'];
+        $tipo = $dadosArma['tipo_armamento'];
+        $calibre = $dadosArma['calibre_armamento'];
+        $codigo = $dadosArma['codigo_armamento'];
+        $statusArma = $dadosArma['status_armamento'];
+        
+        echo "<tr>
+            <td>$nome</td>
+            <td>$tipo</td>
+            <td>$calibre</td>
+            <td>$codigo</td>
+            <td>$statusArma</td>
+        </tr>";
     }
-    echo "</table> </tbody>"; ?>
+
+    echo "</tbody></table>";
+    ?>
+
 </body>
 
 </html>
