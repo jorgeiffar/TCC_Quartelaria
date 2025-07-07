@@ -1,7 +1,14 @@
 <?php
 include("conecta.php");
-$queryListarSolicitacao = "SELECT solicitacao_itens.*, usuarios.nome_usuario FROM 
-solicitacao_itens JOIN usuarios ON solicitacao_itens.id_usuario = usuarios.id_usuario GROUP BY data_solicitacao, id_usuario";
+$queryListarSolicitacao = "SELECT DISTINCT solicitacao_itens.id_solicitacao, 
+       solicitacao_itens.data_solicitacao,
+       solicitacao_itens.data_devolucao_item,
+       solicitacao_itens.motivo_solicitacao,
+       solicitacao_itens.id_usuario,
+       usuarios.nome_usuario
+FROM solicitacao_itens 
+JOIN usuarios ON solicitacao_itens.id_usuario = usuarios.id_usuario
+ORDER BY solicitacao_itens.data_solicitacao ASC";
 $resultListarSolicitacao = mysqli_query($conexao, $queryListarSolicitacao);
 
 
@@ -40,7 +47,7 @@ $resultListarSolicitacao = mysqli_query($conexao, $queryListarSolicitacao);
                 <th>Tipo</th>
             </tr>";
     $queryListarItens = "SELECT solicitacao_itens.*, equipamentos.id_equipamento,equipamentos.nome_equipamento,
-        armamentos.id_armamento,armamentos.nome_armamento FROM solicitacao_itens 
+        armamentos.id_armamento,armamentos.nome_armamento, armamentos.codigo_armamento FROM solicitacao_itens 
         LEFT JOIN equipamentos ON solicitacao_itens.id_item = equipamentos.id_equipamento AND solicitacao_itens.tipo_item = 'equipamento'
         LEFT JOIN armamentos ON solicitacao_itens.id_item = armamentos.id_armamento AND solicitacao_itens.tipo_item = 'armamento'
         WHERE solicitacao_itens.id_solicitacao = $id_solicitacao";
@@ -53,17 +60,12 @@ $resultListarSolicitacao = mysqli_query($conexao, $queryListarSolicitacao);
     while ($item = mysqli_fetch_assoc($resultListarItens)) {
         if ($item['tipo_item'] == 'armamento') {
             $nome = $item['nome_armamento'];
-            $codigo = $item['id_armamento'];
+            $codigo = $item['codigo_armamento'];
             $tipo = 'Armamento';
 
             echo "<tr>
                     <td>$nome</td>
-                    <td>
-                        <select name='codArmamento'>
-                            <option value=''>Selecione</option>
-                            <option value='$codigo'>$codigo</option>
-                        </select>
-                    </td>
+                    <td>$codigo</td>
                     <td>$tipo</td>
                   </tr>";
         } elseif ($item['tipo_item'] == 'equipamento') {

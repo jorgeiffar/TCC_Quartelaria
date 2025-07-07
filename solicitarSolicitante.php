@@ -3,7 +3,7 @@ session_start();
 include("conecta.php");
 $_SESSION['id_usuario'] = 1;
 // armamentos
-$sqlArmamentos = "SELECT * FROM armamentos";
+$sqlArmamentos = "SELECT * FROM armamentos where status_armamento != 1";
 $resultadoArmamentos = mysqli_query($conexao, $sqlArmamentos);
 $armamentos_por_tipo = [];
 while ($row = mysqli_fetch_assoc($resultadoArmamentos)) {
@@ -41,10 +41,12 @@ $id_solicitacao = mysqli_insert_id($conexao);
         <form method="post" action="addAoCarrinho.php" style="display:inline-block;">
             <input type="hidden" name="tipo" value="armamento">
             <input type="hidden" name="id_item" value="<?= $arma['id_armamento'] ?>">
-            <?= htmlspecialchars($arma['nome_armamento']) ?>
+             <?php
+             echo "<table border='1'> <tr><th>Nome</th><th>Código</th></tr>
+             <tr><td>{$arma['nome_armamento']}</td> <td>{$arma['codigo_armamento']}</td></tr></table>"; ?>
             <input type="submit" value="Adicionar ao Carrinho">
-        </form><br>
-    <?php endforeach; ?>
+        </form><br><br>
+    <?php endforeach; echo "<hr>";?>
 <?php endforeach; ?>
 
 <hr>
