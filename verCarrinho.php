@@ -12,16 +12,22 @@ if (empty($_SESSION['carrinho_armamentos']) && empty($_SESSION['carrinho_equipam
 } else {
     if (!empty($_SESSION['carrinho_armamentos'])) {
         $ids = implode(',', $_SESSION['carrinho_armamentos']);
-        $q = mysqli_query($conexao, "SELECT nome_armamento, codigo_armamento FROM armamentos WHERE id_armamento IN ($ids)");
+        $q = mysqli_query($conexao, "SELECT id_armamento, nome_armamento, codigo_armamento FROM armamentos WHERE id_armamento IN ($ids)");
         echo "<h3>Armamentos</h3>";
-        while ($r = mysqli_fetch_assoc($q)) echo "• {$r['nome_armamento']} - {$r['codigo_armamento']}<br>";
+        while ($r = mysqli_fetch_assoc($q)){
+        echo "• {$r['nome_armamento']} - {$r['codigo_armamento']}<br>";
+        echo " <a href='removerItemCarrinho.php?tipo=armamento&id_item=" . $r['id_armamento'] . "'>Remover</a><br><br>";}
+
     }
 
     if (!empty($_SESSION['carrinho_equipamentos'])) {
         $ids = implode(',', $_SESSION['carrinho_equipamentos']);
-        $q = mysqli_query($conexao, "SELECT nome_equipamento FROM equipamentos WHERE id_equipamento IN ($ids)");
+        $q = mysqli_query($conexao, "SELECT id_equipamento, nome_equipamento FROM equipamentos WHERE id_equipamento IN ($ids)");
         echo "<h3>Equipamentos</h3>";
-        while ($r = mysqli_fetch_assoc($q)) echo "• {$r['nome_equipamento']}<br>";
+        while ($r = mysqli_fetch_assoc($q)) {
+        echo "• {$r['nome_equipamento']}<br>";
+        echo " <a href='removerItemCarrinho.php?tipo=equipamento&id_item=" . $r['id_equipamento'] . "'>Remover</a><br><br>";}
+
     }
 }
 
