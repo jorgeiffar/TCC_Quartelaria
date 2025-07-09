@@ -51,6 +51,9 @@ include("conecta.php");
             if (msg) {
                 msg.style.display = 'none';
             }
+        const url = new URL(window.location);
+        url.searchParams.delete('status');
+        window.history.replaceState({}, document.title, url);
         }, 3000); // 3000 milissegundos = 3 segundos
     </script>
 </body>
