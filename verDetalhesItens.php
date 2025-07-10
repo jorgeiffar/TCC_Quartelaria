@@ -19,9 +19,8 @@ $queryEquipamentos = mysqli_query($conexao, $sqlEquipamentos);
     <a href="equipamentos.php">Voltar</a><br>
     <a href="homeQuarteleiro.php">Home</a>
     <h1>Itens - Detalhes</h1>
-    <a href="addEquipamento.php">Adicionar Equipamento</a> |
-    <a href="addArmamento.php">Adicionar Armamento</a> |
-    <a href="verDetalhesItens.php">Ver detalhes</a><br><br>
+    <hr>
+      <h1>Equipamentos</h1>
     <?php
    
 
@@ -33,7 +32,6 @@ $queryEquipamentos = mysqli_query($conexao, $sqlEquipamentos);
                 <th>Tipo</th>
                 <th>Quantidade Disponível</th>
                 <th>Quantidade Total</th>
-                <th>Estoque Mínimo</th>
                 <th>Última Atualização do Estoque</th>
                 <th>Status</th>
             </tr>
@@ -44,8 +42,7 @@ $queryEquipamentos = mysqli_query($conexao, $sqlEquipamentos);
         $nome = $dadosEquip['nome_equipamento'];
         $tipo = $dadosEquip['tipo_equipamento'];
         $quantidadeTotal = $dadosEquip['quantidade_equipamento'];
-        $quantidadeDisponivel = $dadosEquip['quantidade_disponivel_equipamento'];
-        $estoqueMin = $dadosEquip['estoque_minimo_equipamento'];
+        $quantidadeDisponivel = $quantidadeTotal - $dadosEquip['quantidade_disponivel_equipamento'];
         $dataCadastro = $dadosEquip['data_cadastro_equipamento'];
         $statusEquip = $dadosEquip['status_equipamento'];
         
@@ -54,7 +51,6 @@ $queryEquipamentos = mysqli_query($conexao, $sqlEquipamentos);
             <td>$tipo</td>
             <td>$quantidadeDisponivel</td>
             <td>$quantidadeTotal</td>
-            <td>$estoqueMin</td>
             <td>$dataCadastro</td>
             <td>$statusEquip</td>
         </tr>";

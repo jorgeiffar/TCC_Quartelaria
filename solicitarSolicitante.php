@@ -58,7 +58,13 @@ $id_solicitacao = mysqli_insert_id($conexao);
         <form method="post" action="addAoCarrinho.php" style="display:inline-block;">
             <input type="hidden" name="tipo" value="equipamento">
             <input type="hidden" name="id_item" value="<?= $equipa['id_equipamento'] ?>">
-            <?= htmlspecialchars($equipa['nome_equipamento']) ?>
+            <?= $equipa['nome_equipamento'] ?>
+
+            <?php
+            echo "<br>
+        Quantidade:
+        <input type='number' name='quantidade_municao' required>";
+            ?>
             <input type="submit" value="Adicionar ao Carrinho">
         </form><br>
     <?php endforeach; ?>

@@ -21,9 +21,9 @@ $data_solicitacao = date("Y-m-d");
 // Insere cada armamento como uma linha separada
 foreach ($_SESSION['carrinho_armamentos'] as $idArmamento) {
     $sql = "INSERT INTO solicitacao_itens (
-                id_solicitacao,id_usuario, id_item, tipo_item, motivo_solicitacao, data_solicitacao, data_devolucao_item, status_solicitacao
+                id_solicitacao,id_usuario, id_item, tipo_item, quantidade, motivo_solicitacao, data_solicitacao, data_devolucao_item, status_solicitacao
             ) VALUES (
-                $idSolicitacao, $id_usuario, $idArmamento, 'armamento', '$operacao', '$data_solicitacao', '$data_devolucao', 'Pendente'
+                $idSolicitacao, $id_usuario, $idArmamento, 'armamento', 1, '$operacao', '$data_solicitacao', '$data_devolucao', 'Pendente'
             )";
     $resultado = mysqli_query($conexao, $sql);
     if (!$resultado) {
@@ -33,11 +33,13 @@ foreach ($_SESSION['carrinho_armamentos'] as $idArmamento) {
 }
 
 // Insere cada equipamento como uma linha separada
-foreach ($_SESSION['carrinho_equipamentos'] as $idEquipamento) {
+foreach ($_SESSION['carrinho_equipamentos'] as $equipamento) {
+    $idEquipamento = $equipamento['id'];
+    $quantidade = $equipamento['quantidade'];
     $sql = "INSERT INTO solicitacao_itens (
-                id_solicitacao,id_usuario, id_item, tipo_item, motivo_solicitacao, data_solicitacao, data_devolucao_item, status_solicitacao
+                id_solicitacao,id_usuario, id_item, tipo_item, quantidade, motivo_solicitacao, data_solicitacao, data_devolucao_item, status_solicitacao
             ) VALUES (
-                $idSolicitacao,$id_usuario, $idEquipamento, 'equipamento', '$operacao', '$data_solicitacao', '$data_devolucao', 'Pendente'
+                $idSolicitacao,$id_usuario, $idEquipamento, 'equipamento', $quantidade, '$operacao', '$data_solicitacao', '$data_devolucao', 'Pendente'
             )";
     $resultado = mysqli_query($conexao, $sql);
     if (!$resultado) {

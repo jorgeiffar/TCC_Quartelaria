@@ -24,9 +24,15 @@ include("conecta.php");
             <option value="Lancador">Lançador</option>
             <option value="Spark">Spark</option>
             <option value="Granada">Granada</option>
-            </optgroup>
         </select><br>
-        Calibre: <input type="text" name="calibreArma" required><br>
+        Calibre: <select name="calibreArma" required>
+            <option value="">Selecione</option>
+             <option value="7,62x51mm">7,62x51mm</option>
+                <option value="5,56x45mm">5,56x45mm</option>
+                <option value="9mm">9mm</option>
+                <option value="12GA">12GA</option>
+                <option value="Spark">Spark</option>
+        </select><br>
         Código do Armamento: <input type="text" name="codigoArma" required><br>
         <input type="submit" value="Adicionar Armamento">
     </form>

@@ -21,11 +21,19 @@ if (empty($_SESSION['carrinho_armamentos']) && empty($_SESSION['carrinho_equipam
     }
 
     if (!empty($_SESSION['carrinho_equipamentos'])) {
-        $ids = implode(',', $_SESSION['carrinho_equipamentos']);
+        $idsArray = array_column($_SESSION['carrinho_equipamentos'], 'id');
+        $ids = implode(',', $idsArray);
         $q = mysqli_query($conexao, "SELECT id_equipamento, nome_equipamento, tipo_equipamento FROM equipamentos WHERE id_equipamento IN ($ids)");
         echo "<h3>Equipamentos</h3>";
         while ($r = mysqli_fetch_assoc($q)) {
-        echo "• {$r['nome_equipamento']} - {$r['tipo_equipamento']}<br>";
+            $quantidade = 1;
+            foreach ($_SESSION['carrinho_equipamentos'] as $item){
+                if($item['id'] == $r['id_equipamento']){
+                    $quantidade = $item['quantidade'];
+                    break;
+                }
+            }
+        echo "• {$r['nome_equipamento']} - {$r['tipo_equipamento']} | Quantidade: $quantidade<br>";
         echo " <a href='removerItemCarrinho.php?tipo=equipamento&id_item=" . $r['id_equipamento'] . "'>Remover</a><br><br>";}
 
     }

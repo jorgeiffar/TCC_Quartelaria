@@ -71,6 +71,7 @@ $resultListarSolicitacao = mysqli_query($conexao, $queryListarSolicitacao);
             <tr>
                 <th>Nome</th>
                 <th>Código</th>
+                <th>Quantidade</th>
                 <th>Tipo</th>
             </tr>";
         $queryListarItens = "SELECT solicitacao_itens.*, equipamentos.id_equipamento,equipamentos.nome_equipamento,
@@ -88,21 +89,25 @@ $resultListarSolicitacao = mysqli_query($conexao, $queryListarSolicitacao);
             if ($item['tipo_item'] == 'armamento') {
                 $nome = $item['nome_armamento'];
                 $codigo = $item['codigo_armamento'];
+                $quant = $item['quantidade'];
                 $tipo = 'Armamento';
 
                 echo "<tr>
                     <td>$nome</td>
                     <td>$codigo</td>
+                    <td>$quant</td>
                     <td>$tipo</td>
                   </tr>";
             } elseif ($item['tipo_item'] == 'equipamento') {
                 $nome = $item['nome_equipamento'];
                 $codigo = $item['id_equipamento'];
                 $tipo = 'Equipamento';
+                $quant = $item['quantidade'];
 
                 echo "<tr>
                     <td>$nome</td>
                     <td>$codigo</td>
+                    <td>$quant</td>
                     <td>$tipo</td>
                   </tr>";
             }

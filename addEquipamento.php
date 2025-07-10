@@ -18,6 +18,7 @@
                 <option value="Disturbios|Escudo">Escudo</option>
                 <option value="Disturbios|Capacete">Capacete</option>
                 <option value="Disturbios|Bastao">Bastão</option>
+                <option value="Disturbios|Granada">Granada</option>
             </optgroup>
             <hr>
             <optgroup label="Outros">
@@ -26,7 +27,6 @@
             </optgroup>
         </select><br>
         Quantidade: <input type="number" name="quantidadeEquip"><br>
-        Quantidade mínima:<input type="number" name="quantidadeMin"><br>
         <input type="submit" value="Adicionar Equipamento">
     </form>
 <hr>
@@ -41,7 +41,6 @@
                 <option value="Municao|Spark">Spark</option>
         </select><br>
         Quantidade: <input type="number" name="quantidadeEquip"><br>
-        Quantidade mínima:<input type="number" name="quantidadeMin"><br>
         <input type="submit" value="Adicionar Munições">
     </form>
     <?php

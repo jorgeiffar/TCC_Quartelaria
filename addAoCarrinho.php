@@ -14,9 +14,26 @@ if (isset($_POST['tipo']) && isset($_POST['id_item'])) {
     if (!isset($_SESSION[$key])) {
         $_SESSION[$key] = [];
     }
-
-    if (!in_array($id, $_SESSION[$key])) {
-        $_SESSION[$key][] = $id;
+    if ($tipo === 'equipamento') {
+        $quantidade = $_POST['quantidade_municao'];
+    
+    $jaExiste = false;
+    foreach($_SESSION[$key] as $item){
+        if($item['id'] == $id){
+        $jaExiste = true;
+        break;
+        }
+    }
+    if(!$jaExiste){
+        $_SESSION[$key][] =[
+            'id' => $id,
+            'quantidade' => $quantidade];
+        }
+    }
+    else{
+        if (!in_array($id, $_SESSION[$key])){
+            $_SESSION[$key][] = $id;
+        }
     }
 }
 

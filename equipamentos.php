@@ -34,7 +34,8 @@ $resultArma = mysqli_query($conexao, $queryArma);
     while ($dadosEquip = mysqli_fetch_array($resultEquip)) {
         $nome = $dadosEquip['nome_equipamento'];
         $tipo = $dadosEquip['tipo_equipamento'];
-        $quantidadeDisponivel = $dadosEquip['quantidade_disponivel_equipamento'];
+        $quantidadeTotal = $dadosEquip['quantidade_equipamento'];
+        $quantidadeDisponivel = $quantidadeTotal - $dadosEquip['quantidade_disponivel_equipamento'];
         echo "<tr>
             <td>$nome</td>
             <td>$tipo</td>
