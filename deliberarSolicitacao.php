@@ -15,7 +15,6 @@ if (!$result) {
     die("Erro na query: " . mysqli_error($conexao));
 }
 if ($statusFinal == 'Aceito') {
-
     $queryItens = "SELECT id_item, quantidade FROM solicitacao_itens WHERE id_solicitacao = $id AND tipo_item = 'equipamento'";
     $resultItens = mysqli_query($conexao, $queryItens);
     if(!$resultItens){
@@ -31,7 +30,21 @@ if ($statusFinal == 'Aceito') {
             echo "Erro ao atualizar quantidade do equipamento ID $idEquipamento: ". mysqli_error($conexao);
         }
     }
+    $sqlUpdateStatus = "
+        UPDATE armamentos a
+        JOIN solicitacao_itens si ON si.id_item = a.id_armamento
+        SET a.status_armamento = 1
+        WHERE si.status_solicitacao = 'Aceito'
+        AND si.tipo_item = 'armamento'
+        AND si.id_solicitacao = $id
+    ";
+    $resultadoUpdateStatus = mysqli_query($conexao, $sqlUpdateStatus);
+    if (!$resultadoUpdateStatus) {
+        die("Erro ao atualizar status dos armamentos: " . mysqli_error($conexao));
+    }
+
     header("Location: solicitacoesQuarteleiro.php?status=1");
+
 } elseif ($statusFinal == 'Negado') {
     header("Location: solicitacoesQuarteleiro.php?status=2");
 }

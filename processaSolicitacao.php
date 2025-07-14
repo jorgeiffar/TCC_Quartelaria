@@ -25,11 +25,10 @@ foreach ($_SESSION['carrinho_armamentos'] as $idArmamento) {
             ) VALUES (
                 $idSolicitacao, $id_usuario, $idArmamento, 'armamento', 1, '$operacao', '$data_solicitacao', '$data_devolucao', 'Pendente'
             )";
+    
     $resultado = mysqli_query($conexao, $sql);
     if (!$resultado) {
-    die("Erro na query: " . mysqli_error($conexao));
-}
-
+    die("Erro na query: " . mysqli_error($conexao));}
 }
 
 // Insere cada equipamento como uma linha separada
@@ -47,7 +46,6 @@ foreach ($_SESSION['carrinho_equipamentos'] as $equipamento) {
 }
 
 }
-
 // Limpa a sessão
 unset($_SESSION['carrinho_armamentos'], $_SESSION['carrinho_equipamentos'], $_SESSION['operacao'], $_SESSION['data_devolucao_item']);
 

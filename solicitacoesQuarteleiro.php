@@ -118,30 +118,6 @@ $resultListarSolicitacao = mysqli_query($conexao, $queryListarSolicitacao);
     <hr>";}else{continue;}
     }
     ?>
-    <h2>Solicitante: <i>Sd. Fábio</i></h2>
-    <p> Datas: <br>
-        Saída: 22/04/1998<br>
-        Devolução prevista: 25/04/1999</p>
-    <strong>
-        Itens:
-    </strong><br>
-    <table border='1'>
-        <tr>
-            <th>Nome do Item</th>
-            <th>Código</th>
-            <th>Tipo</th>
-        </tr>
-        <tr>
-            <td>FAL</td>
-            <td><select name="codEquip" required>
-                    <option value="">Selecione</option>
-                    <option value="31542">31542</option>
-                </select></td>
-            <td>Fuzil</td>
-        </tr>
-    </table>
-    <button>Negar</button> | <button>Autorizar</button>
-
 </body>
 
 </html>
