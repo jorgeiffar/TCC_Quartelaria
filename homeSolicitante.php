@@ -1,7 +1,33 @@
 <?php
 include("conecta.php");
-$query = "SELECT * FROM solicitacao_itens where id_usuario = 1 AND status_solicitacao != 'Negado' GROUP BY id_solicitacao ORDER BY data_solicitacao ASC";
+$query = "SELECT solicitacao_itens.*, 
+COALESCE(armamentos.nome_armamento, equipamentos.nome_equipamento) AS nome_item, armamentos.codigo_armamento
+FROM solicitacao_itens
+LEFT JOIN armamentos ON solicitacao_itens.id_item = armamentos.id_armamento AND solicitacao_itens.tipo_item = 'armamento'
+LEFT JOIN equipamentos ON solicitacao_itens.id_item = equipamentos.id_equipamento AND solicitacao_itens.tipo_item = 'equipamento'
+WHERE solicitacao_itens.id_usuario = 1 AND solicitacao_itens.status_solicitacao != 'Negado'
+ORDER BY solicitacao_itens.data_solicitacao ASC";
 $result = mysqli_query($conexao,$query);
+
+$solicitacoes =[];
+
+while($dados = mysqli_fetch_assoc($result)){
+    $idSolicitacao = $dados['id_solicitacao'];
+    if(!isset($solicitacoes[$idSolicitacao])){
+        $solicitacoes[$idSolicitacao] = [
+            'data_solicitacao' => $dados['data_solicitacao'],
+            'data_devolucao' => $dados['data_devolucao_item'],
+            'status_solicitacao' => $dados['status_solicitacao'],
+            'itens' => []
+        ];
+    }
+    $solicitacoes[$idSolicitacao]['itens'][] = [
+        'nome' => $dados['nome_item'],
+        'tipo' => $dados['tipo_item'],
+        'codigo' => $dados['codigo_armamento'],
+        'quantidade' => $dados['quantidade']
+    ];
+}
 ?>
 
 <!DOCTYPE html>
@@ -12,55 +38,47 @@ $result = mysqli_query($conexao,$query);
     <title>Home - Quartelaria</title>
 </head>
 <body>
+    <a href="solicitarSolicitante.php">Realizar solicitação de itens</a> |
+<a href="checkListVtr.php">Realizar solicitação da viatura</a> |
+<a href="solicitacoesAnterioresSolicitante.php">Solicitações anteriores</a>
     <h1> Solicitações atuais: </h1>
 
 
 <?php
-while($dados = mysqli_fetch_assoc($result)){
-    $idItem = $dados['id_item'];
-    $tipoItem = $dados['tipo_item'];
-    if($tipoItem == 'armamento'){
-        $queryItem = "SELECT nome_armamento FROM armamentos WHERE id_armamento = $idItem";
-         $resultItem = mysqli_query($conexao,$queryItem);
-        $dadosItem = mysqli_fetch_assoc($resultItem);
-        $nomeItem = $dadosItem['nome_armamento'];
-    }elseif($tipoItem == 'equipamento'){
-        $queryItem = "SELECT nome_equipamento FROM equipamentos WHERE id_equipamento = $idItem";
-         $resultItem = mysqli_query($conexao,$queryItem);
-        $dadosItem = mysqli_fetch_assoc($resultItem);
-        $nomeItem = $dadosItem['nome_equipamento'];
-    }
-   
-    echo "Datas:
-    Data de solicitação: {$dados['data_solicitacao']} <br>
-    Data prevista de devolucao: {$dados['data_devolucao_item']}";
-    echo "<table border='1'>
+foreach($solicitacoes as $idSolicitacao => $solicitacao){
+    echo "<h3> Solicitacao #$idSolicitacao </h3>
+    Data de solicitação: {$solicitacao['data_solicitacao']}<br>
+    Data prevista de devolução: {$solicitacao['data_devolucao']}<br>
+    Status: {$solicitacao['status_solicitacao']}
+    ";
+
+    echo "<table border ='1'>
     <tr>
     <th>Item</th>
+    <th>Código</th>
     <th>Tipo</th>
     <th>Quantidade</th>
-    <th>Status</th>
     </tr>
-    <tr>
-    <td>$nomeItem</td>
-    <td>{$dados['tipo_item']}</td>
-    <td>{$dados['quantidade']}</td>
-    <td>{$dados['status_solicitacao']}</td>
-    </tr>
-    </table>
-    <br><hr>
     ";
-    
+foreach($solicitacao['itens'] as $item){
+    echo "
+    <tr>
+    <td>{$item['nome']}</td>
+    <td>";
+    if($item['tipo'] == 'armamento'){
+        echo "{$item['codigo']}";
+    } elseif($item['tipo'] == 'equipamento'){
+        echo "X";
+    }
+    echo "</td>
+    <td>{$item['tipo']}</td>
+    <td>{$item['quantidade']}</td>
+    </tr>
+    ";
+}
+echo "</table><hr>";
 }
 ?>
-
-
-<strong>//Tabela//</strong><br>
-itens | status<br>
-a,b,c | Autorizado<br><br>
-<a href="solicitarSolicitante.php">Realizar solicitação de itens</a><br>
-<a href="checkListVtr.php">Realizar solicitação da viatura</a><br>
-<a href="solicitacoesAnterioresSolicitante.php">Solicitações anteriores</a><br>
 
 </body>
 </html>
