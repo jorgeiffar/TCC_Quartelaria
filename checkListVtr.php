@@ -8,8 +8,9 @@
 <body>
     <a href="homeSolicitante.php">Voltar - Home</a>
     <form action="visualizar_chkvtr.php" method="post">
-    Data e Hora da inspeção:<input type="date" name="data"><input type="time" name="horarioInsepcao"><br>
+    Data e Hora da inspeção:<input type="date" name="data"><input type="time" name="horarioInsepcao">//transformar em timestamp<br>
     Quilometragem da inspeção: <input type="number" name="kmInspecao"><br>
+    Placa do veículo: <input type="text" name="pVeiculo"><br>
     <table border="1" cellpadding="5">
       <thead>
         <tr>
