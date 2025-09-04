@@ -6,8 +6,9 @@
     <title>Triagem - Quartelaria</title>
 </head>
 <body>
-    <h1>Qual seu papel no sistema?</h1>
-    <a href="homeSolicitante.php">Solicitante</a> | 
-    <a href="homeQuarteleiro.php">Quarteleiro</a>
+    <h1>CARREGANDO...</h1>
+<?php
+header("Location: cadastrar.php");
+?>
 </body>
 </html>
