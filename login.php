@@ -65,6 +65,7 @@ $verify = password_verify($senha, $senhaCript);
 if($verify){
     $_SESSION['id_usuario'] = $idFuncional;
     $_SESSION['nome_usuario'] = $dadosUser['nome_usuario'];
+    $_SESSION['perfil_usuario'] = $dadosUser['perfil_usuario'];
 
     if($dadosUser['perfil_usuario'] == 1){
         header("Location: homeQuarteleiro.php");
