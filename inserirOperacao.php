@@ -1,5 +1,10 @@
 <?php
 include ("conecta.php");
+session_start();
+if(!isset($_SESSION['id_usuario']) || $_SESSION['perfil_usuario'] != 1){
+    header("Location: login.php?status=nao_autorizado");
+    exit();
+}
 $nomeOperacao = $_POST['nome'];
 $tipoOperacao = $_POST['tipo'];
 $localOperacao = $_POST['local'];

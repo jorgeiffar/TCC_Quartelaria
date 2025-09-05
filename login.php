@@ -13,8 +13,12 @@ $status = $_GET['status'] ?? null;
 </head>
 <body>
 <?php
-if($status == 1){
+if($status == "nao_autorizado"){
+    echo "<div id='mensagem' style=\"color: orange;\"> <strong>Realize o login para acessar o sistema.</strong></div>";
+}elseif($status == 1){
      echo "<div id='mensagem' style=\"color: green;\"> Usuário cadastrado! </div>";
+}elseif($status == "logout"){
+     echo "<div id='mensagem'> <strong>Sessão finalizada. Faça login novamente para acessar o sistema.</strong></div>";
 }
 ?>    
 
@@ -39,6 +43,7 @@ Ainda não é cadastrado? <a href="cadastrar.php">Cadastre-se!</a>
 </html>
 <?php
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
+session_start();
 $idFuncional = $_POST['idFuncional'];
 $senha = $_POST['senha'];
 $sqlSelect = "SELECT * FROM usuarios WHERE identidade_funcional_usuario = '$idFuncional'";
@@ -58,6 +63,9 @@ $senhaCript = $dadosUser['senha_usuario'];
 if(mysqli_num_rows($querySelect) > 0){
 $verify = password_verify($senha, $senhaCript);
 if($verify){
+    $_SESSION['id_usuario'] = $idFuncional;
+    $_SESSION['nome_usuario'] = $dadosUser['nome_usuario'];
+
     if($dadosUser['perfil_usuario'] == 1){
         header("Location: homeQuarteleiro.php");
         exit;

@@ -47,6 +47,11 @@
     </form>
     
     <?php
+    session_start();
+if(!isset($_SESSION['id_usuario']) || $_SESSION['perfil_usuario'] != 1){
+    header("Location: login.php?status=nao_autorizado");
+    exit();
+}
     if (isset($_GET['status'])) {
         $status = $_GET['status'];
         echo "<hr>";

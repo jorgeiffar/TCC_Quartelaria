@@ -1,5 +1,10 @@
 <?php
 include("conecta.php");
+session_start();
+if(!isset($_SESSION['id_usuario'])){
+    header("Location: login.php?status=nao_autorizado");
+    exit();
+}
 $query = "SELECT solicitacao_itens.*, 
 COALESCE(armamentos.nome_armamento, equipamentos.nome_equipamento) AS nome_item, armamentos.codigo_armamento
 FROM solicitacao_itens
@@ -40,7 +45,8 @@ while($dados = mysqli_fetch_assoc($result)){
 <body>
     <a href="solicitarSolicitante.php">Realizar solicitação de itens</a> |
 <a href="checkListVtr.php">Realizar solicitação da viatura</a> |
-<a href="solicitacoesAnterioresSolicitante.php">Solicitações anteriores</a>
+<a href="solicitacoesAnterioresSolicitante.php">Solicitações anteriores</a> |
+<a href="logout.php">Logout ->|</a>
     <h1> Solicitações atuais: </h1>
 
 

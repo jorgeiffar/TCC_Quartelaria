@@ -1,5 +1,9 @@
 <?php
 session_start();
+if(!isset($_SESSION['id_usuario'])){
+    header("Location: login.php?status=nao_autorizado");
+    exit();
+}
 
 if (isset($_GET['tipo']) && isset($_GET['id_item'])) {
     $tipo = $_GET['tipo'];

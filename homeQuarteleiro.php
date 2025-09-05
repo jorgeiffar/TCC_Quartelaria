@@ -1,6 +1,12 @@
 <?php
 include("conecta.php");
 
+session_start();
+if(!isset($_SESSION['id_usuario']) || $_SESSION['perfil_usuario'] != 1){
+    header("Location: login.php?status=nao_autorizado");
+    exit();
+}
+
 $query = "SELECT si.id_solicitacao, si.data_solicitacao, si.data_devolucao_item, si.status_solicitacao,
                  u.nome_usuario, si.tipo_item, si.id_item,
                  e.nome_equipamento, e.tipo_equipamento,
@@ -28,7 +34,8 @@ $armamentos = "";
 <a href="equipamentos.php">Equipamentos - Armamentos</a> |
 <a href="operacoes.php">Operações</a> |
 <a href="solicitacoesQuarteleiro.php">Solicitações</a> |
-<a href="solicitacoesVtr.php">Solicitações Viatura</a>
+<a href="solicitacoesVtr.php">Solicitações Viatura</a> |
+<a href="logout.php">Logout ->|</a>
 
 <h1>Empréstimos</h1>
 <hr>

@@ -1,5 +1,9 @@
 <?php
 session_start();
+if(!isset($_SESSION['id_usuario'])){
+    header("Location: login.php?status=nao_autorizado");
+    exit();
+}
 include("conecta.php");
 
 if (isset($_POST['operacao'])) $_SESSION['operacao'] = $_POST['operacao'];

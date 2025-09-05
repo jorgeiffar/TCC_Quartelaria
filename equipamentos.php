@@ -1,5 +1,10 @@
 <?php
 include ("conecta.php");
+session_start();
+if(!isset($_SESSION['id_usuario'])){
+    header("Location: login.php?status=nao_autorizado");
+    exit();
+}
 $queryEquip = "SELECT * FROM equipamentos GROUP BY nome_equipamento ORDER BY tipo_equipamento";
 $queryArma = "SELECT * FROM armamentos GROUP BY nome_armamento ";
 $resultEquip = mysqli_query($conexao, $queryEquip);

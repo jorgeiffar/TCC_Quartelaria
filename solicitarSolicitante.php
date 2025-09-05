@@ -2,8 +2,11 @@
 //adicionar algo sobre"if usuario == quarteleiro" ele mostra a opção de selecionar um solicitante(para o RF-15)
 
 session_start();
+if(!isset($_SESSION['id_usuario'])){
+    header("Location: login.php?status=nao_autorizado");
+    exit();
+}
 include("conecta.php");
-$_SESSION['id_usuario'] = 1;
 // armamentos
 $sqlArmamentos = "SELECT * FROM armamentos where status_armamento != 1";
 $resultadoArmamentos = mysqli_query($conexao, $sqlArmamentos);
