@@ -49,6 +49,15 @@ echo "<h3>Devolução prevista:</h3>" . ($_SESSION['data_devolucao_item'] ?? 'N�
 echo '<br><br><a href="solicitarSolicitante.php">Voltar</a>';
 
 if (!empty($_SESSION['carrinho_armamentos']) || !empty($_SESSION['carrinho_equipamentos'])) {
-    echo '<form method="post" action="processaSolicitacao.php"><input type="submit" value="Enviar Solicitação"></form>';
+
+    if (!empty($_SESSION['carrinho_armamentos']) || !empty($_SESSION['carrinho_equipamentos'])) {
+    if (!empty($_SESSION['operacao']) && !empty($_SESSION['data_devolucao_item'])) {
+        echo '<form method="post" action="processaSolicitacao.php">
+                <input type="submit" value="Enviar Solicitação">
+              </form>';
+    } else {
+        echo "<p style='color:red;'>⚠️ Preencha o motivo e a data de devolução antes de enviar a solicitação.</p>";
+    }
+}
 }
 ?>

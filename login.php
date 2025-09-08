@@ -63,7 +63,7 @@ $senhaCript = $dadosUser['senha_usuario'];
 if(mysqli_num_rows($querySelect) > 0){
 $verify = password_verify($senha, $senhaCript);
 if($verify){
-    $_SESSION['id_usuario'] = $idFuncional;
+    $_SESSION['id_usuario'] = $dadosUser['id_usuario'];
     $_SESSION['nome_usuario'] = $dadosUser['nome_usuario'];
     $_SESSION['perfil_usuario'] = $dadosUser['perfil_usuario'];
 

@@ -11,16 +11,23 @@ if (empty($_SESSION['carrinho_armamentos']) && empty($_SESSION['carrinho_equipam
     die("Carrinho vazio. Nada para enviar.");
 }
 
-// Dados da sessão
+
 $operacao = $_SESSION['operacao'] ?? '';
 $data_devolucao = $_SESSION['data_devolucao_item'] ?? '';
-$id_usuario = $_SESSION['id_usuario'] ?? 1; 
+$id_usuario = $_SESSION['id_usuario']; 
 $armamentos = $_SESSION['carrinho_armamentos'] ?? [];
 $equipamentos = $_SESSION['carrinho_equipamentos'] ?? [];
 $idSolicitacao  = time();
 
-// Data atual
+
 $data_solicitacao = date("Y-m-d");
+
+
+
+if (empty($operacao) || empty($data_devolucao)) {
+    die("Erro: motivo e data de devolução são obrigatórios.");
+}
+
 
 // Insere cada armamento como uma linha separada
 foreach ($_SESSION['carrinho_armamentos'] as $idArmamento) {

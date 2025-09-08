@@ -10,7 +10,7 @@ COALESCE(armamentos.nome_armamento, equipamentos.nome_equipamento) AS nome_item,
 FROM solicitacao_itens
 LEFT JOIN armamentos ON solicitacao_itens.id_item = armamentos.id_armamento AND solicitacao_itens.tipo_item = 'armamento'
 LEFT JOIN equipamentos ON solicitacao_itens.id_item = equipamentos.id_equipamento AND solicitacao_itens.tipo_item = 'equipamento'
-WHERE solicitacao_itens.id_usuario = 1 AND solicitacao_itens.status_solicitacao != 'Negado'
+WHERE solicitacao_itens.id_usuario = {$_SESSION['id_usuario']} AND solicitacao_itens.status_solicitacao != 'Negado'
 ORDER BY solicitacao_itens.data_solicitacao ASC";
 $result = mysqli_query($conexao,$query);
 

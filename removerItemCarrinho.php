@@ -14,7 +14,13 @@ if (isset($_GET['tipo']) && isset($_GET['id_item'])) {
     }
 
     if ($tipo === 'equipamento' && isset($_SESSION['carrinho_equipamentos'])) {
-        $_SESSION['carrinho_equipamentos'] = array_diff($_SESSION['carrinho_equipamentos'], [$id]);
+        foreach ($_SESSION['carrinho_equipamentos'] as $key => $equip) {
+            if ($equip['id'] == $id) {
+                unset($_SESSION['carrinho_equipamentos'][$key]);
+                break;
+            }
+        }
+        $_SESSION['carrinho_equipamentos'] = array_values($_SESSION['carrinho_equipamentos']);
     }
 }
 
