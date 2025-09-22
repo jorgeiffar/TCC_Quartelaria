@@ -1,40 +1,90 @@
 <?php
+include("conecta.php");
 session_start();
 if(!isset($_SESSION['id_usuario'])){
     header("Location: login.php?status=nao_autorizado");
     exit();
 }
+$query = "SELECT solicitacao_itens.*, 
+COALESCE(armamentos.nome_armamento, equipamentos.nome_equipamento) AS nome_item, armamentos.codigo_armamento
+FROM solicitacao_itens
+LEFT JOIN armamentos ON solicitacao_itens.id_item = armamentos.id_armamento AND solicitacao_itens.tipo_item = 'armamento'
+LEFT JOIN equipamentos ON solicitacao_itens.id_item = equipamentos.id_equipamento AND solicitacao_itens.tipo_item = 'equipamento'
+WHERE solicitacao_itens.id_usuario = {$_SESSION['id_usuario']} AND solicitacao_itens.status_solicitacao = 'Negado' OR solicitacao_itens.status_solicitacao = 'Devolvido'
+ORDER BY solicitacao_itens.data_solicitacao ASC";
+$result = mysqli_query($conexao,$query);
+
+$solicitacoes =[];
+
+while($dados = mysqli_fetch_assoc($result)){
+    $idSolicitacao = $dados['id_solicitacao'];
+    if(!isset($solicitacoes[$idSolicitacao])){
+        $solicitacoes[$idSolicitacao] = [
+            'data_solicitacao' => $dados['data_solicitacao'],
+            'data_devolucao' => $dados['data_devolucao_item'],
+            'status_solicitacao' => $dados['status_solicitacao'],
+            'itens' => []
+        ];
+    }
+    $solicitacoes[$idSolicitacao]['itens'][] = [
+        'nome' => $dados['nome_item'],
+        'tipo' => $dados['tipo_item'],
+        'codigo' => $dados['codigo_armamento'],
+        'quantidade' => $dados['quantidade']
+    ];
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solicitações Anteriores - Quartelaria</title>
+    <title>Home - Quartelaria</title>
 </head>
 <body>
-        <a href="homeSolicitante.php">Voltar</a><br>
-    <a href="homeSolicitante.php">Home</a><br>
-    <h1>Solicitações Anteriores</h1>
-    <table border ='1'>
-        <tr><th>Solicitante</th>
-        <th>Id. funcional</th>
-        <th>equipamento</th>
-        <th>código</th>
-        <th>Data retirada</th>
-        <th>Data devolução</th>
-        <th>status</th>
-        <th>opções</th></tr>
-        <tr>
-            <td>Eduardo</td>
-            <td>12345</td>
-            <td>FAL</td>
-            <td>31542</td>
-            <td>22/04/2001</td>
-            <td>24/04/2002</td>
-            <td>Devolvido</td>
-            <td>Editar | Excluir</td>
+    <a href="solicitarSolicitante.php">Realizar solicitação de itens</a> |
+<a href="checkListVtr.php">Realizar solicitação da viatura</a> |
+<a href="solicitacoesAnterioresSolicitante.php">Solicitações anteriores</a> |
+<a href="logout.php">Logout ->|</a>
+    <h1> Solicitações atuais: </h1>
+
+
+<?php
+foreach($solicitacoes as $idSolicitacao => $solicitacao){
+    echo "<h3> Solicitacao #$idSolicitacao </h3>
+    Data de solicitação: {$solicitacao['data_solicitacao']}<br>
+    Data prevista de devolução: {$solicitacao['data_devolucao']}<br>
+    Status: {$solicitacao['status_solicitacao']}
+    ";
+
+    echo "<table border ='1'>
+    <tr>
+    <th>Item</th>
+    <th>Código</th>
+    <th>Tipo</th>
+    <th>Quantidade</th>
     </tr>
-</table>
+    ";
+foreach($solicitacao['itens'] as $item){
+    echo "
+    <tr>
+    <td>{$item['nome']}</td>
+    <td>";
+    if($item['tipo'] == 'armamento'){
+        echo "{$item['codigo']}";
+    } elseif($item['tipo'] == 'equipamento'){
+        echo "X";
+    }
+    echo "</td>
+    <td>{$item['tipo']}</td>
+    <td>{$item['quantidade']}</td>
+    </tr>
+    ";
+}
+echo "</table><hr>";
+}
+?>
+
 </body>
 </html>

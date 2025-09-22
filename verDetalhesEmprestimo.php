@@ -132,7 +132,9 @@ $result_itens = mysqli_query($conexao, $sql_itens);
                         <td> {$detalhe['codigo_armamento']}</td>
                         <td><input type=\"text\" name=\"observacao[]\"></td>
                     </tr>
-                    <input type=\"hidden\" name=\"id_solicitacao_itens[]\" value=\" {$item['id_solicitacao_itens']}\">
+                    <input type=\"hidden\" name=\"id_item[]\" value=\"{$item['id_item']}\">
+                    <input type=\"hidden\" name=\"id_solicitacao_itens[]\" value=\"{$item['id_solicitacao_itens']}\">
+
                     </table>
             <input type=\"hidden\" name=\"id_solicitacao\" value=\"$id_solicitacao\">
             <button>Registrar</button>
