@@ -26,6 +26,8 @@ while ($row = mysqli_fetch_assoc($resultadoEquipamentos)) {
 }
 
 $id_solicitacao = mysqli_insert_id($conexao);
+$sql = "SELECT identidade_funcional_usuario, nome_usuario FROM usuarios";
+$result = $conexao->query($sql);
 ?>
 
 <!DOCTYPE html>
@@ -35,10 +37,40 @@ $id_solicitacao = mysqli_insert_id($conexao);
     <title>Solicitação</title>
 </head>
 <body>
+<?php
+if ($_SESSION['perfil_usuario'] == 1) {
+    
+echo "<a href=\"homeQuarteleiro.php\">Voltar - Home</a> | 
+<a href=\verCarrinho.php\">Ver Carrinho</a>";
+}else{
+echo "<a href=\"homeSolicitante.php\">Voltar - Home</a> | 
+<a href=\"verCarrinho.php\">Ver Carrinho</a>";
+}
+?>
 
-<a href="homeSolicitante.php">Voltar - Home</a> | 
-<a href="verCarrinho.php">Ver Carrinho</a>
+<?php
+if ($_SESSION['perfil_usuario'] == 1) {
+    echo "<br><br><hr><strong style=\"font-size: 25px;\">Solicitante:</strong>";
 
+
+    $sqldireta = "SELECT * FROM usuarios";
+    $resultado = mysqli_query($conexao, $sqldireta);
+
+    echo '<form method="post" action="addAoCarrinho.php">';
+    echo '<select name="usuario" required>';
+    echo "<option value=''>====Selecione====</option>";
+
+   while ($row = mysqli_fetch_assoc($resultado)) {
+    echo "<option value='{$row['id_usuario']}'>{$row['nome_usuario']} | {$row['identidade_funcional_usuario']}</option>";
+}
+
+
+    echo '</select>';
+    echo '<button type="submit">Enviar</button>';
+    echo '</form><hr>';
+}?>
+<?php
+if ($_SESSION['perfil_usuario'] == 1 and !empty($_SESSION['usuario_selecionado']) or $_SESSION['perfil_usuario'] != 1) {?>
 <h1>Armamentos</h1>
 <?php foreach ($armamentos_por_tipo as $tipo => $armamentos): ?>
     <h3><?= htmlspecialchars($tipo) ?></h3>
@@ -96,3 +128,5 @@ $id_solicitacao = mysqli_insert_id($conexao);
 
 </body>
 </html>
+<?php
+}?>

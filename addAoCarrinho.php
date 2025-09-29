@@ -4,6 +4,10 @@ if(!isset($_SESSION['id_usuario'])){
     header("Location: login.php?status=nao_autorizado");
     exit();
 }
+if ($_SESSION['perfil_usuario'] == 1 and isset($_POST['usuario'])) {
+   $_SESSION['usuario_selecionado'] = (int) $_POST['usuario'];
+
+}
 
 if (isset($_POST['tipo']) && isset($_POST['id_item'])) {
     $tipo = $_POST['tipo'];

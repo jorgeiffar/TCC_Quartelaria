@@ -35,6 +35,7 @@ $armamentos = "";
 <a href="operacoes.php">Operações</a> |
 <a href="solicitacoesQuarteleiro.php">Solicitações</a> |
 <a href="solicitacoesVtr.php">Solicitações Viatura</a> |
+<a href="solicitarSolicitante.php">Solicitação Direta</a> |
 <a href="logout.php">Logout ->|</a>
 
 <h1>Empréstimos</h1>

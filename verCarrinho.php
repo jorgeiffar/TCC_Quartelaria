@@ -5,7 +5,21 @@ if(!isset($_SESSION['id_usuario'])){
     exit();
 }
 include("conecta.php");
+if ($_SESSION['perfil_usuario'] == 1 && !empty($_SESSION['usuario_selecionado'])) {
+    $usuario = (int) $_SESSION['usuario_selecionado'];
+    $sql = "SELECT nome_usuario, identidade_funcional_usuario FROM usuarios WHERE id_usuario = $usuario";
+    $result = mysqli_query($conexao, $sql);
 
+    if ($result && mysqli_num_rows($result) > 0) {
+        $dados = mysqli_fetch_assoc($result);
+        echo "Solicitante Selecionado: {$dados['nome_usuario']}<br>";
+        echo "Identidade Funcional: {$dados['identidade_funcional_usuario']}";
+    } else {
+        echo "Usuário selecionado não encontrado.";
+    }
+} else {
+    echo "Nenhum usuário selecionado.";
+}
 if (isset($_POST['operacao'])) $_SESSION['operacao'] = $_POST['operacao'];
 if (isset($_POST['data_devolucao_item'])) $_SESSION['data_devolucao_item'] = $_POST['data_devolucao_item'];
 
