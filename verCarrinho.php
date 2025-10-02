@@ -17,7 +17,7 @@ if ($_SESSION['perfil_usuario'] == 1 && !empty($_SESSION['usuario_selecionado'])
     } else {
         echo "Usuário selecionado não encontrado.";
     }
-} else {
+} elseif($_SESSION['perfil_usuario'] == 1 && empty($_SESSION['usuario_selecionado'])) {
     echo "Nenhum usuário selecionado.";
 }
 if (isset($_POST['operacao'])) $_SESSION['operacao'] = $_POST['operacao'];

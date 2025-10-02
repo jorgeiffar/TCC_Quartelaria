@@ -135,10 +135,32 @@ $result_itens = mysqli_query($conexao, $sql_itens);
                     <input type=\"hidden\" name=\"id_item[]\" value=\"{$item['id_item']}\">
                     <input type=\"hidden\" name=\"id_solicitacao_itens[]\" value=\"{$item['id_solicitacao_itens']}\">
 
-                    </table>
-            <input type=\"hidden\" name=\"id_solicitacao\" value=\"$id_solicitacao\">
-            <button>Registrar</button>
-        </form>";}}
+            <input type=\"hidden\" name=\"id_solicitacao\" value=\"$id_solicitacao\">";
+                   }elseif($item['tipo_item'] == 'equipamento'){
+                $sqlQtd = "SELECT quantidade FROM solicitacao_itens WHERE id_item = ".$item['id_item'];
+                $resultQtd = mysqli_query($conexao, $sqlQtd);
+                $detalheQtd = mysqli_fetch_assoc($resultQtd);
+                //
+                $sql_det = "SELECT nome_equipamento FROM equipamentos WHERE id_equipamento = ".$item['id_item'];
+                $result_det = mysqli_query($conexao, $sql_det);
+                $detalhe = mysqli_fetch_assoc($result_det);
+
+                echo "<tr>
+                        <td> {$detalhe['nome_equipamento']} </td>
+                        <td> X </td>
+                        <td> X </td>
+                    </tr>
+                    <input type=\"hidden\" name=\"id_item[]\" value=\"{$item['id_item']}\">
+                    <input type=\"hidden\" name=\"id_solicitacao_itens[]\" value=\"{$item['id_solicitacao_itens']}\">
+                <input type=\"hidden\" name=\"observacao[]\" value=''>
+
+                    
+            <input type=\"hidden\" name=\"id_solicitacao\" value=\"$id_solicitacao\">";
+            }
+          echo "  </table> <button>Registrar</button>
+        </form>";}
+    
+    
           
 ?>
 </body>

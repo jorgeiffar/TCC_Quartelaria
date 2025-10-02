@@ -41,7 +41,7 @@ $result = $conexao->query($sql);
 if ($_SESSION['perfil_usuario'] == 1) {
     
 echo "<a href=\"homeQuarteleiro.php\">Voltar - Home</a> | 
-<a href=\verCarrinho.php\">Ver Carrinho</a>";
+<a href=\"verCarrinho.php\">Ver Carrinho</a>";
 }else{
 echo "<a href=\"homeSolicitante.php\">Voltar - Home</a> | 
 <a href=\"verCarrinho.php\">Ver Carrinho</a>";
