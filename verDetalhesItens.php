@@ -38,6 +38,7 @@ $queryEquipamentos = mysqli_query($conexao, $sqlEquipamentos);
                 <th>Quantidade Total</th>
                 <th>Última Atualização do Estoque</th>
                 <th>Status</th>
+                <th>Opções</th>
             </tr>
         </thead>
         <tbody>";
@@ -47,8 +48,9 @@ $queryEquipamentos = mysqli_query($conexao, $sqlEquipamentos);
         $tipo = $dadosEquip['tipo_equipamento'];
         $quantidadeTotal = $dadosEquip['quantidade_equipamento'];
         $quantidadeDisponivel = $quantidadeTotal - $dadosEquip['quantidade_disponivel_equipamento'];
-        $dataCadastro = $dadosEquip['data_cadastro_equipamento'];
+        $dataCadastro = $dadosEquip['ultima_atualizacao_equipamento'];
         $statusEquip = $dadosEquip['status_equipamento'];
+        $idEquip = $dadosEquip['id_equipamento'];
         
         echo "<tr>
             <td>$nome</td>
@@ -57,6 +59,7 @@ $queryEquipamentos = mysqli_query($conexao, $sqlEquipamentos);
             <td>$quantidadeTotal</td>
             <td>$dataCadastro</td>
             <td>$statusEquip</td>
+            <td><a href='editarEquipamento.php?id=$idEquip'>Editar</a> | Excluir</td>
         </tr>";
     }
 
@@ -76,6 +79,7 @@ $queryEquipamentos = mysqli_query($conexao, $sqlEquipamentos);
                 <th>Calibre</th>
                 <th>Código</th>
                 <th>Status</th>
+                <th>Opções</th>
             </tr>
         </thead>
         <tbody>";
@@ -86,6 +90,7 @@ $queryEquipamentos = mysqli_query($conexao, $sqlEquipamentos);
         $calibre = $dadosArma['calibre_armamento'];
         $codigo = $dadosArma['codigo_armamento'];
         $statusArma = $dadosArma['status_armamento'];
+        $idArma = $dadosArma['id_armamento'];
         
         echo "<tr>
             <td>$nome</td>
@@ -93,6 +98,7 @@ $queryEquipamentos = mysqli_query($conexao, $sqlEquipamentos);
             <td>$calibre</td>
             <td>$codigo</td>
             <td>$statusArma</td>
+            <td><a href='editarArmamento.php?id=$idArma'>Editar</a> | Excluir</td>
         </tr>";
     }
 

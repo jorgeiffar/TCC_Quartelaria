@@ -36,6 +36,7 @@ $queryOperacao = mysqli_query($conexao, $sqlOperacao);
                 
             </tr>";
     while ($operacao = mysqli_fetch_assoc($queryOperacao)) {
+        $id = $operacao['id_operacao'];
         $nome = $operacao['nome_operacao'];
         $local = $operacao['local_operacao'];
         $tipo = $operacao['tipo_operacao'];
@@ -49,7 +50,7 @@ $queryOperacao = mysqli_query($conexao, $sqlOperacao);
     <td>$tipo</td>
     <td>$data</td>
     <td>$status</td>
-    <td>Editar | Excluir</td>";
+    <td><a href='editarOperacao.php?id=$id'>Editar</a> | Excluir</td>";
         echo "</tr>";
     }echo "</table> </tbody>";?>
 </body>
