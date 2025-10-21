@@ -38,7 +38,7 @@ if(!isset($_SESSION['id_usuario']) || $_SESSION['perfil_usuario'] != 1){
                 <option value="12GA">12GA</option>
                 <option value="Spark">Spark</option>
         </select><br>
-        Código do Armamento: <input type="text" name="codigoArma" required><br>
+        Número de Série: <input type="text" name="codigoArma" required><br>
         <input type="submit" value="Adicionar Armamento">
     </form>
 
