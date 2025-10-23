@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Tempo de geração: 10-Jul-2025 às 23:43
+-- Tempo de geração: 21-Out-2025 às 18:49
 -- Versão do servidor: 8.0.31
 -- versão do PHP: 8.0.26
 
@@ -43,11 +43,11 @@ CREATE TABLE IF NOT EXISTS `armamentos` (
 --
 
 INSERT INTO `armamentos` (`id_armamento`, `nome_armamento`, `tipo_armamento`, `calibre_armamento`, `codigo_armamento`, `status_armamento`) VALUES
-(3, 'T4', 'Fuzil', '5,56', 123564, 0),
-(4, 'FAL', 'Fuzil', '7,62', 55698, 0),
-(5, 'CBC PUMP Military 3.0', 'Espingarda', '12GA', 123465, 0),
-(6, 'GLOCK', 'Pistola', '9mm', 474956, 0),
-(7, 'CBC PUMP Military 3.0', 'Espingarda', '12GA', 789, 0);
+(1, 'T4', 'Fuzil', '5,56', 123564, 1),
+(2, 'FAL', 'Fuzil', '7,62', 55698, 0),
+(3, 'CBC PUMP Military 3.0', 'Espingarda', '12GA', 123465, 0),
+(4, 'GLOCK', 'Pistola', '9mm', 474956, 0),
+(5, 'CBC PUMP Military 3.0', 'Espingarda', '12GA', 789, 0);
 
 -- --------------------------------------------------------
 
@@ -62,24 +62,26 @@ CREATE TABLE IF NOT EXISTS `equipamentos` (
   `tipo_equipamento` text NOT NULL,
   `quantidade_equipamento` int NOT NULL,
   `quantidade_disponivel_equipamento` int NOT NULL,
-  `data_cadastro_equipamento` datetime NOT NULL,
+  `ultima_atualizacao_equipamento` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `status_equipamento` int NOT NULL,
   PRIMARY KEY (`id_equipamento`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Extraindo dados da tabela `equipamentos`
 --
 
-INSERT INTO `equipamentos` (`id_equipamento`, `nome_equipamento`, `tipo_equipamento`, `quantidade_equipamento`, `quantidade_disponivel_equipamento`, `data_cadastro_equipamento`, `status_equipamento`) VALUES
-(1, 'T4', 'Carregador', 34, 1, '0000-00-00 00:00:00', 0),
+INSERT INTO `equipamentos` (`id_equipamento`, `nome_equipamento`, `tipo_equipamento`, `quantidade_equipamento`, `quantidade_disponivel_equipamento`, `ultima_atualizacao_equipamento`, `status_equipamento`) VALUES
+(1, 'T4', 'Carregador', 35, 1, '0000-00-00 00:00:00', 0),
 (2, 'Cassetete', 'Bastao', 50, 1, '0000-00-00 00:00:00', 0),
-(4, 'Capacete', 'Disturbios', 80, 0, '0000-00-00 00:00:00', 0),
-(6, '12GA', 'Municao', 800, 50, '0000-00-00 00:00:00', 0),
-(7, '9mm', 'Municao', 800, 0, '0000-00-00 00:00:00', 0),
-(8, '5,56x45mm', 'Municao', 1000, 80, '0000-00-00 00:00:00', 0),
-(9, 'Escudo', 'Disturbios', 80, 0, '0000-00-00 00:00:00', 0),
-(10, 'Granada', 'Disturbios', 50, 0, '0000-00-00 00:00:00', 0);
+(3, 'Capacete', 'Disturbios', 80, 0, '0000-00-00 00:00:00', 0),
+(4, '12GA', 'Municao', 350, 320, '0000-00-00 00:00:00', 0),
+(5, '9mm', 'Municao', 800, 0, '0000-00-00 00:00:00', 0),
+(6, '5,56x45mm', 'Municao', 2000, 90, '0000-00-00 00:00:00', 0),
+(7, 'Escudo', 'Disturbios', 80, 0, '0000-00-00 00:00:00', 0),
+(8, 'Granada', 'Disturbios', 50, 0, '0000-00-00 00:00:00', 0),
+(11, '7,62x51mm', 'Municao', 0, 0, '2025-10-21 14:51:59', 0),
+(12, 'Spark', 'Municao', 80, 0, '2025-10-21 14:52:21', 0);
 
 -- --------------------------------------------------------
 
@@ -120,8 +122,8 @@ CREATE TABLE IF NOT EXISTS `operacoes` (
 --
 
 INSERT INTO `operacoes` (`id_operacao`, `nome_operacao`, `tipo_operacao`, `local_operacao`, `descricao_operacao`, `data_inicio_operacao`, `status_operacao`) VALUES
-(1, 'Oxford', 'Apoio a Outro Órgão', 'Itaqui', 'Birubiri', '2025-05-26 15:00:00', 'Em Andamento'),
-(3, 'Mijunomuro', 'Patrulhamento', 'Uruguaiana - Cohab 2', 'Subiro', '2025-05-26 15:05:00', 'Concluída');
+(1, 'Oxforf', 'Cerco', 'Itaqui', 'ddefwregg', '2025-10-24 22:28:00', 'Em Andamento'),
+(3, 'Minumoro', 'Patrulhamento', 'Uruguaiana - Cohab 2', 'Subiro', '2025-05-26 15:05:00', 'Concluída');
 
 -- --------------------------------------------------------
 
@@ -144,66 +146,49 @@ CREATE TABLE IF NOT EXISTS `solicitacao_itens` (
   `id_solicitacao` int DEFAULT NULL,
   PRIMARY KEY (`id_solicitacao_itens`),
   KEY `fk_id_usuario_solicitacao` (`id_usuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Extraindo dados da tabela `solicitacao_itens`
 --
 
 INSERT INTO `solicitacao_itens` (`id_solicitacao_itens`, `id_usuario`, `motivo_solicitacao`, `data_solicitacao`, `data_devolucao_item`, `status_solicitacao`, `observacao_item`, `id_item`, `tipo_item`, `quantidade`, `id_solicitacao`) VALUES
-(1, 1, 'a', '2025-06-09 00:00:00', '2025-06-26', 'Aceito', '', 3, 'armamento', 0, 4),
-(2, 1, 'a', '2025-06-09 00:00:00', '2025-06-26', 'Aceito', '', 4, 'armamento', 0, 4),
-(3, 1, 'a', '2025-06-09 00:00:00', '2025-06-26', 'Aceito', '', 5, 'armamento', 0, 4),
-(4, 1, 'a', '2025-06-09 00:00:00', '2025-06-26', 'Aceito', '', 6, 'armamento', 0, 4),
-(5, 1, 'a', '2025-06-09 00:00:00', '2025-06-26', 'Aceito', '', 1, 'equipamento', 0, 4),
-(6, 1, 'a', '2025-06-09 00:00:00', '2025-06-26', 'Aceito', '', 2, 'equipamento', 0, 4),
-(7, 1, 'a', '2025-06-09 00:00:00', '2025-06-26', 'Aceito', '', 3, 'armamento', 0, 4),
-(8, 1, 'a', '2025-06-09 00:00:00', '2025-06-26', 'Aceito', '', 5, 'armamento', 0, 4),
-(11, 1, 'a', '2025-06-10 00:00:00', '2025-06-26', 'Aceito', '', 3, 'armamento', 0, 3),
-(12, 1, 'a', '2025-06-10 00:00:00', '2025-06-26', 'Aceito', '', 5, 'armamento', 0, 3),
-(13, 1, 'a', '2025-06-10 00:00:00', '2025-06-26', 'Aceito', '', 6, 'armamento', 0, 3),
-(14, 1, 'a', '2025-06-10 00:00:00', '2025-06-26', 'Aceito', '', 2, 'equipamento', 0, 3),
-(15, 1, 'a', '2025-06-10 00:00:00', '2025-06-26', 'Aceito', '', 1, 'equipamento', 0, 3),
-(16, 1, '', '2025-06-17 00:00:00', '0000-00-00', 'Aceito', '', 4, 'armamento', 0, 2),
-(17, 1, '', '2025-06-17 00:00:00', '0000-00-00', 'Aceito', '', 5, 'armamento', 0, 2),
-(18, 1, '', '2025-06-17 00:00:00', '0000-00-00', 'Aceito', '', 2, 'equipamento', 0, 2),
-(19, 1, '', '2025-06-17 00:00:00', '0000-00-00', 'Aceito', '', 7, 'equipamento', 0, 2),
-(20, 1, 'a', '2025-06-19 00:00:00', '2025-06-27', 'Pendente', '', 3, 'armamento', 0, 1),
-(21, 1, 'a', '2025-06-19 00:00:00', '2025-06-27', 'Pendente', '', 5, 'armamento', 0, 1),
-(22, 1, 'a', '2025-06-19 00:00:00', '2025-06-27', 'Pendente', '', 4, 'equipamento', 0, 1),
-(23, 1, 'a', '2025-06-19 00:00:00', '2025-06-27', 'Pendente', '', 9, 'equipamento', 0, 1),
-(24, 1, '', '2025-06-19 00:00:00', '0000-00-00', 'Pendente', '', 3, 'armamento', 0, 1),
-(25, 1, 'a', '2025-06-26 00:00:00', '2025-06-07', 'Aceito', '', 3, 'armamento', 0, 1750965991),
-(26, 1, 'a', '2025-06-26 00:00:00', '2025-06-07', 'Aceito', '', 1, 'equipamento', 0, 1750965991),
-(27, 1, 'a', '2025-06-26 00:00:00', '2025-06-07', 'Aceito', '', 2, 'equipamento', 0, 1750965991),
-(28, 1, '', '2025-07-04 00:00:00', '0000-00-00', 'Pendente', '', 5, 'armamento', 0, 1751663971),
-(29, 1, '', '2025-07-04 00:00:00', '0000-00-00', 'Pendente', '', 3, 'armamento', 0, 1751663971),
-(30, 1, 'a', '2025-07-07 00:00:00', '2025-07-31', 'Pendente', '', 3, 'armamento', 0, 1751914370),
-(31, 1, 'a', '2025-07-07 00:00:00', '2025-07-31', 'Pendente', '', 6, 'armamento', 0, 1751914370),
-(32, 1, 'a', '2025-07-07 00:00:00', '2025-07-31', 'Pendente', '', 2, 'equipamento', 0, 1751914370),
-(33, 1, 'a', '2025-07-07 00:00:00', '2025-07-31', 'Pendente', '', 7, 'equipamento', 0, 1751914370),
-(34, 1, 'a', '2025-07-07 00:00:00', '2025-07-23', 'Pendente', '', 3, 'armamento', 0, 1751917274),
-(35, 1, 'a', '2025-07-07 00:00:00', '2025-07-23', 'Pendente', '', 5, 'armamento', 0, 1751917274),
-(36, 1, 'a', '2025-07-07 00:00:00', '2025-07-23', 'Pendente', '', 4, 'equipamento', 0, 1751917274),
-(37, 1, 'a', '2025-07-07 00:00:00', '2025-07-23', 'Pendente', '', 9, 'equipamento', 0, 1751917274),
-(38, 1, 'a', '2025-07-07 00:00:00', '2025-07-23', 'Pendente', '', 2, 'equipamento', 0, 1751917274),
-(39, 1, 'a', '2025-07-07 00:00:00', '2025-07-25', 'Pendente', '', 3, 'armamento', 0, 1751917416),
-(40, 1, 'a', '2025-07-07 00:00:00', '2025-07-25', 'Pendente', '', 5, 'armamento', 0, 1751917416),
-(41, 1, 'a', '2025-07-07 00:00:00', '2025-07-25', 'Pendente', '', 1, 'equipamento', 0, 1751917416),
-(42, 1, 'a', '2025-07-07 00:00:00', '2025-07-25', 'Pendente', '', 2, 'equipamento', 0, 1751917416),
-(43, 1, 'a', '2025-07-07 00:00:00', '2025-07-25', 'Pendente', '', 9, 'equipamento', 0, 1751917416),
-(44, 1, 'a', '2025-07-07 00:00:00', '2025-07-23', 'Pendente', '', 4, 'armamento', 0, 1751918322),
-(45, 1, 'a', '2025-07-07 00:00:00', '2025-07-23', 'Pendente', '', 3, 'armamento', 0, 1751918322),
-(46, 1, 'a', '2025-07-10 00:00:00', '2025-07-11', 'Pendente', '', 5, 'armamento', 0, 1752189632),
-(47, 1, 'a', '2025-07-10 00:00:00', '2025-07-11', 'Pendente', '', 5, 'armamento', 0, 1752189869),
-(48, 1, 'a', '2025-07-10 00:00:00', '2025-07-11', 'Pendente', '', 5, 'armamento', 0, 1752189887),
-(49, 1, 'a', '2025-07-10 00:00:00', '2025-07-11', 'Pendente', '', 5, 'armamento', 0, 1752189896),
-(50, 1, 'a', '2025-07-10 00:00:00', '2025-07-11', 'Negado', '', 5, 'armamento', 0, 1752189962),
 (51, 1, 'a', '2025-07-10 00:00:00', '2025-07-11', 'Negado', '', 6, 'equipamento', 30, 1752189962),
-(52, 1, 'a', '2025-07-10 00:00:00', '2025-07-11', 'Aceito', '', 5, 'armamento', 1, 1752190314),
-(53, 1, 'a', '2025-07-10 00:00:00', '2025-07-11', 'Aceito', '', 6, 'equipamento', 50, 1752190314),
-(54, 1, 'b', '2025-07-10 00:00:00', '2025-07-31', 'Aceito', '', 3, 'armamento', 1, 1752190726),
-(55, 1, 'b', '2025-07-10 00:00:00', '2025-07-31', 'Aceito', '', 8, 'equipamento', 80, 1752190726);
+(52, 1, 'a', '2025-07-10 00:00:00', '2025-07-11', 'Devolvido', 'Ótimo estado', 5, 'armamento', 1, 1752190314),
+(53, 1, 'a', '2025-07-10 00:00:00', '2025-07-11', 'Devolvido', '', 6, 'equipamento', 50, 1752190314),
+(54, 1, 'b', '2025-07-10 00:00:00', '2025-07-31', 'Devolvido', 'Coronha arranhada', 3, 'armamento', 1, 1752190726),
+(55, 1, 'b', '2025-07-10 00:00:00', '2025-07-31', 'Devolvido', '', 8, 'equipamento', 80, 1752190726),
+(56, 1, 'a', '2025-07-14 00:00:00', '2025-07-17', 'Devolvido', 'massa danificada', 7, 'armamento', 1, 1752517495),
+(57, 1, 'a', '2025-07-14 00:00:00', '2025-07-17', 'Devolvido', '', 6, 'equipamento', 50, 1752517495),
+(60, 1, 'a', '2025-07-16 00:00:00', '2025-07-18', 'Negado', '', 3, 'armamento', 1, 1752693742),
+(61, 1, 'a', '2025-07-16 00:00:00', '2025-07-18', 'Negado', '', 8, 'equipamento', 60, 1752693742),
+(63, 3, 'b', '2025-09-08 00:00:00', '2025-09-10', 'Negado', '', 3, 'armamento', 1, 1757352650),
+(64, 3, 'b', '2025-09-08 00:00:00', '2025-09-10', 'Negado', '', 1, 'equipamento', 2, 1757352650),
+(65, 3, 'b', '2025-09-08 00:00:00', '2025-09-10', 'Negado', '', 8, 'equipamento', 50, 1757352650),
+(66, 2, 'a', '2025-09-08 00:00:00', '2025-09-11', 'Negado', '', 4, 'armamento', 1, 1757352729),
+(67, 3, 'a', '2025-09-08 00:00:00', '2025-09-10', 'Devolvido', '', 5, 'armamento', 1, 1757356757),
+(68, 3, 'a', '2025-09-08 00:00:00', '2025-09-10', 'Devolvido', '', 6, 'equipamento', 50, 1757356757),
+(69, 3, 'a', '2025-09-22 00:00:00', '2025-09-24', 'Devolvido', 'Ótimo estado', 5, 'armamento', 1, 1758564425),
+(70, 3, 'a', '2025-09-22 00:00:00', '2025-09-24', 'Devolvido', '', 6, 'equipamento', 10, 1758564425),
+(71, 3, 'a', '2025-09-22 00:00:00', '2025-09-23', 'Devolvido', 'Ótimo estado', 5, 'armamento', 1, 1758565092),
+(72, 3, 'a', '2025-09-22 00:00:00', '2025-09-23', 'Devolvido', '', 6, 'equipamento', 50, 1758565092),
+(73, 3, 'a', '2025-09-22 00:00:00', '2025-09-30', 'Devolvido', 'massa danificada', 5, 'armamento', 1, 1758565241),
+(74, 3, 'a', '2025-09-22 00:00:00', '2025-09-30', 'Devolvido', '', 6, 'equipamento', 50, 1758565241),
+(75, 3, 'a', '2025-09-22 00:00:00', '2025-10-01', 'Devolvido', 'Ótimo estado', 5, 'armamento', 1, 1758565755),
+(76, 3, 'a', '2025-09-22 00:00:00', '2025-10-01', 'Devolvido', '', 6, 'equipamento', 40, 1758565755),
+(77, 3, 'a', '2025-09-22 00:00:00', '2025-09-24', 'Devolvido', 'Coronha arranhada', 5, 'armamento', 1, 1758566049),
+(78, 3, 'a', '2025-09-22 00:00:00', '2025-09-24', 'Devolvido', '', 6, 'equipamento', 10, 1758566049),
+(79, 3, 'a', '2025-09-22 00:00:00', '2025-09-24', 'Devolvido', 'massa danificada', 3, 'armamento', 1, 1758566666),
+(80, 3, 'a', '2025-09-22 00:00:00', '2025-09-24', 'Devolvido', '', 8, 'equipamento', 10, 1758566666),
+(81, 3, 'a', '2025-09-22 00:00:00', '2025-10-01', 'Devolvido', 'Coronha arranhada', 3, 'armamento', 1, 1758567105),
+(82, 3, 'a', '2025-09-22 00:00:00', '2025-10-01', 'Devolvido', '', 4, 'equipamento', 10, 1758567105),
+(84, 3, 'a', '2025-09-29 00:00:00', '2025-09-30', 'Negado', '', 5, 'armamento', 1, 1759168400),
+(85, 3, 'a', '2025-09-29 00:00:00', '2025-10-01', 'Negado', '', 5, 'armamento', 1, 1759168467),
+(86, 3, 'a', '2025-10-21 00:00:00', '2025-10-28', 'Aceito', '', 1, 'armamento', 1, 1761070678),
+(87, 3, 'b', '2025-10-21 00:00:00', '2025-10-22', 'Pendente', '', 3, 'armamento', 1, 1761071051),
+(88, 3, 'b', '2025-10-21 00:00:00', '2025-10-22', 'Pendente', '', 2, 'armamento', 1, 1761071075),
+(89, 2, 'b', '2025-10-21 15:33:16', '2065-08-02', 'Aceito', '', 0, '', 0, NULL),
+(90, 2, 'b', '2025-10-21 00:00:00', '2065-08-02', 'Aceito', '', 4, 'armamento', 1, 89);
 
 -- --------------------------------------------------------
 
@@ -239,14 +224,17 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   `perfil_usuario` tinyint(1) NOT NULL,
   `data_cadastro_usuario` datetime NOT NULL,
   PRIMARY KEY (`id_usuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Extraindo dados da tabela `usuarios`
 --
 
 INSERT INTO `usuarios` (`id_usuario`, `nome_usuario`, `identidade_funcional_usuario`, `email_usuario`, `senha_usuario`, `perfil_usuario`, `data_cadastro_usuario`) VALUES
-(1, 'Usuário Teste', 1234, 'teste@teste.com', '1234', 1, '0000-00-00 00:00:00');
+(1, 'Usuário Teste', 1234, 'teste@teste.com', '1234', 1, '0000-00-00 00:00:00'),
+(2, 'Jorge', 123, 'jorge@gmail.com', '$2y$10$9ERejWufM7mEw/2X30PT4ezAFKpSYpii2ji/bppA/bZUFHHR5DWba', 1, '0000-00-00 00:00:00'),
+(3, 'pedro', 654, 'pedro@gmail.com', '$2y$10$pPuzaZI4rO7BQi2MXqp0mu1Bvw8nIzBk.zraPkykdN/.xkzDICRSq', 2, '0000-00-00 00:00:00'),
+(4, 'JorgeReal', 257, 'jorginho@if.com', '$2y$10$GWB1xWHXcL20z.EnJ1gNJe.SDJLfn5J77r7CurOZe7FuKcqZiySTK', 1, '0000-00-00 00:00:00');
 
 --
 -- Restrições para despejos de tabelas
