@@ -17,12 +17,28 @@ $data_solicitacao = date("Y-m-d");
 
 // 🔹 Se for quartelário (perfil 1), usa o usuário selecionado no select
 if ($_SESSION['perfil_usuario'] == 1 && !empty($_SESSION['usuario_selecionado'])) {
-    $id_usuario = $_SESSION['usuario_selecionado'];
+    $id_destinatario = $_SESSION['usuario_selecionado'];
 } else {
-    $id_usuario = $_SESSION['id_usuario'];
+    $id_destinatario = $_SESSION['id_usuario'];
 }
 
-$idSolicitacao  = time();
+// Determina o status da solicitação com base na regra
+if (!empty($_SESSION['auto_aprovar']) && $_SESSION['auto_aprovar'] === true) {
+    $status = 'Aceito'; // quarteleiro solicitando em nome de outro
+} else {
+    $status = 'Pendente'; // qualquer outro caso
+}
+
+// Insere a solicitação principal no banco
+$query = "INSERT INTO solicitacao_itens (id_usuario, motivo_solicitacao, data_devolucao_item, status_solicitacao, data_solicitacao)
+          VALUES ('$id_destinatario', '$operacao', '$data_devolucao', '$status', NOW())";
+
+$result = mysqli_query($conexao, $query);
+if (!$result) {
+    die("Erro ao inserir solicitação: " . mysqli_error($conexao));
+}
+
+$idSolicitacao = mysqli_insert_id($conexao);
 
 if (empty($operacao) || empty($data_devolucao)) {
     die("Erro: motivo e data de devolução são obrigatórios.");
@@ -33,12 +49,12 @@ foreach ($_SESSION['carrinho_armamentos'] as $idArmamento) {
     $sql = "INSERT INTO solicitacao_itens (
                 id_solicitacao, id_usuario, id_item, tipo_item, quantidade, motivo_solicitacao, data_solicitacao, data_devolucao_item, status_solicitacao
             ) VALUES (
-                $idSolicitacao, $id_usuario, $idArmamento, 'armamento', 1, '$operacao', '$data_solicitacao', '$data_devolucao', 'Pendente'
+                $idSolicitacao, $id_destinatario, $idArmamento, 'armamento', 1, '$operacao', '$data_solicitacao', '$data_devolucao', '$status'
             )";
     
     $resultado = mysqli_query($conexao, $sql);
     if (!$resultado) {
-        die("Erro na query: " . mysqli_error($conexao));
+        die("Erro na query de armamento: " . mysqli_error($conexao));
     }
 }
 
@@ -49,12 +65,12 @@ foreach ($_SESSION['carrinho_equipamentos'] as $equipamento) {
     $sql = "INSERT INTO solicitacao_itens (
                 id_solicitacao, id_usuario, id_item, tipo_item, quantidade, motivo_solicitacao, data_solicitacao, data_devolucao_item, status_solicitacao
             ) VALUES (
-                $idSolicitacao, $id_usuario, $idEquipamento, 'equipamento', $quantidade, '$operacao', '$data_solicitacao', '$data_devolucao', 'Pendente'
+                $idSolicitacao, $id_destinatario, $idEquipamento, 'equipamento', $quantidade, '$operacao', '$data_solicitacao', '$data_devolucao', '$status'
             )";
     
     $resultado = mysqli_query($conexao, $sql);
     if (!$resultado) {
-        die("Erro na query: " . mysqli_error($conexao));
+        die("Erro na query de equipamento: " . mysqli_error($conexao));
     }
 }
 
