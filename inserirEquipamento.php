@@ -5,11 +5,15 @@ if(!isset($_SESSION['id_usuario']) || $_SESSION['perfil_usuario'] != 1){
     header("Location: login.php?status=nao_autorizado");
     exit();
 }
+
+$nomeEquip = $_POST['nomeEquip'] ?? '';
 $tipoMaisEquipamento = $_POST['equipamento'];
 list($tipoEquipamento, $nomeEquipamento) = explode("|", $tipoMaisEquipamento);
 $quantidadeEquipamento = $_POST['quantidadeEquip'];
 $queryVerify = "SELECT * FROM equipamentos where nome_equipamento = '$nomeEquipamento' AND tipo_equipamento = '$tipoEquipamento'";
 $resultVerify = mysqli_query($conexao, $queryVerify);
+
+
 
 if (mysqli_num_rows($resultVerify) > 0) {
     $equipamento = mysqli_fetch_array($resultVerify);
@@ -23,6 +27,9 @@ if (mysqli_num_rows($resultVerify) > 0) {
     }
 } else {
 
+if (!empty($nomeEquip)) {
+    $nomeEquipamento =  $nomeEquipamento . " " . $nomeEquip;
+}
 
     $sql = "INSERT INTO equipamentos(nome_equipamento,tipo_equipamento,quantidade_equipamento) VALUE 
 (\"$nomeEquipamento\",\"$tipoEquipamento\",\"$quantidadeEquipamento\")";

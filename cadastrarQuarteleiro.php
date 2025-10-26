@@ -7,8 +7,8 @@ include("conecta.php");
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastre-se - Quartelaria</title>
-        <script>
+    <title>Cadastrar Quarteleiro - Quartelaria</title>
+     <script>
         function validarSenha() {
             const senha = document.getElementById("senha").value;
             const confirmar = document.getElementById("confirmar_senha").value;
@@ -26,8 +26,8 @@ include("conecta.php");
         Nome: <input type="text" name="nome" required><br>
         Identidade Funcional: <input type="number" name="idFuncional" required><br>
         E-mail institucional: <input type="email" name="email" required><br>
-       <input type="hidden" name="perfil" value="2">
-        Senha: <input type="password" name="senha" id="senha" required><br>
+        <input type="hidden" name="perfil" value="1">
+         Senha: <input type="password" name="senha" id="senha" required><br>
         Confirmar senha: <input type="password" name="confSenha" id="confirmar_senha" required><br>
         <input type="submit" value="Cadastrar">
 <br>

@@ -24,10 +24,12 @@ while ($row = mysqli_fetch_assoc($resultadoEquipamentos)) {
     $tipo = $row['tipo_equipamento'];
     $equipamentos_por_tipo[$tipo][] = $row;
 }
-
+//operacoes
+  $sqlOperacoes = "SELECT id_operacao, nome_operacao FROM operacoes ORDER BY nome_operacao ASC";
+    $resultadoOperacoes = mysqli_query($conexao, $sqlOperacoes);
 $id_solicitacao = mysqli_insert_id($conexao);
 $sql = "SELECT identidade_funcional_usuario, nome_usuario FROM usuarios";
-$result = $conexao->query($sql);
+$result = mysqli_query($conexao,$sql);
 ?>
 
 <!DOCTYPE html>
@@ -103,7 +105,7 @@ if ($_SESSION['perfil_usuario'] == 1 and !empty($_SESSION['usuario_selecionado']
         <input type='number' name='quantidade_municao' required>";
             ?>
             <input type="submit" value="Adicionar ao Carrinho">
-        </form><br>
+        </form><br><br>
     <?php endforeach; ?>
 <?php endforeach; ?>
 
@@ -113,9 +115,16 @@ if ($_SESSION['perfil_usuario'] == 1 and !empty($_SESSION['usuario_selecionado']
 
     <h2>Operação/motivo</h2>
     <select name="operacao" required>
-        <option value="">Selecione</option>
-        <option value="a">A</option>
-        <option value="b">B</option>
+        <option value="">====Selecione====</option>
+        <?php
+if (mysqli_num_rows($resultadoOperacoes) > 0) {
+        while ($op = mysqli_fetch_assoc($resultadoOperacoes)) {
+            echo "<option value='{$op['id_operacao']}'>{$op['nome_operacao']}</option>";
+        }
+    } else {
+        echo "<option value=''>Nenhuma operação cadastrada</option>";
+    }
+?>
     </select>
 
     <hr>

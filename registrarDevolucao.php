@@ -34,7 +34,7 @@ mysqli_autocommit($conexao, false);
 $errors = [];
 
 // 1) Atualizar status de todos os itens da solicitação (prepared)
-$sql_status_items = "UPDATE solicitacao_itens SET status_solicitacao = 'Devolvido' WHERE id_solicitacao = ?";
+$sql_status_items = "UPDATE solicitacao_itens SET status_solicitacao = 'Devolvido', data_devolucao_real_item = NOW()WHERE id_solicitacao = ?";
 $stmt_status = mysqli_prepare($conexao, $sql_status_items);
 if(!$stmt_status){
     echo "Erro ao preparar atualização de status: " . mysqli_error($conexao);

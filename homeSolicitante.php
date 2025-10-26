@@ -45,7 +45,8 @@ while($dados = mysqli_fetch_assoc($result)){
 <body>
     <a href="solicitarSolicitante.php">Realizar solicitação de itens</a> |
 <a href="checkListVtr.php">Realizar solicitação da viatura</a> |
-<a href="solicitacoesAnterioresSolicitante.php">Solicitações anteriores</a> |
+<a href="solicitacoesAnterioresSolicitante.php">Solicitações anteriores</a> |==========|
+<a href="editarPerfil.php">Editar Perfil</a> |
 <a href="logout.php">Logout ->|</a>
     <h1> Solicitações atuais: </h1>
 
