@@ -20,7 +20,10 @@ if ($_SESSION['perfil_usuario'] == 1 && !empty($_SESSION['usuario_selecionado'])
 } elseif($_SESSION['perfil_usuario'] == 1 && empty($_SESSION['usuario_selecionado'])) {
     echo "Nenhum usuário selecionado.";
 }
-if (isset($_POST['operacao'])) $_SESSION['operacao'] = $_POST['operacao'];
+if (isset($_POST['operacao'])){ $_SESSION['operacao'] = $_POST['operacao'];
+$sql = "SELECT nome_operacao FROM operacoes WHERE id_operacao = {$_SESSION['operacao']}";
+$queryOperacao = mysqli_query($conexao,$sql);
+$operacao = mysqli_fetch_assoc($queryOperacao);}
 if (isset($_POST['data_devolucao_item'])) $_SESSION['data_devolucao_item'] = $_POST['data_devolucao_item'];
 
 echo "<h2>Carrinho</h2>";
@@ -57,7 +60,7 @@ if (empty($_SESSION['carrinho_armamentos']) && empty($_SESSION['carrinho_equipam
     }
 }
 
-echo "<hr><h3>Operação:</h3>" . ($_SESSION['operacao'] ?? 'Não informada');
+echo "<hr><h3>Operação:</h3>" . ($operacao['nome_operacao'] ?? 'Não informada');
 echo "<h3>Devolução prevista:</h3>" . ($_SESSION['data_devolucao_item'] ?? 'Não informada');
 
 echo '<br><br><a href="solicitarSolicitante.php">Voltar</a>';

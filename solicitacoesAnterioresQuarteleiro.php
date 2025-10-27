@@ -1,40 +1,107 @@
 <?php
+include("conecta.php");
+
 session_start();
 if(!isset($_SESSION['id_usuario']) || $_SESSION['perfil_usuario'] != 1){
     header("Location: login.php?status=nao_autorizado");
     exit();
 }
+
+// Busca todas as solicitações que já foram devolvidas ou finalizadas
+$query = "SELECT si.id_solicitacao, si.data_solicitacao, si.data_devolucao_item, si.data_devolucao_real_item, si.status_solicitacao,
+                 u.nome_usuario, si.tipo_item, si.id_item,
+                 e.nome_equipamento, e.tipo_equipamento,
+                 a.nome_armamento, a.tipo_armamento
+          FROM solicitacao_itens si
+          JOIN usuarios u ON si.id_usuario = u.id_usuario
+          LEFT JOIN equipamentos e ON si.id_item = e.id_equipamento AND si.tipo_item = 'equipamento'
+          LEFT JOIN armamentos a ON si.id_item = a.id_armamento AND si.tipo_item = 'armamento'
+          WHERE si.status_solicitacao IN ('Devolvido', 'Finalizado')
+          ORDER BY si.id_solicitacao DESC";
+
+$resultado = mysqli_query($conexao, $query);
+
+$id_atual = 0;
+$equipamentos = "";
+$armamentos = "";
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Solicitações Anteriores - Quartelaria</title>
 </head>
 <body>
-        <a href="solicitacoesQuarteleiro.php">Voltar</a><br>
-    <a href="homeQuarteleiro.php">Home</a><br>
-    <h1>Solicitações Anteriores</h1>
-    <table border ='1'>
-        <tr><th>Solicitante</th>
-        <th>Id. funcional</th>
-        <th>equipamento</th>
-        <th>código</th>
-        <th>Data retirada</th>
-        <th>Data devolução</th>
-        <th>status</th>
-        <th>opções</th></tr>
-        <tr>
-            <td>Eduardo</td>
-            <td>12345</td>
-            <td>FAL</td>
-            <td>31542</td>
-            <td>22/04/2001</td>
-            <td>24/04/2002</td>
-            <td>Devolvido</td>
-            <td>Editar | Excluir</td>
+
+<a href="solicitacoesQuarteleiro.php">Voltar</a> |
+<a href="homeQuarteleiro.php">Home</a>
+<hr>
+
+<h1>Solicitações Anteriores</h1>
+
+<table border="1">
+    <tr>
+        <th>Usuário</th>
+        <th>Equipamentos</th>
+        <th>Armamentos</th>
+        <th>Data Solicitação</th>
+        <th>Data Prevista</th>
+        <th>Data Devolução Real</th>
+        <th>Status</th>
     </tr>
+
+<?php
+while ($dados = mysqli_fetch_assoc($resultado)) {
+    $id = $dados['id_solicitacao'];
+
+    // Quando muda de solicitação, imprime a anterior
+    if ($id != $id_atual && $id_atual != 0) {
+        echo "<tr>
+                <td>$nome</td>
+                <td>$equipamentos</td>
+                <td>$armamentos</td>
+                <td>$data_solicitacao</td>
+                <td>$data_prevista</td>
+                <td>$data_real</td>
+                <td>$status</td>
+              </tr>";
+
+        $equipamentos = "";
+        $armamentos = "";
+    }
+
+    // Atualiza dados principais
+    if ($id != $id_atual) {
+        $id_atual = $id;
+        $nome = $dados['nome_usuario'];
+        $data_solicitacao = date("d/m/Y", strtotime($dados['data_solicitacao']));
+        $data_prevista = $dados['data_devolucao_item'] ? date("d/m/Y", strtotime($dados['data_devolucao_item'])) : "-";
+        $data_real = $dados['data_devolucao_real_item'] ? date("d/m/Y", strtotime($dados['data_devolucao_real_item'])) : "-";
+        $status = $dados['status_solicitacao'];
+    }
+
+    // Acumula os itens
+    if ($dados['tipo_item'] == 'equipamento') {
+        $equipamentos .= $dados['tipo_equipamento'] . " - " . $dados['nome_equipamento'] . "<br>";
+    } elseif ($dados['tipo_item'] == 'armamento') {
+        $armamentos .= $dados['tipo_armamento'] . " - " . $dados['nome_armamento'] . "<br>";
+    }
+}
+
+// Imprime o último grupo
+if ($id_atual != 0) {
+    echo "<tr>
+            <td>$nome</td>
+            <td>$equipamentos</td>
+            <td>$armamentos</td>
+            <td>$data_solicitacao</td>
+            <td>$data_prevista</td>
+            <td>$data_real</td>
+            <td>$status</td>
+          </tr>";
+}
+?>
 </table>
+
 </body>
 </html>

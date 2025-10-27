@@ -52,6 +52,9 @@ while($dados = mysqli_fetch_assoc($result)){
 
 
 <?php
+if(mysqli_num_rows($result) <= 0){
+    echo "Nenhuma solicitação ativa no momento";
+}else{
 foreach($solicitacoes as $idSolicitacao => $solicitacao){
     echo "<h3> Solicitacao #$idSolicitacao </h3>
     Data de solicitação: {$solicitacao['data_solicitacao']}<br>
@@ -84,7 +87,7 @@ foreach($solicitacao['itens'] as $item){
     ";
 }
 echo "</table><hr>";
-}
+}}
 ?>
 
 </body>

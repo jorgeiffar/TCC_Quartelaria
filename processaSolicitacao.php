@@ -15,7 +15,7 @@ $operacao = $_SESSION['operacao'] ?? '';
 $data_devolucao = $_SESSION['data_devolucao_item'] ?? '';
 $data_solicitacao = date("Y-m-d");
 
-// 🔹 Se for quartelário (perfil 1), usa o usuário selecionado no select
+// Se for quartelário (perfil 1), usa o usuário selecionado no select
 if ($_SESSION['perfil_usuario'] == 1 && !empty($_SESSION['usuario_selecionado'])) {
     $id_destinatario = $_SESSION['usuario_selecionado'];
 } else {
@@ -28,17 +28,10 @@ if (!empty($_SESSION['auto_aprovar']) && $_SESSION['auto_aprovar'] === true) {
 } else {
     $status = 'Pendente'; // qualquer outro caso
 }
+$idSolicitacao = time();
 
-// Insere a solicitação principal no banco
-$query = "INSERT INTO solicitacao_itens (id_usuario, motivo_solicitacao, data_devolucao_item, status_solicitacao, data_solicitacao)
-          VALUES ('$id_destinatario', '$operacao', '$data_devolucao', '$status', NOW())";
 
-$result = mysqli_query($conexao, $query);
-if (!$result) {
-    die("Erro ao inserir solicitação: " . mysqli_error($conexao));
-}
 
-$idSolicitacao = mysqli_insert_id($conexao);
 
 if (empty($operacao) || empty($data_devolucao)) {
     die("Erro: motivo e data de devolução são obrigatórios.");
@@ -78,5 +71,8 @@ foreach ($_SESSION['carrinho_equipamentos'] as $equipamento) {
 unset($_SESSION['carrinho_armamentos'], $_SESSION['carrinho_equipamentos'], $_SESSION['operacao'], $_SESSION['data_devolucao_item'], $_SESSION['usuario_selecionado']);
 
 // Redireciona
+if ($_SESSION['perfil_usuario'] == 1) {
+    header("Location: deliberarSolicitacao.php?statusDest=1&idDest=$idSolicitacao&destinatario=$id_destinatario");
+}else{
 header("Location: verCarrinho.php");
-exit;
+exit;}

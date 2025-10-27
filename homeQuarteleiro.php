@@ -44,6 +44,9 @@ $armamentos = "";
 <h1>Empréstimos</h1>
 <hr>
 <?php
+if(mysqli_num_rows($resultado)<=0){
+    echo "Nenhum Empréstimo Ativo";
+}else{
 echo "<table border='1'>
         <tr>
             <th>Usuário</th>
@@ -103,4 +106,5 @@ if ($id_atual != 0) {
 }
 
 echo "</table>";
+}
 ?>

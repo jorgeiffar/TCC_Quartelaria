@@ -8,6 +8,12 @@ if(!isset($_SESSION['id_usuario']) || $_SESSION['perfil_usuario'] != 1){
 $status = $_GET['status'];
 $id = $_GET['id'];
 
+if(isset($_GET['destinatario'])){
+$id = $_GET['idDest'];
+$status = $_GET['statusDest'];
+
+
+}
 if ($status == 1) {
     $statusFinal = 'Aceito';
 } elseif ($status == 2) {
@@ -46,8 +52,12 @@ if ($statusFinal == 'Aceito') {
     if (!$resultadoUpdateStatus) {
         die("Erro ao atualizar status dos armamentos: " . mysqli_error($conexao));
     }
+if(isset($_GET['destinatario'])){
+    header("Location: verCarrinho.php");
+}else{
 
-    header("Location: solicitacoesQuarteleiro.php?status=1");
+    header("Location: solicitacoesQuarteleiro.php?status=1");}
+
 
 } elseif ($statusFinal == 'Negado') {
     header("Location: solicitacoesQuarteleiro.php?status=2");
