@@ -18,6 +18,7 @@ $itens = mysqli_query($conexao, $sql);
     <title>Checklist da Viatura</title>
 </head>
 <body>
+    <a href="homeSolicitante.php">Voltar-Home</a><br>
     <h2>Checklist de Viatura</h2>
     <form action="visualizar_chkvtr.php" method="post">
 
