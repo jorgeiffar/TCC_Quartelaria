@@ -23,6 +23,21 @@ $resultado = mysqli_query($conexao, $query);
 $id_atual = 0;
 $equipamentos = "";
 $armamentos = "";
+//vtr
+$query_vtr = "SELECT 
+                sv.id_solicitacao_viatura, 
+                sv.data_solicitacao_viatura, 
+                sv.quilometragem, 
+                sv.placa_veiculo,
+                sv.status_solicitacao_viatura,
+                u.nome_usuario
+              FROM solicitacao_viatura sv
+              JOIN usuarios u ON sv.id_usuario = u.id_usuario
+              WHERE sv.status_solicitacao_viatura = 'Ativo'
+              ORDER BY sv.data_solicitacao_viatura ASC";
+
+$resultado_vtr = mysqli_query($conexao, $query_vtr);
+$vtr_id_atual = 0;
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -108,3 +123,44 @@ if ($id_atual != 0) {
 echo "</table>";
 }
 ?>
+<br>
+<hr>
+<h2>Empréstimos de Viatura</h2>
+<?php
+if(mysqli_num_rows($resultado_vtr)<=0){
+echo "Nenhum Checklist de Viatura Ativo.";
+}else{
+echo "<table border='1'>
+<tr>
+ <th>Usuário</th>
+<th>Placa / KM</th>
+<th>Data/Hora Solicitação</th>
+<th>Status</th>
+<th>Opções</th>
+</tr>";
+
+while ($dados_vtr = mysqli_fetch_assoc($resultado_vtr)) {
+    $id_vtr = $dados_vtr['id_solicitacao_viatura'];
+    $nome_vtr = $dados_vtr['nome_usuario'];
+    $placa_km = $dados_vtr['placa_veiculo'] . " / " . $dados_vtr['quilometragem'] . " km";
+    $data_solicitacao_vtr = date("d/m/Y H:i", strtotime($dados_vtr['data_solicitacao_viatura']));
+    $status_vtr = $dados_vtr['status_solicitacao_viatura'];
+
+    echo "<tr>
+            <td>$nome_vtr</td>
+            <td>$placa_km</td>
+            <td>$data_solicitacao_vtr</td>
+            <td>$status_vtr</td>
+            <td>
+                <a href='detalhesVtr.php?id=$id_vtr&status=6'>Ver detalhes</a> |
+                <a href='processaDeliberacaoVtr.php?id=$id_vtr&fim=1'>Finalizar</a> 
+            </td>
+          </tr>";
+}
+
+echo "</table>";
+}
+?>
+
+</body>
+</html>

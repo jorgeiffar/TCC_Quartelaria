@@ -33,6 +33,15 @@ while($dados = mysqli_fetch_assoc($result)){
         'quantidade' => $dados['quantidade']
     ];
 }
+$query_vtr = "SELECT id_solicitacao_viatura, data_solicitacao_viatura, quilometragem, placa_veiculo, status_solicitacao_viatura 
+              FROM solicitacao_viatura
+              WHERE id_usuario = {$_SESSION['id_usuario']} 
+              AND status_solicitacao_viatura != 'Negado' 
+              AND status_solicitacao_viatura != 'Devolvido'
+              ORDER BY data_solicitacao_viatura DESC";
+
+$result_vtr = mysqli_query($conexao, $query_vtr);
+
 ?>
 
 <!DOCTYPE html>
@@ -89,6 +98,43 @@ foreach($solicitacao['itens'] as $item){
 echo "</table><hr>";
 }}
 ?>
-
+<hr>
+<h2>Checklists de Viatura Ativos</h2>
+<?php
+if($result_vtr === false || mysqli_num_rows($result_vtr) === 0){
+    echo "Nenhum checklist de viatura ativo no momento.";
+} else {
+    // Início da Tabela
+    echo "<table border='1'>
+          <thead>
+              <tr>
+                  <th>ID Solicitação</th>
+                  <th>Placa da Viatura</th>
+                  <th>Quilometragem</th>
+                  <th>Data/Hora Solicitação</th>
+                  <th>Status</th>
+              </tr>
+          </thead>
+          <tbody>";
+          
+    // Loop principal: usa fetch_assoc para buscar uma linha por vez
+    while($vtr = mysqli_fetch_assoc($result_vtr)){
+        
+        // Formata data e hora para exibição
+        $data_hora = date('d/m/Y H:i', strtotime($vtr['data_solicitacao_viatura']));
+        
+        echo "<tr>
+                <td>{$vtr['id_solicitacao_viatura']}</td>
+                <td>{$vtr['placa_veiculo']}</td>
+                <td>{$vtr['quilometragem']} km</td>
+                <td>{$data_hora}</td>
+                <td><strong>{$vtr['status_solicitacao_viatura']}</strong></td>
+              </tr>";
+    }
+    
+    echo "</tbody>
+          </table>
+          <hr>";
+}?>
 </body>
 </html>

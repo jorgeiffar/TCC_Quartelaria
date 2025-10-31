@@ -34,7 +34,7 @@ if (!$resultListarSolicitacao) {
 <body>
     <a href="homeQuarteleiro.php">Voltar</a><br>
     <a href="homeQuarteleiro.php">Home</a><br>
-    <strong><a href="solicitacoesAnterioresQuarteleiro.php">Solicitações Anteriores</a></strong>
+    <a href="solicitacoesAnterioresQuarteleiro.php">Solicitações Anteriores</a>
     <h1>Solicitações</h1>
     <hr>
 
