@@ -1,0 +1,236 @@
+/* ======== VARIÁVEIS GERAIS ======== */
+:root {
+  --cor-fundo: #f9fafb;
+  --cor-card: #ffffff;
+  --cor-borda: #dcdfe3;
+  --cor-texto: #333;
+  --cor-suave: #666;
+  --cor-principal: #3b7a57;
+  --cor-principal-hover: #2e6045;
+  --radius: 10px;
+  --sombra: 0 2px 10px rgba(0, 0, 0, 0.05);
+  --transicao: 0.25s ease;
+  --max-largura: 1100px;
+  --font-base: "Inter", "Roboto", sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--font-base);
+}
+
+body {
+  background: var(--cor-fundo);
+  color: var(--cor-texto);
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ======== NAVBAR ======== */
+nav {
+  background: var(--cor-card);
+  border-bottom: 1px solid var(--cor-borda);
+  box-shadow: var(--sombra);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 30px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+nav .logo {
+  font-weight: 600;
+  color: var(--cor-principal);
+  font-size: 1.3rem;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+nav ul li a {
+  color: var(--cor-texto);
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: var(--radius);
+  transition: var(--transicao);
+}
+
+nav ul li a:hover {
+  background: var(--cor-principal);
+  color: #fff;
+}
+
+/* ======== CONTEÚDO ======== */
+.container {
+  flex: 1;
+  max-width: var(--max-largura);
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+/* ======== FORMULÁRIOS ======== */
+form {
+  background: var(--cor-card);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--radius);
+  padding: 25px;
+  box-shadow: var(--sombra);
+  margin-bottom: 40px;
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--cor-suave);
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--radius);
+  background: #fefefe;
+  transition: var(--transicao);
+  font-size: 0.95rem;
+  color: var(--cor-texto);
+  margin-bottom: 15px;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--cor-principal);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 122, 87, 0.15);
+}
+
+/* ======== BOTÕES ======== */
+button,
+.btn {
+  background: var(--cor-principal);
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: var(--radius);
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transicao);
+  font-size: 0.95rem;
+}
+
+button:hover,
+.btn:hover {
+  background: var(--cor-principal-hover);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ======== TABELAS ======== */
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--cor-card);
+  border-radius: var(--radius);
+  box-shadow: var(--sombra);
+  overflow: hidden;
+  margin-bottom: 30px;
+}
+
+th, td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--cor-borda);
+}
+
+th {
+  background: var(--cor-principal);
+  color: white;
+  font-weight: 600;
+  border-top: none;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+tr:hover td {
+  background: rgba(59, 122, 87, 0.05);
+}
+
+/* ======== CARDS ======== */
+.card {
+  background: var(--cor-card);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--sombra);
+  margin-bottom: 20px;
+}
+
+/* ======== ALERTAS ======== */
+.alert {
+  padding: 15px;
+  border-radius: var(--radius);
+  margin-bottom: 20px;
+  font-weight: 500;
+  border-left: 5px solid;
+  background: #fff;
+}
+
+.alert.success {
+  border-color: #4caf50;
+  background: #e8f5e9;
+}
+
+.alert.error {
+  border-color: #e53935;
+  background: #ffebee;
+}
+
+.alert.info {
+  border-color: #2196f3;
+  background: #e3f2fd;
+}
+
+/* ======== FOOTER ======== */
+footer {
+  background: var(--cor-card);
+  border-top: 1px solid var(--cor-borda);
+  color: var(--cor-suave);
+  text-align: center;
+  padding: 15px;
+  font-size: 0.9rem;
+}
+
+/* ======== RESPONSIVIDADE ======== */
+@media (max-width: 768px) {
+  nav {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  nav ul {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .container {
+    margin: 20px auto;
+  }
+}
