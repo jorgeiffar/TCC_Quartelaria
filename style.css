@@ -234,3 +234,11 @@ footer {
     margin: 20px auto;
   }
 }
+
+a {
+  text-decoration: none;
+  color: inherit; /* Garante que herde a cor do elemento pai */
+}
+a:visited {
+  color: inherit or white;
+}
