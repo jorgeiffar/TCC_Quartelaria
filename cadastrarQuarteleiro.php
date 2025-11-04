@@ -31,7 +31,6 @@ include("conecta.php");
         Confirmar senha: <input type="password" name="confSenha" id="confirmar_senha" required><br>
         <input type="submit" value="Cadastrar">
 <br>
-         Já é cadastrado no sistema? <a href="login.php">Realizar login!</a>
     </form>
 </body>
 </html>

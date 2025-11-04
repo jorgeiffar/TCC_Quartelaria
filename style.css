@@ -233,6 +233,11 @@ footer {
   .container {
     margin: 20px auto;
   }
+
+   /* Oculta o ícone lateral em telas menores para não poluir ou atrapalhar */
+    .icone-lateral {
+        display: none;
+    }
 }
 
 a {
@@ -241,4 +246,30 @@ a {
 }
 a:visited {
   color: inherit or white;
+}
+
+
+.icone-lateral {
+    /* 1. Posicionamento Fixo */
+    position: fixed;
+    top: 50%; /* Centraliza verticalmente */
+    left: 0;  /* Fixa na lateral esquerda */
+    transform: translateY(-50%); 
+    z-index: 5; 
+    
+    /* 2. Estilização e Efeito - MODIFICADO NOVAMENTE */
+    width: 500px; /* MAIOR AINDA: de 250px para 400px (Ajuste conforme necessário) */
+    opacity: 1.0; /* Cor VIVA, sem transparência */
+    pointer-events: none; /* Mantém a capacidade de clicar no conteúdo atrás dele */
+    
+    /* Regra para a imagem dentro do container */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.icone-lateral img {
+    max-width: 100%;
+    height: auto;
+    display: block; 
 }

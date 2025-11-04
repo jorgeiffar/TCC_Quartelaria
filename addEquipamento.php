@@ -16,7 +16,9 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['perfil_usuario'] != 1) {
 </head>
 
 <body>
-
+<div class="icone-lateral">
+        <img src="./img/logobatalhao.png" alt="Ícone Batalhão de Choque BM">
+    </div>
 <header>
   <nav>
     <div class="logo" ><a href="homeQuarteleiro.php">Commander</a></div>

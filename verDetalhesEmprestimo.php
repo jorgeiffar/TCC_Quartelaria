@@ -44,11 +44,18 @@ $result_itens = mysqli_query($conexao, $sql_itens);
 <body>
     <header class="topo">
         <nav class="navbar">
-            <div class="logo">Commander</div>
-            <ul>
-            <li><a href="homeQuarteleiro.php" class="nav-link">Home</a></li>
-            <li><a href="homeQuarteleiro.php" class="nav-link">Voltar</a></li>
-        </ul>
+             <div class="logo" ><a href="homeQuarteleiro.php">Commander</a></div>
+    <ul>
+      <li><a href="equipamentos.php" class="ativo">Equipamentos / Armamentos</a></li>
+      <li><a href="operacoes.php">Operações</a></li>
+      <li><a href="solicitacoesQuarteleiro.php">Solicitações</a></li>
+      <li><a href="solicitacoesVtr.php">Solicitações Viatura</a></li>
+      <li><a href="solicitarSolicitante.php">Solicitação Direta</a></li>
+      <li><a href="listarUsuarios.php">Usuários</a></li>
+      <li><a href="cadastrarQuarteleiro.php">Cadastrar Quarteleiro</a></li>
+      <li><a href="editarPerfil.php">Perfil</a></li>
+      <li><a href="logout.php">Logout</a></li>
+    </ul>
         </nav>
     </header>
 

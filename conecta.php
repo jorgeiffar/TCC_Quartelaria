@@ -6,3 +6,7 @@ if (!$conexao) {
     die();
 }
 ?>
+<div class="icone-lateral">
+        <img src="./img/logobatalhao.png" alt="Ícone Batalhão de Choque BM">
+    </div>
+    <link rel="stylesheet" href="style.css">
