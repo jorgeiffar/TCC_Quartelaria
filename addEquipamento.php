@@ -19,7 +19,6 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['perfil_usuario'] != 1) {
 
 <header>
   <nav>
-    <div class="logo">Commander</div>
     <div class="logo" ><a href="homeQuarteleiro.php">Commander</a></div>
     <ul>
       <li><a href="equipamentos.php" class="ativo">Equipamentos / Armamentos</a></li>

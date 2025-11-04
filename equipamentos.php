@@ -23,9 +23,8 @@ $resultArma = mysqli_query($conexao, $queryArma);
 
 <header>
   <nav>
-    <div class="logo">Commander</div>
+    <div class="logo" ><a href="homeQuarteleiro.php">Commander</a></div>
     <ul>
-      <li><a href="homeQuarteleiro.php">Home</a></li>
       <li><a href="equipamentos.php" class="ativo">Equipamentos / Armamentos</a></li>
       <li><a href="operacoes.php">Operações</a></li>
       <li><a href="solicitacoesQuarteleiro.php">Solicitações</a></li>
