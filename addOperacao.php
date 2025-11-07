@@ -1,3 +1,10 @@
+<?php
+session_start();
+if(!isset($_SESSION['id_usuario']) || $_SESSION['perfil_usuario'] != 1){
+    header("Location: login.php?status=nao_autorizado");
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -7,70 +14,112 @@
 </head>
 <body>
 
-      <a href="operacoes.php">Voltar</a><br>
-    <a href="homeQuarteleiro.php">Home</a><br>
+<header>
+  <nav>
+    <div class="logo"><a href="homeQuarteleiro.php">Commander</a></div>
+    <ul>
+      <li><a href="equipamentos.php">Equipamentos / Armamentos</a></li>
+      <li><a href="operacoes.php" class="ativo">Operações</a></li>
+      <li><a href="solicitacoesQuarteleiro.php">Solicitações</a></li>
+      <li><a href="solicitacoesVtr.php">Solicitações Viatura</a></li>
+      <li><a href="solicitarSolicitante.php">Solicitação Direta</a></li>
+      <li><a href="listarUsuarios.php">Usuários</a></li>
+      <li><a href="cadastrarQuarteleiro.php">Cadastrar Quarteleiro</a></li>
+      <li><a href="editarPerfil.php">Perfil</a></li>
+      <li><a href="logout.php">Logout</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main class="container">
+  <section>
     <h1>Adicionar Operação</h1>
+    <hr>
 
-    <form action="inserirOperacao.php" method="post">
-      
-      Nome da Operação:
-      <input type="text"  name="nome" required><br>
+    <div class="card">
+      <div class="form-area">
 
-      Tipo de Operação
-      <select  name="tipo" required>
-        <option value="">Selecione</option>
-        <option value="Patrulhamento">Patrulhamento</option>
-        <option value="Cerco">Cerco</option>
-        <option value="Blitz">Blitz</option>
-        <option value="Reintegração de Posse">Reintegração de Posse</option>
-        <option value="Apoio a Outro Órgão">Apoio a Outro Órgão</option>
-        <option value="Outros">Outros</option>
-      </select><br>
+        <form action="inserirOperacao.php" method="post">
+          <div class="form-grid">
+            <div>
+              <label>Nome da Operação:</label>
+              <input type="text" name="nome" required>
+            </div>
 
-     Local da Operação:
-      <input type="text"  name="local" required><br>
-      Data e Hora:
-      <input type="datetime-local"  name="data_hora" required><br>
+            <div>
+              <label>Tipo de Operação:</label>
+              <select name="tipo" required>
+                <option value="">Selecione</option>
+                <option value="Patrulhamento">Patrulhamento</option>
+                <option value="Cerco">Cerco</option>
+                <option value="Blitz">Blitz</option>
+                <option value="Reintegração de Posse">Reintegração de Posse</option>
+                <option value="Apoio a Outro Órgão">Apoio a Outro Órgão</option>
+                <option value="Outros">Outros</option>
+              </select>
+            </div>
 
-      Descrição Detalhada: <br>
-      <textarea name="descricao" rows="6" required></textarea><br>
+            <div>
+              <label>Local da Operação:</label>
+              <input type="text" name="local" required>
+            </div>
 
-      Status da Operação:
-      <select name="status" required>
-        <option value="Planejada">Planejada</option>
-        <option value="Em Andamento">Em Andamento</option>
-        <option value="Concluída">Concluída</option>
-        <option value="Cancelada">Cancelada</option>
-      </select><br>
+            <div>
+              <label>Data e Hora:</label>
+              <input type="datetime-local" name="data_hora" required>
+            </div>
 
-      <input type="submit" value="Registrar Operação">
-    </form>
-    
-    <?php
-    session_start();
-if(!isset($_SESSION['id_usuario']) || $_SESSION['perfil_usuario'] != 1){
-    header("Location: login.php?status=nao_autorizado");
-    exit();
-}
-    if (isset($_GET['status'])) {
-        $status = $_GET['status'];
-        echo "<hr>";
-        if ($status == 0) {
-            echo "<div id='mensagem' style=\"color: red;\"> Falha ao adicionar operação no sistema. </div>";
-        } elseif ($status == 1) {
-            echo "<div id='mensagem' style=\"color: green;\"> Operação adicionado no sistema. </div>";
-        } else {
-            echo "<div id='mensagem' style=\"color: orange;\"> Erro não identificado </div>";
-        }
-    }
-    ?>
-    <script>
-        setTimeout(function () {
-            var msg = document.getElementById('mensagem');
-            if (msg) {
-                msg.style.display = 'none';
+            <div>
+              <label>Status da Operação:</label>
+              <select name="status" required>
+                <option value="Planejada">Planejada</option>
+                <option value="Em Andamento">Em Andamento</option>
+                <option value="Concluída">Concluída</option>
+                <option value="Cancelada">Cancelada</option>
+              </select>
+            </div>
+
+            <div>
+              <label>Descrição Detalhada:</label>
+              <textarea name="descricao" rows="6" required></textarea>
+            </div>
+          </div>
+
+          <div class="form-buttons">
+            <input type="submit" value="Registrar Operação">
+          </div>
+        </form>
+
+        <?php
+        if (isset($_GET['status'])) {
+            $status = $_GET['status'];
+            echo "<hr>";
+            if ($status == 0) {
+                echo "<div id='mensagem' style='color: red;'>Falha ao adicionar operação no sistema.</div>";
+            } elseif ($status == 1) {
+                echo "<div id='mensagem' style='color: green;'>Operação adicionada com sucesso.</div>";
+            } else {
+                echo "<div id='mensagem' style='color: orange;'>Erro não identificado.</div>";
             }
-        }, 3000); // 3000 milissegundos = 3 segundos
-    </script>
+        }
+        ?>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  &copy; 2025 COMMANDER - Sistema de Gerenciamento de Quartelaria
+</footer>
+
+<script>
+  setTimeout(function () {
+      var msg = document.getElementById('mensagem');
+      if (msg) {
+          msg.style.display = 'none';
+      }
+  }, 3000);
+</script>
+
 </body>
 </html>

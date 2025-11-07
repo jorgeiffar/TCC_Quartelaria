@@ -77,8 +77,7 @@ $queryEquipamentos = mysqli_query($conexao, $sqlEquipamentos);
                         <td>$data</td>
                         <td>$status</td>
                         <td>
-                            <a href='editarEquipamento.php?id=$id' class='link-editar'>Editar</a> |
-                            <a href='excluirEquipamento.php?id=$id' class='link-excluir'>Excluir</a>
+                            <a href='editarEquipamento.php?id=$id' class='link-editar'>Editar</a>
                         </td>
                       </tr>";
             }
@@ -119,8 +118,7 @@ $queryEquipamentos = mysqli_query($conexao, $sqlEquipamentos);
                         <td>$codigo</td>
                         <td>$status</td>
                         <td>
-                            <a href='editarArmamento.php?id=$id' class='link-editar'>Editar</a> |
-                            <a href='excluirArmamento.php?id=$id' class='link-excluir'>Excluir</a>
+                            <a href='editarArmamento.php?id=$id' class='link-editar'>Editar</a>
                         </td>
                       </tr>";
             }

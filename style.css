@@ -273,3 +273,95 @@ a:visited {
     height: auto;
     display: block; 
 }
+
+.tabela {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed; /* Faz com que as larguras máximas sejam respeitadas */
+}
+
+/* Garante que textos grandes na tabela não quebrem o layout */
+.tabela td {
+    word-wrap: break-word;       /* quebra palavras muito longas */
+    white-space: normal;         /* permite que o texto vá para a próxima linha */
+    max-width: 250px;            /* controla a largura máxima de cada célula */
+    vertical-align: top;         /* alinha o texto ao topo */
+}
+
+/* Opcional: deixa o texto da descrição com uma largura um pouco maior */
+.tabela td:nth-child(3) {
+    max-width: 400px;
+}
+ /* Área geral do formulário */
+    .form-area {
+      width: 90%;
+      max-width: 1000px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Layout em duas colunas */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr; /* duas colunas */
+      gap: 20px 40px; /* espaço entre linhas e colunas */
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    /* Ajustes visuais */
+    .form-grid label {
+      font-weight: 600;
+      margin-bottom: 5px;
+      display: block;
+    }
+
+    .form-grid input,
+    .form-grid select,
+    .form-grid textarea {
+      width: 100%;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+
+    .form-grid textarea {
+      grid-column: span 2; /* ocupa as duas colunas */
+    }
+
+    .form-buttons {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .form-buttons input[type="submit"] {
+      padding: 10px 25px;
+      cursor: pointer;
+      border: none;
+      background: #0a7d45;
+      color: white;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .form-buttons input[type="submit"]:hover {
+      background: #0d9b56;
+    }
+
+    /* Links superiores */
+    .links-top {
+      text-align: left;
+      width: 100%;
+      margin-bottom: 20px;
+    }
+
+    /* Responsivo */
+    @media (max-width: 700px) {
+      .form-grid {
+        grid-template-columns: 1fr; /* empilha no celular */
+      }
+    }

@@ -29,7 +29,7 @@ $queryOperacao = mysqli_query($conexao, $sqlOperacao);
                 <li><a href="solicitacoesQuarteleiro.php">Solicitações</a></li>
                 <li><a href="solicitacoesVtr.php">Solicitações Viatura</a></li>
                 <li><a href="solicitarSolicitante.php">Solicitação Direta</a></li>
-                <li><a href="listarUsuarios.php">Visualizar Usuários</a></li>
+                <li><a href="listarUsuarios.php">Usuários</a></li>
                 <li><a href="cadastrarQuarteleiro.php">Cadastrar Quarteleiro</a></li>
                 <li><a href="editarPerfil.php">Editar Perfil</a></li>
                 <li><a href="logout.php">Logout</a></li>
@@ -78,8 +78,7 @@ $queryOperacao = mysqli_query($conexao, $sqlOperacao);
                                     <td>$data</td>
                                     <td>$status</td>
                                     <td>
-                                        <a href='editarOperacao.php?id=$id' class='link-editar'>Editar</a> | 
-                                        <a href='#' class='link-excluir'>Excluir</a>
+                                        <a href='editarOperacao.php?id=$id' class='link-editar'>Editar</a>
                                     </td>
                                 </tr>
                                 ";
