@@ -7,8 +7,9 @@ if(!isset($_SESSION['id_usuario']) || $_SESSION['perfil_usuario'] != 1){
     exit();
 }
 
-// Busca todas as solicitações que já foram devolvidas ou finalizadas
-$query = "SELECT si.id_solicitacao, si.data_solicitacao, si.data_devolucao_item, si.data_devolucao_real_item, si.status_solicitacao,
+// Busca solicitações finalizadas/devolvidas com observação
+$query = "SELECT si.id_solicitacao, si.data_solicitacao, si.data_devolucao_item, si.data_devolucao_real_item, 
+                 si.status_solicitacao, si.observacao_item,
                  u.nome_usuario, si.tipo_item, si.id_item,
                  e.nome_equipamento, e.tipo_equipamento,
                  a.nome_armamento, a.tipo_armamento
@@ -24,6 +25,7 @@ $resultado = mysqli_query($conexao, $query);
 $id_atual = 0;
 $equipamentos = "";
 $armamentos = "";
+$observacoes = "";  // Acumula observações de armamentos
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -47,6 +49,7 @@ $armamentos = "";
         <th>Data Solicitação</th>
         <th>Data Prevista</th>
         <th>Data Devolução Real</th>
+        <th>Observações</th>
         <th>Status</th>
     </tr>
 
@@ -63,14 +66,17 @@ while ($dados = mysqli_fetch_assoc($resultado)) {
                 <td>$data_solicitacao</td>
                 <td>$data_prevista</td>
                 <td>$data_real</td>
+                <td>$observacoes</td>
                 <td>$status</td>
               </tr>";
 
+        // Limpa acumuladores
         $equipamentos = "";
         $armamentos = "";
+        $observacoes = "";
     }
 
-    // Atualiza dados principais
+    // Atualiza dados principais da solicitação
     if ($id != $id_atual) {
         $id_atual = $id;
         $nome = $dados['nome_usuario'];
@@ -80,11 +86,23 @@ while ($dados = mysqli_fetch_assoc($resultado)) {
         $status = $dados['status_solicitacao'];
     }
 
-    // Acumula os itens
+    // Acumula itens
     if ($dados['tipo_item'] == 'equipamento') {
         $equipamentos .= $dados['tipo_equipamento'] . " - " . $dados['nome_equipamento'] . "<br>";
-    } elseif ($dados['tipo_item'] == 'armamento') {
-        $armamentos .= $dados['tipo_armamento'] . " - " . $dados['nome_armamento'] . "<br>";
+    } 
+    elseif ($dados['tipo_item'] == 'armamento') {
+        $nome_arm = $dados['nome_armamento'];
+        $tipo_arm = $dados['tipo_armamento'];
+        $obs = trim($dados['observacao_item']);
+
+        // Acumula armamento
+        $armamentos .= $tipo_arm . " - " . $nome_arm . "<br>";
+
+        // Acumula observação SOMENTE se for armamento e tiver observação
+        if (!empty($obs)) {
+            $obs_segura = htmlspecialchars($obs, ENT_QUOTES, 'UTF-8');
+            $observacoes .= "$tipo_arm - $nome_arm: $obs_segura<br>";
+        }
     }
 }
 
@@ -97,6 +115,7 @@ if ($id_atual != 0) {
             <td>$data_solicitacao</td>
             <td>$data_prevista</td>
             <td>$data_real</td>
+            <td>$observacoes</td>
             <td>$status</td>
           </tr>";
 }

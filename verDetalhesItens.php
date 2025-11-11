@@ -109,6 +109,11 @@ $queryEquipamentos = mysqli_query($conexao, $sqlEquipamentos);
                 $calibre = $dadosArma['calibre_armamento'];
                 $codigo = $dadosArma['codigo_armamento'];
                 $status = $dadosArma['status_armamento'];
+                if($status == 0){
+                  $status = "Na Quartelaria";
+                }elseif($status == 1){
+                  $status = "Em Atividade";
+                }
                 $id = $dadosArma['id_armamento'];
 
                 echo "<tr>

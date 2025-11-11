@@ -180,6 +180,9 @@ $result_itens = mysqli_query($conexao, $sql_itens);
                         </div>";
                     }
             ?>
+            <div class="voltar">
+      <a href="homeQuarteleiro.php" class="btn secundario">← Voltar</a>
+    </div>
         </section>
     </main>
 

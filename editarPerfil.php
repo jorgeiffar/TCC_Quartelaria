@@ -30,6 +30,13 @@ $usuario = mysqli_fetch_assoc($resultado);
     </form>
 
     <br>
-    <a href="homeQuarteleiro.php">Voltar</a>
+    <?php
+    if($_SESSION['perfil_usuario']==1){
+   echo "<a href=\"homeQuarteleiro.php\">Voltar</a>";
+
+    }else{
+   echo "<a href=\"homeSolicitante.php\">Voltar</a>";
+    }
+    ?>
 </body>
 </html>

@@ -6,3 +6,4 @@ if (!$conexao) {
     die();
 }
 ?>
+  <div class="bg-fallback"></div>

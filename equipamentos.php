@@ -7,8 +7,13 @@ if(!isset($_SESSION['id_usuario'])){
 }
 
 $queryEquip = "SELECT * FROM equipamentos GROUP BY nome_equipamento ORDER BY tipo_equipamento";
-$queryArma = "SELECT * FROM armamentos GROUP BY nome_armamento";
-$resultEquip = mysqli_query($conexao, $queryEquip);
+$queryArma = "SELECT 
+                  nome_armamento, 
+                  tipo_armamento,
+                  COUNT(*) AS quantidade_disponivel
+              FROM armamentos 
+              WHERE status_armamento = 0 
+              GROUP BY nome_armamento, tipo_armamento";$resultEquip = mysqli_query($conexao, $queryEquip);
 $resultArma = mysqli_query($conexao, $queryArma);
 ?>
 <!DOCTYPE html>
@@ -90,16 +95,17 @@ $resultArma = mysqli_query($conexao, $queryArma);
         </thead>
         <tbody>
         <?php
-        while ($dadosArma = mysqli_fetch_array($resultArma)) {
-            $nome = $dadosArma['nome_armamento'];
-            $tipo = $dadosArma['tipo_armamento'];
-            $quantidadeDisponivel = "(definir código)";
-            echo "<tr>
-                    <td>$nome</td>
-                    <td>$tipo</td>
-                    <td>$quantidadeDisponivel</td>
-                  </tr>";
-        }
+     
+while ($dadosArma = mysqli_fetch_array($resultArma)) {
+    $nome = $dadosArma['nome_armamento'];
+    $tipo = $dadosArma['tipo_armamento'];
+    $quantidadeDisponivel = $dadosArma['quantidade_disponivel'];
+    echo "<tr>
+            <td>$nome</td>
+            <td>$tipo</td>
+            <td>$quantidadeDisponivel</td>
+          </tr>";
+}
         ?>
         </tbody>
       </table>

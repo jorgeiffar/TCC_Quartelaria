@@ -22,12 +22,49 @@
 }
 
 body {
-  background: var(--cor-fundo);
+  background: transparent;
   color: var(--cor-texto);
   line-height: 1.6;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* ======== FUNDO XADREZ COM LOGO (NOVO) ======== */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url('img/logo.png');
+  background-size: 140px 140px;
+  background-repeat: repeat;
+  opacity: 0.08; /* Meio opaco */
+  z-index: -1;
+  pointer-events: none;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url('logo.png');
+  background-size: 140px 140px;
+  background-position: 70px 70px; /* desloca metade → efeito xadrez */
+  background-repeat: repeat;
+  opacity: 0.08;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* ======== CAMADA DE FUNDO CLARO (FALLBACK) ======== */
+.bg-fallback {
+  position: fixed;
+  inset: 0;
+  background: var(--cor-fundo); /* #f9fafb */
+  z-index: -2;
+  pointer-events: none;
 }
 
 /* ======== NAVBAR ======== */
@@ -75,6 +112,8 @@ nav ul li a:hover {
   max-width: var(--max-largura);
   margin: 40px auto;
   padding: 0 20px;
+  position: relative;
+  z-index: 1;
 }
 
 /* ======== FORMULÁRIOS ======== */
@@ -138,6 +177,35 @@ button:hover,
 button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+/* ======== BOTÕES COM LINK (.btn) - CORRIGE :VISITED ======== */
+.btn,
+a.btn {
+  background: var(--cor-principal);
+  color: #fff !important; /* branco */
+  border: none;
+  padding: 10px 18px;
+  border-radius: var(--radius);
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transicao);
+  font-size: 0.95rem;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn:hover,
+a.btn:hover {
+  background: var(--cor-principal-hover);
+  color: #fff !important;
+}
+
+/* FORÇA A COR BRANCA MESMO APÓS CLICAR */
+.btn:visited,
+a.btn:visited {
+  color: #fff !important;
+  background: var(--cor-principal);
 }
 
 /* ======== TABELAS ======== */
@@ -216,6 +284,8 @@ footer {
   text-align: center;
   padding: 15px;
   font-size: 0.9rem;
+  position: relative;
+  z-index: 1;
 }
 
 /* ======== RESPONSIVIDADE ======== */
@@ -233,135 +303,108 @@ footer {
   .container {
     margin: 20px auto;
   }
-
-   /* Oculta o ícone lateral em telas menores para não poluir ou atrapalhar */
-    .icone-lateral {
-        display: none;
-    }
 }
 
 a {
   text-decoration: none;
-  color: inherit; /* Garante que herde a cor do elemento pai */
+  color: var(--cor-texto); /* #333 */
 }
+
 a:visited {
-  color: inherit or white;
+  color: var(--cor-texto); /* mantém a mesma cor */
 }
 
-
-.icone-lateral {
-    /* 1. Posicionamento Fixo */
-    position: fixed;
-    top: 50%; /* Centraliza verticalmente */
-    left: 0;  /* Fixa na lateral esquerda */
-    transform: translateY(-50%); 
-    z-index: 5; 
-    
-    /* 2. Estilização e Efeito - MODIFICADO NOVAMENTE */
-    width: 500px; /* MAIOR AINDA: de 250px para 400px (Ajuste conforme necessário) */
-    opacity: 1.0; /* Cor VIVA, sem transparência */
-    pointer-events: none; /* Mantém a capacidade de clicar no conteúdo atrás dele */
-    
-    /* Regra para a imagem dentro do container */
-    display: flex;
-    justify-content: center;
-    align-items: center;
+a:hover,
+a:focus {
+  color: var(--cor-principal); /* verde ao passar o mouse */
 }
 
-.icone-lateral img {
-    max-width: 100%;
-    height: auto;
-    display: block; 
-}
+/* REMOVIDO: .icone-lateral (substituído pelo fundo xadrez) */
 
+/* ======== TABELA PERSONALIZADA ======== */
 .tabela {
-    width: 100%;
-    border-collapse: collapse;
-    table-layout: fixed; /* Faz com que as larguras máximas sejam respeitadas */
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
 }
 
-/* Garante que textos grandes na tabela não quebrem o layout */
 .tabela td {
-    word-wrap: break-word;       /* quebra palavras muito longas */
-    white-space: normal;         /* permite que o texto vá para a próxima linha */
-    max-width: 250px;            /* controla a largura máxima de cada célula */
-    vertical-align: top;         /* alinha o texto ao topo */
+  word-wrap: break-word;
+  white-space: normal;
+  max-width: 250px;
+  vertical-align: top;
 }
 
-/* Opcional: deixa o texto da descrição com uma largura um pouco maior */
 .tabela td:nth-child(3) {
-    max-width: 400px;
+  max-width: 400px;
 }
- /* Área geral do formulário */
-    .form-area {
-      width: 90%;
-      max-width: 1000px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
 
-    /* Layout em duas colunas */
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr; /* duas colunas */
-      gap: 20px 40px; /* espaço entre linhas e colunas */
-      width: 100%;
-      box-sizing: border-box;
-    }
+/* ======== FORMULÁRIO GRID ======== */
+.form-area {
+  width: 90%;
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-    /* Ajustes visuais */
-    .form-grid label {
-      font-weight: 600;
-      margin-bottom: 5px;
-      display: block;
-    }
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px 40px;
+  width: 100%;
+  box-sizing: border-box;
+}
 
-    .form-grid input,
-    .form-grid select,
-    .form-grid textarea {
-      width: 100%;
-      padding: 8px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      box-sizing: border-box;
-    }
+.form-grid label {
+  font-weight: 600;
+  margin-bottom: 5px;
+  display: block;
+}
 
-    .form-grid textarea {
-      grid-column: span 2; /* ocupa as duas colunas */
-    }
+.form-grid input,
+.form-grid select,
+.form-grid textarea {
+  width: 100%;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
 
-    .form-buttons {
-      margin-top: 20px;
-      text-align: center;
-    }
+.form-grid textarea {
+  grid-column: span 2;
+}
 
-    .form-buttons input[type="submit"] {
-      padding: 10px 25px;
-      cursor: pointer;
-      border: none;
-      background: #0a7d45;
-      color: white;
-      border-radius: 8px;
-      font-weight: bold;
-      transition: 0.3s;
-    }
+.form-buttons {
+  margin-top: 20px;
+  text-align: center;
+}
 
-    .form-buttons input[type="submit"]:hover {
-      background: #0d9b56;
-    }
+.form-buttons input[type="submit"] {
+  padding: 10px 25px;
+  cursor: pointer;
+  border: none;
+  background: #0a7d45;
+  color: white;
+  border-radius: 8px;
+  font-weight: bold;
+  transition: 0.3s;
+}
 
-    /* Links superiores */
-    .links-top {
-      text-align: left;
-      width: 100%;
-      margin-bottom: 20px;
-    }
+.form-buttons input[type="submit"]:hover {
+  background: #0d9b56;
+}
 
-    /* Responsivo */
-    @media (max-width: 700px) {
-      .form-grid {
-        grid-template-columns: 1fr; /* empilha no celular */
-      }
-    }
+.links-top {
+  text-align: left;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 700px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}
