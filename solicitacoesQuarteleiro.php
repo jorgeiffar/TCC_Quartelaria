@@ -27,14 +27,32 @@ if (!$resultListarSolicitacao) {
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solicitações - Quartelaria</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solicitações - Quartelaria</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <a href="homeQuarteleiro.php">Voltar</a><br>
-    <a href="homeQuarteleiro.php">Home</a><br>
-    <a href="solicitacoesAnterioresQuarteleiro.php">Solicitações Anteriores</a>
+  <div class="bg-fallback"></div>
+
+  <nav>
+   <div class="logo"><a href="homeQuarteleiro.php">Commander</a></div>
+      <ul>
+        <li><a href="equipamentos.php" class="ativo">Equipamentos / Armamentos</a></li>
+        <li><a href="operacoes.php">Operações</a></li>
+        <li><a href="solicitacoesQuarteleiro.php">Solicitações</a></li>
+        <li><a href="solicitacoesVtr.php">Solicitações Viatura</a></li>
+        <li><a href="solicitarSolicitante.php">Solicitação Direta</a></li>
+        <li><a href="listarUsuarios.php">Usuários</a></li>
+        <li><a href="cadastrarQuarteleiro.php">Cadastrar Quarteleiro</a></li>
+        <li><a href="editarPerfil.php">Perfil</a></li>
+        <li><a href="logout.php">Logout</a></li>
+      </ul>
+  </nav>
+
+  <div class="container">
+            <?php echo "<a href='solicitacoesAnterioresQuarteleiro.php' class=\"btn\">Solicitações Anteriores </a>";?>
+
     <h1>Solicitações</h1>
     <hr>
 
@@ -42,23 +60,23 @@ if (!$resultListarSolicitacao) {
     if (isset($_GET['status'])) {
         $status = $_GET['status'];
         if ($status == 2) {
-            echo "<div id='mensagem' style='color:red;'> Solicitação negada. </div>";
+            echo "<div id='mensagem' class='alert error'>Solicitação negada.</div>";
         } elseif ($status == 1) {
-            echo "<div id='mensagem' style='color:green;'> Solicitação aceita. </div>";
+            echo "<div id='mensagem' class='alert success'>Solicitação aceita.</div>";
         } else {
-            echo "<div id='mensagem' style='color:orange;'> Erro não identificado. </div>";
+            echo "<div id='mensagem' class='alert info'>Erro não identificado.</div>";
         }
     }
     ?>
 
     <script>
-        setTimeout(function() {
-            var msg = document.getElementById('mensagem');
-            if (msg) msg.style.display = 'none';
-            const url = new URL(window.location);
-            url.searchParams.delete('status');
-            window.history.replaceState({}, document.title, url);
-        }, 3000);
+      setTimeout(function() {
+          var msg = document.getElementById('mensagem');
+          if (msg) msg.style.display = 'none';
+          const url = new URL(window.location);
+          url.searchParams.delete('status');
+          window.history.replaceState({}, document.title, url);
+      }, 3000);
     </script>
 
     <hr>
@@ -68,6 +86,10 @@ if (!$resultListarSolicitacao) {
     $armamentoOcupado = false;
 
     while ($dadosSolicitacao = mysqli_fetch_assoc($resultListarSolicitacao)) {
+        $queryOperacao = "SELECT * FROM operacoes WHERE id_operacao = '{$dadosSolicitacao['motivo_solicitacao']}'";
+        $resultOperacao = mysqli_query($conexao,$queryOperacao);
+        $motivoOperacao = mysqli_fetch_assoc($resultOperacao);
+ 
         if ($dadosSolicitacao['status_solicitacao'] == 'Pendente') {
             $estoqueInsuficiente = false;
             $armamentoOcupado = false;
@@ -80,14 +102,15 @@ if (!$resultListarSolicitacao) {
 
             $id_solicitacao = (int)$id_solicitacao;
 
-            echo "Solicitante: {$dadosSolicitacao['nome_usuario']}<br>";
-            echo "Datas:<br>";
-            echo "Solicitação: {$dadosSolicitacao['data_solicitacao']}<br>";
-            echo "Devolução prevista: {$dadosSolicitacao['data_devolucao_item']}<br>";
-            echo "Motivo: {$dadosSolicitacao['motivo_solicitacao']}<br>";
+            echo "<div class='card'>";
+            echo "<p><strong>Solicitante:</strong> {$dadosSolicitacao['nome_usuario']}</p>";
+            echo "<p><strong>Datas:</strong><br>
+                  Solicitação: {$dadosSolicitacao['data_solicitacao']}<br>
+                  Devolução prevista: {$dadosSolicitacao['data_devolucao_item']}</p>";
+            echo "<p><strong>Motivo:</strong> {$motivoOperacao['nome_operacao']}</p>";
             echo "<strong>Itens:</strong>";
 
-            echo "<table border='1'>
+            echo "<table class='tabela'>
                     <tr>
                         <th>Nome</th>
                         <th>Código</th>
@@ -112,7 +135,7 @@ if (!$resultListarSolicitacao) {
             $resultListarItens = mysqli_query($conexao, $queryListarItens);
             if (!$resultListarItens) {
                 echo "<tr><td colspan='4' style='color:red;'>Erro ao carregar itens: " . mysqli_error($conexao) . "</td></tr>";
-                echo "</table><br><hr>";
+                echo "</table></div><br><hr>";
                 continue;
             }
 
@@ -129,7 +152,7 @@ if (!$resultListarSolicitacao) {
                     if ($resStatus && $dadosStatus = mysqli_fetch_assoc($resStatus)) {
                         if ($dadosStatus['status_armamento'] == 1) {
                             $armamentoOcupado = true;
-                            echo "<tr style='background-color:#ffdddd;'>
+                            echo "<tr style='background-color: rgba(255, 0, 0, 0.15);'>
                                     <td>$nome</td><td>$codigo</td><td>$quant</td><td>$tipo (em uso)</td>
                                   </tr>";
                         } else {
@@ -157,7 +180,7 @@ if (!$resultListarSolicitacao) {
 
                         if ($quant > $disponivel) {
                             $estoqueInsuficiente = true;
-                            echo "<tr style='background-color:#ffdddd;'>
+                            echo "<tr style='background-color: rgba(255, 0, 0, 0.15);'>
                                     <td>$nome</td><td>$codigo</td><td>$quant</td><td>$tipo</td>
                                   </tr>";
                         } else {
@@ -172,15 +195,23 @@ if (!$resultListarSolicitacao) {
             echo "</table><br>";
 
             if ($estoqueInsuficiente || $armamentoOcupado) {
-                echo "<p style='color:red;'>⚠️ Não é possível aceitar esta solicitação: há itens sem disponibilidade.<br>
-                      <a href='deliberarSolicitacao.php?status=2&id=$id_solicitacao'>Negar</a></p>";
+                echo "<div class='alert error'>⚠️ Não é possível aceitar esta solicitação: há itens sem disponibilidade.<br>
+                      <a href='deliberarSolicitacao.php?status=2&id=$id_solicitacao' class='btn'>Negar</a></div>";
             } else {
-                echo "<a href='deliberarSolicitacao.php?status=1&id=$id_solicitacao'>Aceitar</a> | 
-                      <a href='deliberarSolicitacao.php?status=2&id=$id_solicitacao'>Negar</a>";
+                echo "<div class='form-buttons'>
+                        <a href='deliberarSolicitacao.php?status=1&id=$id_solicitacao' class='btn'>Aceitar</a>
+                        <a href='deliberarSolicitacao.php?status=2&id=$id_solicitacao' class='btn'>Negar</a>
+                      </div>";
             }
-            echo "<hr>";
+
+            echo "</div><hr>";
         }
     }
     ?>
+  </div>
+
+  <footer>
+    &copy; <?php echo date("Y"); ?> COMMANDER - Todos os direitos reservados.
+  </footer>
 </body>
 </html>

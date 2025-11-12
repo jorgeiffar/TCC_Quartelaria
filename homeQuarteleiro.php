@@ -181,7 +181,7 @@ $resultado_vtr = mysqli_query($conexao, $query_vtr);
   </main>
 
   <footer>
-    &copy; 2025 COMMANDER - Sistema de Gerenciamento de Quartelaria
+   &copy; <?php echo date("Y"); ?> COMMANDER - Sistema de Gerenciamento de Quartelaria
   </footer>
 
 </body>

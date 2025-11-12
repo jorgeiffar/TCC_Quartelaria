@@ -109,8 +109,7 @@ if(!isset($_SESSION['id_usuario']) || $_SESSION['perfil_usuario'] != 1){
 </main>
 
 <footer>
-  &copy; 2025 COMMANDER - Sistema de Gerenciamento de Quartelaria
-</footer>
+&copy; <?php echo date("Y"); ?> COMMANDER - Sistema de Gerenciamento de Quartelaria</footer>
 
 <script>
   setTimeout(function () {

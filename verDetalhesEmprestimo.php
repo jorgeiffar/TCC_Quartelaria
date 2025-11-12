@@ -186,8 +186,8 @@ $result_itens = mysqli_query($conexao, $sql_itens);
         </section>
     </main>
 
-    <footer class="rodape">
-        <p>Quartelaria © <?= date("Y") ?></p>
+    <footer>
+        &copy; <?php echo date("Y"); ?> COMMANDER - Sistema de Gerenciamento de Quartelaria
     </footer>
 </body>
 </html>

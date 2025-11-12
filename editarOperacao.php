@@ -104,8 +104,7 @@ if(isset($_GET['id'])){
 </main>
 
 <footer>
-  &copy; 2025 COMMANDER - Sistema de Gerenciamento de Quartelaria
-</footer>
+&copy; <?php echo date("Y"); ?> COMMANDER - Sistema de Gerenciamento de Quartelaria</footer>
 
 </body>
 </html>

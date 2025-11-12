@@ -190,7 +190,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     </main>
 
     <footer>
-        &copy; 2025 COMMANDER - Sistema de Gerenciamento de Quartelaria
+       &copy; <?php echo date("Y"); ?> COMMANDER - Sistema de Gerenciamento de Quartelaria
     </footer>
 
     <script>
