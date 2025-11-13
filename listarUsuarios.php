@@ -9,29 +9,66 @@ $resultado = mysqli_query($conexao, $query);
 <head>
     <meta charset="UTF-8">
     <title>Lista de Usuários - Quartelaria</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body> <a href="homeQuarteleiro.php">Voltar - Home</a><br>
-    <h1>Lista de Usuários</h1>
- 
-    <table border="1">
-        <tr>
-            <th>Nome</th>
-            <th>Identidade Funcional</th>
-            <th>Email</th>
-            <th>Cargo</th>
-        </tr>
+<body>
+    <div class="bg-fallback"></div>
 
-        <?php while ($usuario = mysqli_fetch_assoc($resultado)) { ?>
-            <tr>
-                <td><?php echo $usuario['nome_usuario']; ?></td>
-                <td><?php echo $usuario['identidade_funcional_usuario']; ?></td>
-                <td><?php echo $usuario['email_usuario']; ?></td>
-                <td><?php if($usuario['perfil_usuario'] == 1){
-                    echo "Quarteleiro";
-                }else{
-                echo "Solicitante"; }?></td>
-            </tr>
-        <?php } ?>
-    </table>
+   <nav>
+      <div class="logo"><a href="homeQuarteleiro.php">Commander</a></div>
+      <ul>
+        <li><a href="equipamentos.php" class="ativo">Equipamentos / Armamentos</a></li>
+        <li><a href="operacoes.php">Operações</a></li>
+        <li><a href="solicitacoesQuarteleiro.php">Solicitações</a></li>
+        <li><a href="solicitacoesVtr.php">Solicitações Viatura</a></li>
+        <li><a href="solicitarSolicitante.php">Solicitação Direta</a></li>
+        <li><a href="listarUsuarios.php">Usuários</a></li>
+        <li><a href="cadastrarQuarteleiro.php">Cadastrar Quarteleiro</a></li>
+        <li><a href="editarPerfil.php">Perfil</a></li>
+        <li><a href="logout.php">Logout</a></li>
+      </ul>
+
+</nav>
+
+    <!-- CONTEÚDO -->
+    <div class="container">
+        <h1>Lista de Usuários</h1>
+
+        <div class="card">
+            <table class="tabela">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Identidade Funcional</th>
+                        <th>Email</th>
+                        <th>Cargo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php while ($usuario = mysqli_fetch_assoc($resultado)) { ?>
+                        <tr>
+                            <td><?php echo $usuario['nome_usuario']; ?></td>
+                            <td><?php echo $usuario['identidade_funcional_usuario']; ?></td>
+                            <td><?php echo $usuario['email_usuario']; ?></td>
+                            <td>
+                                <?php 
+                                    if($usuario['perfil_usuario'] == 1){
+                                        echo "Quarteleiro";
+                                    } else {
+                                        echo "Solicitante"; 
+                                    }
+                                ?>
+                            </td>
+                        </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        &copy; <?php echo date('Y'); ?> Quartelaria. Todos os direitos reservados.
+    </footer>
 </body>
 </html>
