@@ -130,12 +130,6 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
             <h1>Editar Armamento</h1>
             <hr>
 
-            <div class="card">
-                <div class="links-topo">
-                    <a href="verDetalhesItens.php">Voltar</a> |
-                    <a href="homeQuarteleiro.php">Home</a>
-                </div>
-
                 <?php if(!empty($sucesso_geral)) echo "<p class='msg-ok'>".htmlspecialchars($sucesso_geral)."</p>"; ?>
                 <?php if(!empty($sucesso_serial)) echo "<p class='msg-ok'>".htmlspecialchars($sucesso_serial)."</p>"; ?>
                 <?php if(!empty($erro_serial)) echo "<p class='msg-erro'>".htmlspecialchars($erro_serial)."</p>"; ?>

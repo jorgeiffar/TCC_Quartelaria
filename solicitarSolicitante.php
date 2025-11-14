@@ -238,8 +238,7 @@ if ($_SESSION['perfil_usuario'] == 1 and !empty($_SESSION['usuario_selecionado']
 </div> <!-- Fim container -->
 
 <footer>
-  &copy; <?= date('Y') ?> Sistema de Solicitação
-</footer>
+&copy; <?php echo date("Y"); ?> COMMANDER - Sistema de Gerenciamento de Quartelaria</footer>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
   // Se há uma posição salva, rola até ela

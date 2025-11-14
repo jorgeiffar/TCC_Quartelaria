@@ -72,7 +72,6 @@ $usuario = mysqli_fetch_assoc($resultado);
 
     <!-- FOOTER -->
     <footer>
-        &copy; <?php echo date('Y'); ?> Quartelaria. Todos os direitos reservados.
-    </footer>
+&copy; <?php echo date("Y"); ?> COMMANDER - Sistema de Gerenciamento de Quartelaria    </footer>
 </body>
 </html>
