@@ -126,8 +126,7 @@ include("conecta.php");
 </div>
 
 <footer>
-    &copy; <?php echo date('Y'); ?> Sistema de Solicitações - Todos os direitos reservados.
-</footer>
+&copy; <?php echo date("Y"); ?> COMMANDER - Sistema de Gerenciamento de Quartelaria</footer>
 
 </body>
 </html>

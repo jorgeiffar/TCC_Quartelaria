@@ -113,7 +113,6 @@ if (!$resultListarVtr) {
     </div>
 
     <footer>
-        <p>&copy; 2025 Quartelaria - Sistema Interno</p>
-    </footer>
+&copy; <?php echo date("Y"); ?> COMMANDER - Sistema de Gerenciamento de Quartelaria    </footer>
 </body>
 </html>
