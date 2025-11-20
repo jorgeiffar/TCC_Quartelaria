@@ -32,33 +32,97 @@ $observacoes = "";  // Acumula observações de armamentos
 <head>
     <meta charset="UTF-8">
     <title>Solicitações Anteriores - Quartelaria</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<a href="solicitacoesQuarteleiro.php">Voltar</a> |
-<a href="homeQuarteleiro.php">Home</a>
-<hr>
+<div class="bg-fallback"></div>
 
-<h1>Solicitações Anteriores</h1>
+<!-- NAVBAR -->
+<nav>
+   <div class="logo"><a href="homeQuarteleiro.php">Commander</a></div>
+      <ul>
+        <li><a href="equipamentos.php" class="ativo">Equipamentos / Armamentos</a></li>
+        <li><a href="operacoes.php">Operações</a></li>
+        <li><a href="solicitacoesQuarteleiro.php">Solicitações</a></li>
+        <li><a href="solicitacoesVtr.php">Solicitações Viatura</a></li>
+        <li><a href="solicitarSolicitante.php">Solicitação Direta</a></li>
+        <li><a href="listarUsuarios.php">Usuários</a></li>
+        <li><a href="cadastrarQuarteleiro.php">Cadastrar Quarteleiro</a></li>
+        <li><a href="editarPerfil.php">Perfil</a></li>
+        <li><a href="logout.php">Logout</a></li>
+      </ul>
+</nav>
 
-<table border="1">
-    <tr>
-        <th>Usuário</th>
-        <th>Equipamentos</th>
-        <th>Armamentos</th>
-        <th>Data Solicitação</th>
-        <th>Data Prevista</th>
-        <th>Data Devolução Real</th>
-        <th>Observações</th>
-        <th>Status</th>
-    </tr>
+<!-- CONTAINER PRINCIPAL -->
+<div class="container">
+    <h1>Solicitações Anteriores</h1>
 
-<?php
-while ($dados = mysqli_fetch_assoc($resultado)) {
-    $id = $dados['id_solicitacao'];
 
-    // Quando muda de solicitação, imprime a anterior
-    if ($id != $id_atual && $id_atual != 0) {
+    <table class="tabela">
+        <tr>
+            <th>Usuário</th>
+            <th>Equipamentos</th>
+            <th>Armamentos</th>
+            <th>Data Solicitação</th>
+            <th>Data Prevista</th>
+            <th>Data Devolução Real</th>
+            <th>Observações</th>
+            <th>Status</th>
+        </tr>
+
+    <?php
+    while ($dados = mysqli_fetch_assoc($resultado)) {
+        $id = $dados['id_solicitacao'];
+
+        // Quando muda de solicitação, imprime a anterior
+        if ($id != $id_atual && $id_atual != 0) {
+            echo "<tr>
+                    <td>$nome</td>
+                    <td>$equipamentos</td>
+                    <td>$armamentos</td>
+                    <td>$data_solicitacao</td>
+                    <td>$data_prevista</td>
+                    <td>$data_real</td>
+                    <td>$observacoes</td>
+                    <td>$status</td>
+                  </tr>";
+
+            // Limpa acumuladores
+            $equipamentos = "";
+            $armamentos = "";
+            $observacoes = "";
+        }
+
+        // Atualiza dados principais da solicitação
+        if ($id != $id_atual) {
+            $id_atual = $id;
+            $nome = $dados['nome_usuario'];
+            $data_solicitacao = date("d/m/Y", strtotime($dados['data_solicitacao']));
+            $data_prevista = $dados['data_devolucao_item'] ? date("d/m/Y", strtotime($dados['data_devolucao_item'])) : "-";
+            $data_real = $dados['data_devolucao_real_item'] ? date("d/m/Y", strtotime($dados['data_devolucao_real_item'])) : "-";
+            $status = $dados['status_solicitacao'];
+        }
+
+        // Acumula itens
+        if ($dados['tipo_item'] == 'equipamento') {
+            $equipamentos .= $dados['tipo_equipamento'] . " - " . $dados['nome_equipamento'] . "<br>";
+        } 
+        elseif ($dados['tipo_item'] == 'armamento') {
+            $nome_arm = $dados['nome_armamento'];
+            $tipo_arm = $dados['tipo_armamento'];
+            $obs = trim($dados['observacao_item']);
+
+            $armamentos .= $tipo_arm . " - " . $nome_arm . "<br>";
+
+            if (!empty($obs)) {
+                $obs_segura = htmlspecialchars($obs, ENT_QUOTES, 'UTF-8');
+                $observacoes .= "$tipo_arm - $nome_arm: $obs_segura<br>";
+            }
+        }
+    }
+
+    if ($id_atual != 0) {
         echo "<tr>
                 <td>$nome</td>
                 <td>$equipamentos</td>
@@ -69,58 +133,14 @@ while ($dados = mysqli_fetch_assoc($resultado)) {
                 <td>$observacoes</td>
                 <td>$status</td>
               </tr>";
-
-        // Limpa acumuladores
-        $equipamentos = "";
-        $armamentos = "";
-        $observacoes = "";
     }
+    ?>
+    </table>
+</div>
 
-    // Atualiza dados principais da solicitação
-    if ($id != $id_atual) {
-        $id_atual = $id;
-        $nome = $dados['nome_usuario'];
-        $data_solicitacao = date("d/m/Y", strtotime($dados['data_solicitacao']));
-        $data_prevista = $dados['data_devolucao_item'] ? date("d/m/Y", strtotime($dados['data_devolucao_item'])) : "-";
-        $data_real = $dados['data_devolucao_real_item'] ? date("d/m/Y", strtotime($dados['data_devolucao_real_item'])) : "-";
-        $status = $dados['status_solicitacao'];
-    }
-
-    // Acumula itens
-    if ($dados['tipo_item'] == 'equipamento') {
-        $equipamentos .= $dados['tipo_equipamento'] . " - " . $dados['nome_equipamento'] . "<br>";
-    } 
-    elseif ($dados['tipo_item'] == 'armamento') {
-        $nome_arm = $dados['nome_armamento'];
-        $tipo_arm = $dados['tipo_armamento'];
-        $obs = trim($dados['observacao_item']);
-
-        // Acumula armamento
-        $armamentos .= $tipo_arm . " - " . $nome_arm . "<br>";
-
-        // Acumula observação SOMENTE se for armamento e tiver observação
-        if (!empty($obs)) {
-            $obs_segura = htmlspecialchars($obs, ENT_QUOTES, 'UTF-8');
-            $observacoes .= "$tipo_arm - $nome_arm: $obs_segura<br>";
-        }
-    }
-}
-
-// Imprime o último grupo
-if ($id_atual != 0) {
-    echo "<tr>
-            <td>$nome</td>
-            <td>$equipamentos</td>
-            <td>$armamentos</td>
-            <td>$data_solicitacao</td>
-            <td>$data_prevista</td>
-            <td>$data_real</td>
-            <td>$observacoes</td>
-            <td>$status</td>
-          </tr>";
-}
-?>
-</table>
+<footer>
+    &copy; <?php echo date("Y"); ?> COMMANDER - Todos os direitos reservados.
+</footer>
 
 </body>
 </html>

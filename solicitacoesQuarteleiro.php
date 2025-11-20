@@ -196,11 +196,11 @@ if (!$resultListarSolicitacao) {
 
             if ($estoqueInsuficiente || $armamentoOcupado) {
                 echo "<div class='alert error'>⚠️ Não é possível aceitar esta solicitação: há itens sem disponibilidade.<br>
-                      <a href='deliberarSolicitacao.php?status=2&id=$id_solicitacao' class='btn'>Negar</a></div>";
+                      <a href='deliberarSolicitacao.php?status=2&id=$id_solicitacao' class='btn'style='background-color: #ff0019ff; color: white;'>Negar</a></div>";
             } else {
                 echo "<div class='form-buttons'>
-                        <a href='deliberarSolicitacao.php?status=1&id=$id_solicitacao' class='btn'>Aceitar</a>
-                        <a href='deliberarSolicitacao.php?status=2&id=$id_solicitacao' class='btn'>Negar</a>
+                        <a href='deliberarSolicitacao.php?status=1&id=$id_solicitacao' class='btn' >Aceitar</a>
+                        <a href='deliberarSolicitacao.php?status=2&id=$id_solicitacao' class='btn' style='background-color: #ff0019ff; color: white;'>Negar</a>
                       </div>";
             }
 

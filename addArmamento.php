@@ -36,6 +36,20 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['perfil_usuario'] != 1) {
 </header>
 
 <main class="container">
+    <?php
+    if (isset($_GET['status'])) {
+        $status = $_GET['status'];
+        echo "<div id='mensagem'>";
+        if ($status == 0) {
+            echo "<div class='alert error'>Falha ao adicionar armamento no sistema.</div>";
+        } elseif ($status == 1) {
+            echo "<div class='alert success'>Armamento adicionado com sucesso!</div>";
+        } else {
+            echo "<div class='alert info'>Erro não identificado.</div>";
+        }
+        echo "</div>";
+    }
+    ?>
   <section>
     <h1>Adicionar Armamento</h1>
     <div class="card">
@@ -75,20 +89,7 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['perfil_usuario'] != 1) {
       <a href="equipamentos.php" class="btn secundario">← Voltar</a>
     </div>
 
-    <?php
-    if (isset($_GET['status'])) {
-        $status = $_GET['status'];
-        echo "<div id='mensagem'>";
-        if ($status == 0) {
-            echo "<p style='color: #ff5c5c;'>Falha ao adicionar armamento no sistema.</p>";
-        } elseif ($status == 1) {
-            echo "<p style='color: #00ff99;'>Armamento adicionado com sucesso!</p>";
-        } else {
-            echo "<p style='color: orange;'>Erro não identificado.</p>";
-        }
-        echo "</div>";
-    }
-    ?>
+  
   </section>
 </main>
 

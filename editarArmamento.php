@@ -157,8 +157,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                     <label for="calibre_armamento">Calibre:</label>
                     <select id="calibre_armamento" name="calibre_armamento" required>
                         <option value="">Selecione</option>
-                        <option value="5,56" <?= (isset($dados['calibre_armamento']) && $dados['calibre_armamento'] == '5,56') ? 'selected' : '' ?>>5,56</option>
-                        <option value="7,62" <?= (isset($dados['calibre_armamento']) && $dados['calibre_armamento'] == '7,62') ? 'selected' : '' ?>>7,62</option>
+                        <option value="5,56" <?= (isset($dados['calibre_armamento']) && $dados['calibre_armamento'] == '5,56x45mm') ? 'selected' : '' ?>>5,56x45mm</option>
+                        <option value="7,62" <?= (isset($dados['calibre_armamento']) && $dados['calibre_armamento'] == '7,62x51mm') ? 'selected' : '' ?>>7,62x51mm</option>
                         <option value="9mm" <?= (isset($dados['calibre_armamento']) && $dados['calibre_armamento'] == '9mm') ? 'selected' : '' ?>>9mm</option>
                         <option value="12GA" <?= (isset($dados['calibre_armamento']) && $dados['calibre_armamento'] == '12GA') ? 'selected' : '' ?>>12GA</option>
                     </select>

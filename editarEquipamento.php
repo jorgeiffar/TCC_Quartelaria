@@ -25,7 +25,7 @@ if (isset($_GET['id'])) {
 <body>
 <header>
   <nav>
-    <div class="logo" ><a href="homeQuarteleiro.php">Commander</a></div>
+    <div class="logo"><a href="homeQuarteleiro.php">Commander</a></div>
     <ul>
       <li><a href="equipamentos.php" class="ativo">Equipamentos / Armamentos</a></li>
       <li><a href="operacoes.php">Operações</a></li>
@@ -42,28 +42,40 @@ if (isset($_GET['id'])) {
 
 <main class="container">
   <?php if ($dados['tipo_equipamento'] != "Municao") { ?>
+    <!-- EDITAR EQUIPAMENTO -->
     <div class="card">
       <h1>Editar Equipamento</h1>
       <form action="" method="post" class="formulario">
-
-        <label>Nome do Equipamento:</label>
-        <input type="text" name="nome_equipamento" value="<?=$dados['nome_equipamento']?>" required>
+<?php
+  $tipo = $dados['tipo_equipamento'];
+if ($tipo == 'Outros') {
+    $nome = $dados['nome_equipamento'];
+    $partes = explode(' ',$nome);
+    array_shift($partes);
+    $nomeSemTipo = implode(' ', $partes);
+    ?>
+   <label>Nome do Equipamento:</label> <input type="text" name="nome_equipamento" value="<?=$nomeSemTipo?>" required>
+   <?php
+} else {
+  $nome = $dados['nome_equipamento'];
+}?>
 
         <label>Tipo de Equipamento:</label>
         <select name="equipamento" required>
           <option value="">Selecione</option>
 
           <optgroup label="Operação de Controle de Distúrbios">
-            <option value="Disturbios|Escudo" <?= ($dados['tipo_equipamento'] == 'Escudo') ? 'selected' : '' ?>>Escudo</option>
-            <option value="Disturbios|Capacete" <?= ($dados['tipo_equipamento'] == 'Capacete') ? 'selected' : '' ?>>Capacete</option>
-            <option value="Disturbios|Bastao" <?= ($dados['tipo_equipamento'] == 'Bastao') ? 'selected' : '' ?>>Bastão</option>
-            <option value="Disturbios|Granada" <?= ($dados['tipo_equipamento'] == 'Granada') ? 'selected' : '' ?>>Granada</option>
+            <option value="Disturbios|Escudo"     <?= ($dados['tipo_equipamento'] == 'Disturbios' && $dados['nome_equipamento'] == 'Escudo') ? 'selected' : '' ?>>Escudo</option>
+            <option value="Disturbios|Capacete"   <?= ($dados['tipo_equipamento'] == 'Disturbios' && $dados['nome_equipamento'] == 'Capacete') ? 'selected' : '' ?>>Capacete</option>
+            <option value="Disturbios|Bastão"     <?= ($dados['tipo_equipamento'] == 'Disturbios' && $dados['nome_equipamento'] == 'Bastão') ? 'selected' : '' ?>>Bastão</option>
+            <option value="Disturbios|Granada"    <?= ($dados['tipo_equipamento'] == 'Disturbios' && $dados['nome_equipamento'] == 'Granada') ? 'selected' : '' ?>>Granada</option>
           </optgroup>
 
           <optgroup label="Outros">
-            <option value="Outros|Carregador" <?= ($dados['tipo_equipamento'] == 'Carregador') ? 'selected' : '' ?>>Carregador</option>
-            <option value="Outros|Bandoleira" <?= ($dados['tipo_equipamento'] == 'Bandoleira') ? 'selected' : '' ?>>Bandoleira</option>
+            <option value="Outros|Carregador"     <?= ($dados['tipo_equipamento'] == 'Outros' && strpos($dados['nome_equipamento'], 'Carregador') !== false) ? 'selected' : '' ?>>Carregador</option>
+            <option value="Outros|Bandoleira"     <?= ($dados['tipo_equipamento'] == 'Outros' && $dados['nome_equipamento'] == 'Bandoleira') ? 'selected' : '' ?>>Bandoleira</option>
           </optgroup>
+
         </select>
 
         <label>Quantidade Total:</label>
@@ -79,6 +91,7 @@ if (isset($_GET['id'])) {
     </div>
 
   <?php } else { ?>
+    <!-- EDITAR MUNIÇÃO -->
     <div class="card">
       <h1>Editar Munição</h1>
       <form action="" method="post" class="formulario">
@@ -86,11 +99,11 @@ if (isset($_GET['id'])) {
         <label>Calibre:</label>
         <select name="equipamento" required>
           <option value="">Selecione</option>
-          <option value="Municao|7,62x51mm" <?= ($dados['nome_equipamento'] == '7,62x51mm') ? 'selected' : '' ?>>7,62x51mm</option>
-          <option value="Municao|5,56x45mm" <?= ($dados['nome_equipamento'] == '5,56x45mm') ? 'selected' : '' ?>>5,56x45mm</option>
-          <option value="Municao|9mm" <?= ($dados['nome_equipamento'] == '9mm') ? 'selected' : '' ?>>9mm</option>
-          <option value="Municao|12GA" <?= ($dados['nome_equipamento'] == '12GA') ? 'selected' : '' ?>>12GA</option>
-          <option value="Municao|Spark" <?= ($dados['nome_equipamento'] == 'Spark') ? 'selected' : '' ?>>Spark</option>
+          <option value="Municao|7,62x51mm" <?= ($dados['tipo_equipamento'] == 'Municao' && $dados['nome_equipamento'] == '7,62x51mm') ? 'selected' : '' ?>>7,62x51mm</option>
+          <option value="Municao|5,56x45mm" <?= ($dados['tipo_equipamento'] == 'Municao' && $dados['nome_equipamento'] == '5,56x45mm') ? 'selected' : '' ?>>5,56x45mm</option>
+          <option value="Municao|9mm"       <?= ($dados['tipo_equipamento'] == 'Municao' && $dados['nome_equipamento'] == '9mm') ? 'selected' : '' ?>>9mm</option>
+          <option value="Municao|12GA"      <?= ($dados['tipo_equipamento'] == 'Municao' && $dados['nome_equipamento'] == '12GA') ? 'selected' : '' ?>>12GA</option>
+          <option value="Municao|Spark"     <?= ($dados['tipo_equipamento'] == 'Municao' && $dados['nome_equipamento'] == 'Spark') ? 'selected' : '' ?>>Spark</option>
         </select>
 
         <label>Quantidade Total:</label>
@@ -120,10 +133,11 @@ if (isset($_POST['EouM']) && $_POST['EouM'] == 'E') {
     $quantidade = $_POST['quantidadeEquip'];
 
     $query = "UPDATE equipamentos 
-              SET nome_equipamento='$nome', tipo_equipamento='$tipo', quantidade_equipamento='$quantidade'
+              SET nome_equipamento='$tipo $nome', tipo_equipamento='$nomeClasse', quantidade_equipamento='$quantidade'
               WHERE id_equipamento = $id";
     mysqli_query($conexao, $query);
-    header("Location: verDetalhesItens.php");
+
+    header("Location: verDetalhesItens.php?statusEdit=1");
     exit();
 
 } elseif (isset($_POST['EouM']) && $_POST['EouM'] == 'M') {
@@ -132,10 +146,11 @@ if (isset($_POST['EouM']) && $_POST['EouM'] == 'E') {
     $quantidade = $_POST['quantidadeEquip'];
 
     $query = "UPDATE equipamentos 
-              SET tipo_equipamento='$tipo', nome_equipamento='$nome', quantidade_equipamento='$quantidade'
+              SET nome_equipamento='$nome', tipo_equipamento='$tipo', quantidade_equipamento='$quantidade'
               WHERE id_equipamento = $id";
     mysqli_query($conexao, $query);
-    header("Location: verDetalhesItens.php");
+
+    header("Location: verDetalhesItens.php?statusEdit=1");
     exit();
 }
 ?>

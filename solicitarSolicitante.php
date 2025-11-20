@@ -138,6 +138,102 @@ $result = mysqli_query($conexao,$sql);
 <div class="container">
 <a href="verCarrinho.php" class="btn secundario"><img src="./img/carrinho.png" alt="Carrinho de Compras" style="width: 30px; height: 30px; vertical-align: middle;"> | Ver Carrinho </a><br>
 <?php
+if (isset($_GET['status'])) {
+    $status = $_GET['status'];
+    $mensagem = '';
+    $cor = '';
+
+    if ($status === 'qtdincompativel') {
+        $mensagem = 'Falha ao adicionar no Carrinho, Quantidade Incompatível';
+        $cor = '#e74c3c'; // vermelho
+    }
+    // Você pode adicionar mais status aqui no futuro:
+    // elseif ($status === 'adicionado') {
+    //     $mensagem = 'Item adicionado com sucesso!';
+    //     $cor = '#27ae60';
+    // }
+
+    if ($mensagem !== '') {
+       $alturaNavbar = 80; // ← mude aqui se sua navbar tiver outra altura (ex: 70px, 90px, etc)
+
+        echo "
+        <div id='notificacao-topo' style='
+            position: fixed;
+            top: {$alturaNavbar}px; /* ← aparece logo abaixo da navbar */
+            left: 50%;
+            transform: translateX(-50%);
+            background: $cor;
+            color: white;
+            padding: 14px 28px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            z-index: 9998; /* menor que a navbar? não tem problema, está abaixo */
+            font-weight: 600;
+            font-size: 1rem;
+            min-width: 320px;
+            max-width: 90%;
+            text-align: center;
+            opacity: 0;
+            transform: translateX(-50%) translateY(-20px);
+            transition: all 0.5s ease;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        '>
+            " . htmlspecialchars($mensagem) . "
+            <button onclick='this.parentElement.remove()' style='
+                background: none;
+                border: none;
+                color: white;
+                font-size: 1.6rem;
+                cursor: pointer;
+                margin-left: 15px;
+                padding: 0;
+                line-height: 1;
+                pointer-events: all;
+            '>×</button>
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const notif = document.getElementById('notificacao-topo');
+                if (notif) {
+                    // Animação de entrada
+                    setTimeout(() => {
+                        notif.style.opacity = '1';
+                        notif.style.transform = 'translateX(-50%) translateY(0)';
+                        notif.style.pointerEvents = 'all';
+                    }, 100);
+
+                    // Remove automaticamente após 6 segundos
+                    setTimeout(() => {
+                        notif.style.opacity = '0';
+                        notif.style.transform = 'translateX(-50%) translateY(-30px)';
+                        setTimeout(() => notif.remove(), 600);
+                    }, 6000);
+                }
+            });
+        </script>
+        ";
+    }
+}
+?>
+
+<style>
+    @keyframes slideDown {
+        from { 
+            transform: translateY(-30px); 
+            opacity: 0; 
+        }
+        to { 
+            transform: translateY(0); 
+            opacity: 1; 
+        }
+    }
+</style>
+<?php
 if ($_SESSION['perfil_usuario'] == 1) {
     echo '<div class="card">';
     echo '<h2 class="section-title">Selecionar Solicitante</h2>';

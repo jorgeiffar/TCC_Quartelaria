@@ -8,7 +8,7 @@
 <body>
     <h1>CARREGANDO...</h1>
 <?php
-header("Location: cadastrar.php");
+header("Location: login.php");
 ?>
 </body>
 </html>

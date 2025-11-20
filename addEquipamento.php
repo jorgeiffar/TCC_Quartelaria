@@ -16,9 +16,6 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['perfil_usuario'] != 1) {
 </head>
 
 <body>
-<div class="icone-lateral">
-        <img src="./img/logobatalhao.png" alt="Ícone Batalhão de Choque BM">
-    </div>
 <header>
   <nav>
     <div class="logo" ><a href="homeQuarteleiro.php">Commander</a></div>
@@ -37,6 +34,22 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['perfil_usuario'] != 1) {
 </header>
 
 <main class="container">
+  <?php
+  if (isset($_GET['status'])) {
+      echo "<div class='container'>";
+      $status = $_GET['status'];
+
+      if ($status == 1) {
+          echo "<div class='alert success'>Equipamento adicionado com sucesso!</div>";
+      } elseif ($status == 0) {
+          echo "<div class='alert error'><strong>Falha</strong> ao adicionar equipamento no sistema.</div>";
+      } else {
+          echo "<div class='alert info'>Erro não identificado.</div>";
+      }
+
+      echo "</div>";
+  }
+  ?>
   <section>
     <h1>Adicionar Equipamento</h1>
     <div class="card">
@@ -47,7 +60,7 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['perfil_usuario'] != 1) {
             <optgroup label="Operação de Controle de Distúrbios">
                 <option value="Disturbios|Escudo">Escudo</option>
                 <option value="Disturbios|Capacete">Capacete</option>
-                <option value="Disturbios|Bastao">Bastão</option>
+                <option value="Disturbios|Bastão">Bastão</option>
                 <option value="Disturbios|Granada">Granada</option>
             </optgroup>
             <optgroup label="Outros">
@@ -93,20 +106,8 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['perfil_usuario'] != 1) {
     <a href="equipamentos.php" class="btn secundario">← Voltar</a>
   </div>
 
-  <?php
-  if (isset($_GET['status'])) {
-      $status = $_GET['status'];
-      echo "<div id='mensagem'>";
-      if ($status == 0) {
-          echo "<p style='color: #ff5c5c;'>Falha ao adicionar equipamento no sistema.</p>";
-      } elseif ($status == 1) {
-          echo "<p style='color: #00ff99;'>Equipamento adicionado com sucesso!</p>";
-      } else {
-          echo "<p style='color: orange;'>Erro não identificado.</p>";
-      }
-      echo "</div>";
-  }
-  ?>
+  
+
 </main>
 
 <footer>
