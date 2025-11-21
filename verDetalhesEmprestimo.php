@@ -121,65 +121,84 @@ $result_itens = mysqli_query($conexao, $sql_itens);
                 <button type="submit" class="btn">Marcar como devolvido</button>
             </form>
 
-            <?php
-            if(isset($_GET['observacao'])){
-                $result_itens = mysqli_query($conexao, $sql_itens);
-                ?>
-                <div class="form-devolucao">
-                    <hr>
-                    <form action="registrarDevolucao.php" method="post">
-                        <table class="tabela">
-                            <thead>
-                                <tr>
-                                    <th>Nome do Item</th>
-                                    <th>Código</th>
-                                    <th>Observação</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php while($item = mysqli_fetch_assoc($result_itens))
-                                   if($item['tipo_item'] == 'armamento'){
-                                $sqlQtd = "SELECT quantidade FROM solicitacao_itens WHERE id_item = ".$item['id_item'];
-                                $resultQtd = mysqli_query($conexao, $sqlQtd);
-                                $detalheQtd = mysqli_fetch_assoc($resultQtd);
-                                
-                                $sql_det = "SELECT nome_armamento, codigo_armamento FROM armamentos WHERE id_armamento = ".$item['id_item'];
-                                $result_det = mysqli_query($conexao, $sql_det);
-                                $detalhe = mysqli_fetch_assoc($result_det);
+           <?php
+if(isset($_GET['observacao']) && $_GET['observacao'] == 1){
+    $result_itens = mysqli_query($conexao, $sql_itens);
+?>
+    <div class="form-devolucao">
+        <hr>
+        <h3>Registrar Devolução</h3>
+        <form action="registrarDevolucao.php" method="post">
+            <table class="tabela">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Código</th>
+                        <th>Tipo</th>
+                        <th>Quant. Utilizada</th>
+                        <th>Quant. Extraviada</th>
+                        <th>Observação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php while($item = mysqli_fetch_assoc($result_itens)): 
+                        $id_solic_itens = $item['id_solicitacao_itens'];
+                        $id_item        = $item['id_item'];
+                        $tipo           = $item['tipo_item'];
+                        $qtd_emprestada = $item['quantidade'];
 
-                                echo "<tr>
-                                        <td> {$detalhe['nome_armamento']} </td>
-                                        <td> {$detalhe['codigo_armamento']}</td>
-                                        <td><input type=\"text\" name=\"observacao[]\" class=\"input-observacao\"></td>
-                                    </tr>
-                                    <input type=\"hidden\" name=\"id_item[]\" value=\"{$item['id_item']}\">
-                                    <input type=\"hidden\" name=\"id_solicitacao_itens[]\" value=\"{$item['id_solicitacao_itens']}\">
-                                    <input type=\"hidden\" name=\"id_solicitacao\" value=\"$id_solicitacao\">";
-                                   }elseif($item['tipo_item'] == 'equipamento'){
-                                $sqlQtd = "SELECT quantidade FROM solicitacao_itens WHERE id_item = ".$item['id_item'];
-                                $resultQtd = mysqli_query($conexao, $sqlQtd);
-                                $detalheQtd = mysqli_fetch_assoc($resultQtd);
-                                
-                                $sql_det = "SELECT nome_equipamento FROM equipamentos WHERE id_equipamento = ".$item['id_item'];
-                                $result_det = mysqli_query($conexao, $sql_det);
-                                $detalhe = mysqli_fetch_assoc($result_det);
+                        // Pega o nome do item
+                        if($tipo == 'armamento'){
+                            $det = mysqli_fetch_assoc(mysqli_query($conexao, "SELECT nome_armamento, codigo_armamento FROM armamentos WHERE id_armamento = $id_item"));
+                            $nome   = $det['nome_armamento'];
+                            $codigo = $det['codigo_armamento'];
+                        } else {
+                            $det = mysqli_fetch_assoc(mysqli_query($conexao, "SELECT nome_equipamento FROM equipamentos WHERE id_equipamento = $id_item"));
+                            $nome   = $det['nome_equipamento'];
+                            $codigo = 'X';
+                        }
+                    ?>
+                        <tr>
+                            <td><?= htmlspecialchars($nome) ?></td>
+                            <td><?= htmlspecialchars($codigo) ?></td>
+                            <td><?= ucfirst($tipo) ?></td>
 
-                                echo "<tr>
-                                        <td> {$detalhe['nome_equipamento']} </td>
-                                        <td> X </td>
-                                        <td> X </td>
-                                    </tr>
-                                    <input type=\"hidden\" name=\"id_item[]\" value=\"{$item['id_item']}\">
-                                    <input type=\"hidden\" name=\"id_solicitacao_itens[]\" value=\"{$item['id_solicitacao_itens']}\">
-                                    <input type=\"hidden\" name=\"observacao[]\" value=''>
-                                    <input type=\"hidden\" name=\"id_solicitacao\" value=\"$id_solicitacao\">";
-                                }
-                              echo "  </tbody></table>
-                              <button class='btn'>Registrar</button>
-                            </form>
-                        </div>";
-                    }
-            ?>
+                            <?php if($tipo == 'armamento'): ?>
+                                <!-- Armamento: só observação -->
+                                <td>X</td>
+                                <td>X</td>
+                                <td>
+                                    <input type="text" name="observacao[<?= $id_solic_itens ?>]" class="input-observacao" placeholder="Sem avarias">
+                                </td>
+                            <?php else: ?>
+                                <!-- Equipamento: dois campos de quantidade -->
+                                <td>
+                                    <input type="number" name="qtd_utilizada[<?= $id_solic_itens ?>]" 
+                                           min="0" max="<?= $qtd_emprestada ?>" value="0" style="width:70px;">
+                                </td>
+                                <td>
+                                    <input type="number" name="qtd_extraviada[<?= $id_solic_itens ?>]" 
+                                           min="0" max="<?= $qtd_emprestada ?>" value="0" style="width:70px;">
+                                </td>
+                                <td>
+                                    X
+                                </td>
+                            <?php endif; ?>
+
+                            <!-- Campos ocultos obrigatórios -->
+                            <input type="hidden" name="id_solicitacao_itens[]" value="<?= $id_solic_itens ?>">
+                            <input type="hidden" name="id_item[]" value="<?= $id_item ?>">
+                            <input type="hidden" name="tipo[<?= $id_solic_itens ?>]" value="<?= $tipo ?>">
+                        </tr>
+                    <?php endwhile; ?>
+                </tbody>
+            </table>
+
+            <input type="hidden" name="id_solicitacao" value="<?= $id_solicitacao ?>">
+            <button type="submit" class="btn">Registrar Devolução</button>
+        </form>
+    </div>
+<?php } ?>
             <div class="voltar">
       <a href="homeQuarteleiro.php" class="btn secundario">← Voltar</a>
     </div>
