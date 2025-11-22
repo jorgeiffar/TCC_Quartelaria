@@ -408,3 +408,71 @@ a:focus {
     grid-template-columns: 1fr;
   }
 }
+/* ============================================================= */
+/* TABELAS BONITAS NO CELULAR - SEM ROLAGEM HORIZONTAL FORÇADA   */
+/* ============================================================= */
+@media (max-width: 768px) {
+  
+  /* Remove rolagem horizontal forçada */
+  .table-responsive {
+    overflow-x: hidden !important;
+  }
+
+  /* Tabelas normais (sem classe .tabela) ficam 100% da tela */
+  table {
+    width: 100% !important;
+    min-width: 100% !important;
+    table-layout: auto !important;
+    font-size: 14.5px;
+  }
+
+  table th,
+  table td {
+    padding: 12px 10px !important;
+    white-space: normal !important;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  /* Garante que o card acompanhe a largura */
+  .card {
+    padding: 18px;
+  }
+
+  /* Alinha tudo com nav e footer */
+  .container {
+    padding: 0 16px !important;
+    margin: 20px auto;
+  }
+}
+
+/* Para telas bem pequenas (iPhone SE, etc) — ainda mais confortável */
+@media (max-width: 480px) {
+  .tabela th,
+  .tabela td,
+  table th,
+  table td {
+    padding: 14px 8px !important;
+    font-size: 14px !important;
+  }
+  
+  .card h3 {
+    font-size: 1.3rem;
+  }
+}
+
+/* Garante que a página nunca role pro lado */
+body { overflow-x: hidden !important; }
+/* ======== NAV BAR — BORDAS VERDINHAS NO CELULAR ======== */
+@media (max-width: 768px) {
+  nav ul li a {
+    border: 2px solid transparent;           /* estado normal — sem borda visível */
+    transition: all var(--transicao);
+  }
+
+
+  nav ul li a {
+    border: 2px solid var(--cor-principal);
+    background: rgba(59, 122, 87, 0.05);
+  }
+}

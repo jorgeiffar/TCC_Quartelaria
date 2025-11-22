@@ -28,7 +28,7 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['perfil_usuario'] != 1) {
       <li><a href="listarUsuarios.php">Usuários</a></li>
       <li><a href="cadastrarQuarteleiro.php">Cadastrar Quarteleiro</a></li>
       <li><a href="editarPerfil.php">Perfil</a></li>
-      <li><a href="logout.php">Logout</a></li>
+      <li><a href="logout.php"><img src="./img/logout.png" alt="Logout" style="width: 30px; height: 30px; vertical-align: middle;"></a></li>
     </ul>
   </nav>
 </header>

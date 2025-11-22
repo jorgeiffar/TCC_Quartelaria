@@ -37,13 +37,12 @@ $result = mysqli_query($conexao,$sql);
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Solicitação</title>
     <link rel="stylesheet" href="style.css">
     <style>
-      /* ====== AJUSTES ESPECÍFICOS PARA ESTA PÁGINA ====== */
-      h1, h2, h3 {
-        margin-bottom: 15px;
-      }
+      /* ====== SEUS ESTILOS ORIGINAIS – NADA ALTERADO ====== */
+      h1, h2, h3 { margin-bottom: 15px; }
 
       .section-title {
         font-size: 1.6rem;
@@ -69,22 +68,13 @@ $result = mysqli_query($conexao,$sql);
         transition: transform 0.2s ease;
       }
 
-      .item-card:hover {
-        transform: scale(1.01);
-      }
+      .item-card:hover { transform: scale(1.01); }
 
-      .item-card h4 {
-        margin-bottom: 8px;
-        color: var(--cor-texto);
-      }
+      .item-card h4 { margin-bottom: 8px; color: var(--cor-texto); }
 
-      .item-card form {
-        margin-top: 10px;
-      }
+      .item-card form { margin-top: 10px; }
 
-      .item-card input[type="submit"] {
-        width: 100%;
-      }
+      .item-card input[type="submit"] { width: 100%; }
 
       .section-divider {
         margin: 60px 0 30px;
@@ -102,137 +92,63 @@ $result = mysqli_query($conexao,$sql);
         margin-top: 50px;
       }
 
-      @media (max-width: 700px) {
-        .item-card {
-          padding: 15px;
-        }
+      /* RESPONSIVIDADE EXTRA NO CELULAR (opcional – deixa os cards maiores) */
+      @media (max-width: 768px) {
+        .itens-grid { grid-template-columns: 1fr; gap: 18px; }
+        .item-card { padding: 22px; }
+        .item-card h4 { font-size: 1.3rem; }
+        .item-card input[type="submit"],
+        .item-card input[type="number"] { padding: 14px; font-size: 1.1rem; }
       }
     </style>
 </head>
 <body>
 <div class="bg-fallback"></div>
 
-<!-- ===== NAVBAR ===== -->
-<nav>
-    <?php if ($_SESSION['perfil_usuario'] == 1): ?>
-      <div class="logo"><a href="homeQuarteleiro.php">Commander</a></div>
-      <ul>
-        <li><a href="equipamentos.php" class="ativo">Equipamentos / Armamentos</a></li>
-        <li><a href="operacoes.php">Operações</a></li>
-        <li><a href="solicitacoesQuarteleiro.php">Solicitações</a></li>
-        <li><a href="solicitacoesVtr.php">Solicitações Viatura</a></li>
-        <li><a href="solicitarSolicitante.php">Solicitação Direta</a></li>
-        <li><a href="listarUsuarios.php">Usuários</a></li>
-        <li><a href="cadastrarQuarteleiro.php">Cadastrar Quarteleiro</a></li>
-        <li><a href="editarPerfil.php">Perfil</a></li>
-        <li><a href="logout.php">Logout</a></li>
-      </ul>
-    <?php else: ?>
-      <li><a href="homeSolicitante.php">Voltar - Home</a></li>
-    <?php endif; ?>
-</nav>
-    
+<!-- HEADER ADICIONADO (essencial pro style.css funcionar) -->
+<header>
+    <nav>
+        <?php if ($_SESSION['perfil_usuario'] == 1): ?>
+          <div class="logo"><a href="homeQuarteleiro.php">Commander</a></div>
+          <ul>
+            <li><a href="equipamentos.php" class="ativo">Equipamentos / Armamentos</a></li>
+            <li><a href="operacoes.php">Operações</a></li>
+            <li><a href="solicitacoesQuarteleiro.php">Solicitações</a></li>
+            <li><a href="solicitacoesVtr.php">Solicitações Viatura</a></li>
+            <li><a href="solicitarSolicitante.php">Solicitação Direta</a></li>
+            <li><a href="listarUsuarios.php">Usuários</a></li>
+            <li><a href="cadastrarQuarteleiro.php">Cadastrar Quarteleiro</a></li>
+            <li><a href="editarPerfil.php">Perfil</a></li>
+            <li><a href="logout.php"><img src="./img/logout.png" alt="Logout" style="width: 30px; height: 30px; vertical-align: middle;"></a></li>
+          </ul>
+        <?php else: ?>
+          <div class="logo"><a href="homeSolicitante.php">Commander</a></div>
+          <ul>
+            <li><a href="solicitarSolicitante.php">Solicitar Itens</a></li>
+            <li><a href="checkListVtr.php">Solicitar Viatura</a></li>
+            <li><a href="solicitacoesAnterioresSolicitante.php" class="ativo">Solicitações Anteriores</a></li>
+            <li><a href="editarPerfil.php">Perfil</a></li>
+            <li><a href="logout.php"><img src="./img/logout.png" alt="Logout" style="width: 30px; height: 30px; vertical-align: middle;"></a></li>
+          </ul>
+        <?php endif; ?>
+    </nav>
+</header>
 
-
-<!-- ===== CONTEÚDO PRINCIPAL ===== -->
-<div class="container">
+<!-- MAIN + CONTAINER (trocado de <div class="container"> para <main class="container">) -->
+<main class="container">
 <a href="verCarrinho.php" class="btn secundario"><img src="./img/carrinho.png" alt="Carrinho de Compras" style="width: 30px; height: 30px; vertical-align: middle;"> | Ver Carrinho </a><br>
+
 <?php
-if (isset($_GET['status'])) {
-    $status = $_GET['status'];
-    $mensagem = '';
-    $cor = '';
-
-    if ($status === 'qtdincompativel') {
-        $mensagem = 'Falha ao adicionar no Carrinho, Quantidade Incompatível';
-        $cor = '#e74c3c'; // vermelho
-    }
-    // Você pode adicionar mais status aqui no futuro:
-    // elseif ($status === 'adicionado') {
-    //     $mensagem = 'Item adicionado com sucesso!';
-    //     $cor = '#27ae60';
-    // }
-
-    if ($mensagem !== '') {
-       $alturaNavbar = 80; // ← mude aqui se sua navbar tiver outra altura (ex: 70px, 90px, etc)
-
-        echo "
-        <div id='notificacao-topo' style='
-            position: fixed;
-            top: {$alturaNavbar}px; /* ← aparece logo abaixo da navbar */
-            left: 50%;
-            transform: translateX(-50%);
-            background: $cor;
-            color: white;
-            padding: 14px 28px;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-            z-index: 9998; /* menor que a navbar? não tem problema, está abaixo */
-            font-weight: 600;
-            font-size: 1rem;
-            min-width: 320px;
-            max-width: 90%;
-            text-align: center;
-            opacity: 0;
-            transform: translateX(-50%) translateY(-20px);
-            transition: all 0.5s ease;
-            pointer-events: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        '>
-            " . htmlspecialchars($mensagem) . "
-            <button onclick='this.parentElement.remove()' style='
-                background: none;
-                border: none;
-                color: white;
-                font-size: 1.6rem;
-                cursor: pointer;
-                margin-left: 15px;
-                padding: 0;
-                line-height: 1;
-                pointer-events: all;
-            '>×</button>
-        </div>
-
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const notif = document.getElementById('notificacao-topo');
-                if (notif) {
-                    // Animação de entrada
-                    setTimeout(() => {
-                        notif.style.opacity = '1';
-                        notif.style.transform = 'translateX(-50%) translateY(0)';
-                        notif.style.pointerEvents = 'all';
-                    }, 100);
-
-                    // Remove automaticamente após 6 segundos
-                    setTimeout(() => {
-                        notif.style.opacity = '0';
-                        notif.style.transform = 'translateX(-50%) translateY(-30px)';
-                        setTimeout(() => notif.remove(), 600);
-                    }, 6000);
-                }
-            });
-        </script>
-        ";
-    }
+// === NOTIFICAÇÃO ===
+if (isset($_GET['status']) && $_GET['status'] === 'qtdincompativel') {
+    echo "<div id='notificacao-topo' style='position:fixed;top:90px;left:50%;transform:translateX(-50%);background:#e74c3c;color:white;padding:14px 28px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.25);z-index:9999;font-weight:600;text-align:center;animation:slideDown .5s ease'>
+            Quantidade incompatível com o estoque!
+            <button onclick='this.parentElement.remove()' style='background:none;border:none;color:white;font-size:1.8rem;cursor:pointer;margin-left:10px;'>×</button>
+          </div>
+          <style>@keyframes slideDown{from{opacity:0;transform:translateX(-50%) translateY(-20px)}to{opacity:1;transform:translateX(-50%)}}</style>";
 }
 ?>
 
-<style>
-    @keyframes slideDown {
-        from { 
-            transform: translateY(-30px); 
-            opacity: 0; 
-        }
-        to { 
-            transform: translateY(0); 
-            opacity: 1; 
-        }
-    }
-</style>
 <?php
 if ($_SESSION['perfil_usuario'] == 1) {
     echo '<div class="card">';
@@ -255,10 +171,8 @@ if ($_SESSION['perfil_usuario'] == 1) {
 }
 ?>
 
-<?php
-if ($_SESSION['perfil_usuario'] == 1 and !empty($_SESSION['usuario_selecionado']) or $_SESSION['perfil_usuario'] != 1) {
-?>
-<!-- ===== ARMAMENTOS ===== -->
+<?php if ($_SESSION['perfil_usuario'] == 1 && !empty($_SESSION['usuario_selecionado']) || $_SESSION['perfil_usuario'] != 1): ?>
+
 <h2 class="section-title">Armamentos</h2>
 <div class="itens-grid">
   <?php foreach ($armamentos_por_tipo as $tipo => $armamentos): ?>
@@ -270,7 +184,7 @@ if ($_SESSION['perfil_usuario'] == 1 and !empty($_SESSION['usuario_selecionado']
         <form method="post" action="addAoCarrinho.php">
           <input type="hidden" name="tipo" value="armamento">
           <input type="hidden" name="id_item" value="<?= $arma['id_armamento'] ?>">
-          <input type="submit" class="btn"value="Adicionar ao Carrinho">
+          <input type="submit" class="btn" value="Adicionar ao Carrinho">
         </form>
       </div>
     <?php endforeach; ?>
@@ -279,7 +193,6 @@ if ($_SESSION['perfil_usuario'] == 1 and !empty($_SESSION['usuario_selecionado']
 
 <hr class="section-divider">
 
-<!-- ===== EQUIPAMENTOS ===== -->
 <h2 class="section-title">Equipamentos</h2>
 <div class="itens-grid">
   <?php foreach ($equipamentos_por_tipo as $tipo => $equipamentos): ?>
@@ -301,7 +214,6 @@ if ($_SESSION['perfil_usuario'] == 1 and !empty($_SESSION['usuario_selecionado']
 
 <hr class="section-divider">
 
-<!-- ===== OPERAÇÃO / MOTIVO ===== -->
 <div class="final-form">
   <form method="post" action="verCarrinho.php">
     <input type="hidden" name="id_solicitacao_itens" value="<?= $id_solicitacao ?>">
@@ -329,22 +241,97 @@ if ($_SESSION['perfil_usuario'] == 1 and !empty($_SESSION['usuario_selecionado']
     </div>
   </form>
 </div>
-<?php } ?>
+<?php endif; ?>
+<!-- BOTÃO FIXO PARA IR AO FINAL DA PÁGINA -->
+<button onclick="window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'})" 
+        id="btn-ir-final" 
+        title="Ir para Finalizar Solicitação">
+    Finalizar Solicitação
+</button>
 
-</div> <!-- Fim container -->
+<style>
+    #btn-ir-final {
+        position: fixed;
+        bottom: 25px;
+        right: 25px;
+        background: var(--cor-principal, #006633);
+        color: white;
+        border: none;
+        border-radius: 50px;
+        padding: 14px 20px;
+        font-size: 1rem;
+        font-weight: 600;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        cursor: pointer;
+        z-index: 999;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.3s ease;
+    }
+
+    #btn-ir-final:hover {
+        background: #004d26;
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    }
+
+    #btn-ir-final::after {
+        content: "↓";
+        font-size: 1.4rem;
+    }
+
+    /* Esconde no desktop se quiser (opcional) */
+    @media (min-width: 992px) {
+        #btn-ir-final {
+            bottom: 30px;
+            right: 30px;
+            padding: 16px 24px;
+            font-size: 1.1rem;
+        }
+    }
+
+    /* Esconde quando já está no final (opcional – muito útil) */
+    
+</style>
+
+<script>
+window.addEventListener('scroll', function() {
+        const btn = document.getElementById('btn-ir-final');
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 200) {
+            btn.style.opacity = '0';
+            btn.style.pointerEvents = 'none';
+        } else {
+            btn.style.opacity = '1';
+            btn.style.pointerEvents = 'all';
+        }
+    });
+    // Garante que o botão desapareça quando estiver no final
+    window.addEventListener('scroll', function() {
+        const btn = document.getElementById('btn-ir-final');
+        if (!btn) return;
+        const distanciaDoFim = document.body.scrollHeight - (window.innerHeight + window.scrollY);
+        if (distanciaDoFim < 300) {
+            btn.style.opacity = '0.3';
+        } else {
+            btn.style.opacity = '1';
+        }
+    });
+</script>
+</main>
+
 
 <footer>
-&copy; <?php echo date("Y"); ?> COMMANDER - Sistema de Gerenciamento de Quartelaria</footer>
+&copy; <?php echo date("Y"); ?> COMMANDER - Sistema de Gerenciamento de Quartelaria
+</footer>
+
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-  // Se há uma posição salva, rola até ela
   const scrollPos = sessionStorage.getItem("scrollPos");
   if (scrollPos) {
     window.scrollTo(0, parseInt(scrollPos));
-    sessionStorage.removeItem("scrollPos"); // limpa depois
+    sessionStorage.removeItem("scrollPos");
   }
-
-  // Antes de enviar qualquer formulário, salva a posição atual
   document.querySelectorAll("form").forEach(form => {
     form.addEventListener("submit", () => {
       sessionStorage.setItem("scrollPos", window.scrollY);

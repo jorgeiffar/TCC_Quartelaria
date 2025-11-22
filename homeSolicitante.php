@@ -5,13 +5,17 @@ if(!isset($_SESSION['id_usuario'])){
     header("Location: login.php?status=nao_autorizado");
     exit();
 }
+
 $query = "SELECT solicitacao_itens.*, 
 COALESCE(armamentos.nome_armamento, equipamentos.nome_equipamento) AS nome_item, armamentos.codigo_armamento
 FROM solicitacao_itens
 LEFT JOIN armamentos ON solicitacao_itens.id_item = armamentos.id_armamento AND solicitacao_itens.tipo_item = 'armamento'
 LEFT JOIN equipamentos ON solicitacao_itens.id_item = equipamentos.id_equipamento AND solicitacao_itens.tipo_item = 'equipamento'
-WHERE solicitacao_itens.id_usuario = {$_SESSION['id_usuario']} AND solicitacao_itens.status_solicitacao != 'Negado' AND solicitacao_itens.status_solicitacao != 'Devolvido'
+WHERE solicitacao_itens.id_usuario = {$_SESSION['id_usuario']} 
+AND solicitacao_itens.status_solicitacao != 'Negado' 
+AND solicitacao_itens.status_solicitacao != 'Devolvido'
 ORDER BY solicitacao_itens.data_solicitacao ASC";
+
 $result = mysqli_query($conexao,$query);
 
 $solicitacoes =[];
@@ -33,6 +37,7 @@ while($dados = mysqli_fetch_assoc($result)){
         'quantidade' => $dados['quantidade']
     ];
 }
+
 $query_vtr = "SELECT id_solicitacao_viatura, data_solicitacao_viatura, quilometragem, placa_veiculo, status_solicitacao_viatura 
               FROM solicitacao_viatura
               WHERE id_usuario = {$_SESSION['id_usuario']} 
@@ -41,7 +46,6 @@ $query_vtr = "SELECT id_solicitacao_viatura, data_solicitacao_viatura, quilometr
               ORDER BY data_solicitacao_viatura DESC";
 
 $result_vtr = mysqli_query($conexao, $query_vtr);
-
 ?>
 
 <!DOCTYPE html>
@@ -49,92 +53,110 @@ $result_vtr = mysqli_query($conexao, $query_vtr);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home - Quartelaria</title>
+    <title>Minhas Solicitações - Quartelaria</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <a href="solicitarSolicitante.php">Realizar solicitação de itens</a> |
-<a href="checkListVtr.php">Realizar solicitação da viatura</a> |
-<a href="solicitacoesAnterioresSolicitante.php">Solicitações anteriores</a> |==========|
-<a href="editarPerfil.php">Editar Perfil</a> |
-<a href="logout.php">Logout ->|</a>
-    <h1> Solicitações atuais: </h1>
 
+<header>
+    <nav>
+        <div class="logo"><a href="homeSolicitante.php">Commander</a></div>
+        <ul>
+            <li><a href="solicitarSolicitante.php">Solicitar Itens</a></li>
+            <li><a href="checkListVtr.php">Solicitar Viatura</a></li>
+            <li><a href="solicitacoesAnterioresSolicitante.php">Solicitações Anteriores</a></li>
+            <li><a href="editarPerfil.php">Perfil</a></li>
+            <li><a href="logout.php"><img src="./img/logout.png" alt="Logout" style="width: 30px; height: 30px; vertical-align: middle;"></a></li>
+        </ul>
+    </nav>
+</header>
 
-<?php
-if(mysqli_num_rows($result) <= 0){
-    echo "Nenhuma solicitação ativa no momento";
-}else{
-foreach($solicitacoes as $idSolicitacao => $solicitacao){
-    echo "<h3> Solicitacao #$idSolicitacao </h3>
-    Data de solicitação: {$solicitacao['data_solicitacao']}<br>
-    Data prevista de devolução: {$solicitacao['data_devolucao']}<br>
-    Status: {$solicitacao['status_solicitacao']}
-    ";
+<main class="container">
 
-    echo "<table border ='1'>
-    <tr>
-    <th>Item</th>
-    <th>Código</th>
-    <th>Tipo</th>
-    <th>Quantidade</th>
-    </tr>
-    ";
-foreach($solicitacao['itens'] as $item){
-    echo "
-    <tr>
-    <td>{$item['nome']}</td>
-    <td>";
-    if($item['tipo'] == 'armamento'){
-        echo "{$item['codigo']}";
-    } elseif($item['tipo'] == 'equipamento'){
-        echo "X";
-    }
-    echo "</td>
-    <td>{$item['tipo']}</td>
-    <td>{$item['quantidade']}</td>
-    </tr>
-    ";
-}
-echo "</table><hr>";
-}}
-?>
-<hr>
-<h2>Checklists de Viatura Ativos</h2>
-<?php
-if($result_vtr === false || mysqli_num_rows($result_vtr) === 0){
-    echo "Nenhum checklist de viatura ativo no momento.";
-} else {
-    // Início da Tabela
-    echo "<table border='1'>
-          <thead>
-              <tr>
-                  <th>ID Solicitação</th>
-                  <th>Placa da Viatura</th>
-                  <th>Quilometragem</th>
-                  <th>Data/Hora Solicitação</th>
-                  <th>Status</th>
-              </tr>
-          </thead>
-          <tbody>";
-          
-    // Loop principal: usa fetch_assoc para buscar uma linha por vez
-    while($vtr = mysqli_fetch_assoc($result_vtr)){
-        
-        // Formata data e hora para exibição
-        $data_hora = date('d/m/Y H:i', strtotime($vtr['data_solicitacao_viatura']));
-        
-        echo "<tr>
-                <td>{$vtr['id_solicitacao_viatura']}</td>
-                <td>{$vtr['placa_veiculo']}</td>
-                <td>{$vtr['quilometragem']} km</td>
-                <td>{$data_hora}</td>
-                <td><strong>{$vtr['status_solicitacao_viatura']}</strong></td>
-              </tr>";
-    }
-    
-    echo "</tbody>
-          </table>
-          <hr>";
-}?>
+    <section>
+        <h1>Solicitações Atuais</h1>
+        <hr>
+
+        <div class="card">
+            <?php if(mysqli_num_rows($result) <= 0): ?>
+                <p>Nenhuma solicitação ativa no momento</p>
+            <?php else: ?>
+                <?php foreach($solicitacoes as $idSolicitacao => $solicitacao): ?>
+                    <h3>Solicitação #<?php echo $idSolicitacao; ?></h3>
+                    Data de solicitação: <?php echo $solicitacao['data_solicitacao']; ?><br>
+                    Data prevista de devolução: <?php echo $solicitacao['data_devolucao']; ?><br>
+                    Status: <?php echo $solicitacao['status_solicitacao']; ?>
+
+                    <table class="tabela">
+                        <tr>
+                            <th>Item</th>
+                            <th>Código</th>
+                            <th>Tipo</th>
+                            <th>Quantidade</th>
+                        </tr>
+                        <?php foreach($solicitacao['itens'] as $item): ?>
+                        <tr>
+                            <td><?php echo $item['nome']; ?></td>
+                            <td>
+                                <?php 
+                                if($item['tipo'] == 'armamento'){
+                                    echo $item['codigo'];
+                                } elseif($item['tipo'] == 'equipamento'){
+                                    echo "X";
+                                }
+                                ?>
+                            </td>
+                            <td><?php echo $item['tipo']; ?></td>
+                            <td><?php echo $item['quantidade']; ?></td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </table>
+                    <hr>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </div>
+    </section>
+
+    <section>
+        <h2>Checklists de Viatura Ativos</h2>
+        <hr>
+
+        <div class="card">
+            <?php if($result_vtr === false || mysqli_num_rows($result_vtr) === 0): ?>
+                <p>Nenhum checklist de viatura ativo no momento.</p>
+            <?php else: ?>
+                <table class="tabela">
+                        <thead>
+                        <tr>
+                            <th>ID Solicitação</th>
+                            <th>Placa da Viatura</th>
+                            <th>Quilometragem</th>
+                            <th>Data/Hora Solicitação</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php while($vtr = mysqli_fetch_assoc($result_vtr)): ?>
+                            <?php $data_hora = date('d/m/Y H:i', strtotime($vtr['data_solicitacao_viatura'])); ?>
+                            <tr>
+                                <td><?php echo $vtr['id_solicitacao_viatura']; ?></td>
+                                <td><?php echo $vtr['placa_veiculo']; ?></td>
+                                <td><?php echo $vtr['quilometragem']; ?> km</td>
+                                <td><?php echo $data_hora; ?></td>
+                                <td><strong><?php echo $vtr['status_solicitacao_viatura']; ?></strong></td>
+                            </tr>
+                        <?php endwhile; ?>
+                    </tbody>
+                </table>
+            <?php endif; ?>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    &copy; <?php echo date("Y"); ?> COMMANDER - Sistema de Gerenciamento de Quartelaria
+</footer>
+
 </body>
 </html>
