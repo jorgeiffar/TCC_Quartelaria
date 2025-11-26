@@ -1,5 +1,6 @@
 <?php
 session_start();
+include ("conecta.php");
 if(!isset($_SESSION['id_usuario'])){
     header("Location: login.php?status=nao_autorizado");
     exit();
@@ -53,10 +54,17 @@ if (isset($_POST['tipo']) && isset($_POST['id_item'])) {
         }
 
         if (!$jaExiste) {
+            $sqlVerificaQtd = "SELECT * FROM equipamentos WHERE id_equipamento = $id";
+            $result = mysqli_query($conexao,$sqlVerificaQtd);
+            $dadosVQ = mysqli_fetch_assoc($result);
+            if($quantidade <= ($dadosVQ['quantidade_equipamento'] - $dadosVQ['quantidade_disponivel_equipamento'])){
             $_SESSION[$key][] = [
                 'id' => $id,
                 'quantidade' => $quantidade
-            ];
+            ];}else{
+                header("Location: solicitarSolicitante?status=qtdincompativel");
+                exit();
+            }
         }
     } else { // armamento
         if (!in_array($id, $_SESSION[$key])) {

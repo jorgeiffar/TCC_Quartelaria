@@ -12,31 +12,95 @@ include("conecta.php");
     <meta charset="UTF-8">
     <title>Carrinho</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+    @media (max-width: 768px) {
+        /* Botão Voltar fica grande e bonito */
+        .container > a.btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 16px;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            border-radius: 12px;
+        }
+
+        /* Cards do carrinho ficam mais espaçosos */
+        .card {
+            padding: 20px !important;
+            margin-bottom: 20px;
+        }
+
+        /* Itens do carrinho ficam fáceis de ler e clicar */
+        .card p {
+            font-size: 1.1rem;
+            padding: 12px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .card a.btn {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 10px 16px;
+            font-size: 1rem;
+        }
+
+        /* Botão Enviar Solicitação */
+        .form-buttons input[type="submit"] {
+            width: 100%;
+            padding: 18px;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        h2, h3 {
+            font-size: 1.4rem;
+            margin: 20px 0 10px;
+        }
+
+        .alert {
+            padding: 16px;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+    }
+</style>
 </head>
 <body>
 
 <div class="bg-fallback"></div>
 
-<nav>
-    <?php if ($_SESSION['perfil_usuario'] == 1): ?>
-      <div class="logo"><a href="homeQuarteleiro.php">Commander</a></div>
-      <ul>
-        <li><a href="equipamentos.php" class="ativo">Equipamentos / Armamentos</a></li>
-        <li><a href="operacoes.php">Operações</a></li>
-        <li><a href="solicitacoesQuarteleiro.php">Solicitações</a></li>
-        <li><a href="solicitacoesVtr.php">Solicitações Viatura</a></li>
-        <li><a href="solicitarSolicitante.php">Solicitação Direta</a></li>
-        <li><a href="listarUsuarios.php">Usuários</a></li>
-        <li><a href="cadastrarQuarteleiro.php">Cadastrar Quarteleiro</a></li>
-        <li><a href="editarPerfil.php">Perfil</a></li>
-        <li><a href="logout.php">Logout</a></li>
-      </ul>
-    <?php else: ?>
-      <li><a href="homeSolicitante.php">Voltar - Home</a></li>
-    <?php endif; ?>
-</nav>
+<header>
+    <nav>
+        <!-- seu menu exatamente igual -->
+        <?php if ($_SESSION['perfil_usuario'] == 1): ?>
+          <div class="logo"><a href="homeQuarteleiro.php">Commander</a></div>
+          <ul>
+            <li><a href="equipamentos.php">Equipamentos / Armamentos</a></li>
+            <li><a href="operacoes.php">Operações</a></li>
+            <li><a href="solicitacoesQuarteleiro.php">Solicitações</a></li>
+            <li><a href="solicitacoesVtr.php">Solicitações Viatura</a></li>
+            <li><a href="solicitarSolicitante.php">Solicitação Direta</a></li>
+            <li><a href="listarUsuarios.php">Usuários</a></li>
+            <li><a href="cadastrarQuarteleiro.php">Cadastrar Quarteleiro</a></li>
+            <li><a href="editarPerfil.php">Perfil</a></li>
+            <li><a href="logout.php"><img src="./img/logout.png" alt="Logout" style="width: 30px; height: 30px;"></a></li>
+          </ul>
+        <?php else: ?>
+          <div class="logo"><a href="homeSolicitante.php">Commander</a></div>
+          <ul>
+            <li><a href="solicitarSolicitante.php">Solicitar Itens</a></li>
+            <li><a href="checkListVtr.php">Solicitar Viatura</a></li>
+            <li><a href="solicitacoesAnterioresSolicitante.php" class="ativo">Solicitações Anteriores</a></li>
+            <li><a href="editarPerfil.php">Perfil</a></li>
+            <li><a href="logout.php"><img src="./img/logout.png" alt="Logout" style="width: 30px; height: 30px;"></a></li>
+          </ul>
+        <?php endif; ?>
+    </nav>
+</header>
 
-<div class="container">
+<main class="container">
     <a class="btn secundario" href="solicitarSolicitante.php">Voltar</a>
     <div class="card">
         <?php
@@ -124,9 +188,10 @@ include("conecta.php");
         </div>
     </div>
 </div>
+</main>
 
 <footer>
-&copy; <?php echo date("Y"); ?> COMMANDER - Sistema de Gerenciamento de Quartelaria</footer>
-
+    &copy; <?php echo date("Y"); ?> COMMANDER - Sistema de Gerenciamento de Quartelaria
+</footer>
 </body>
 </html>
