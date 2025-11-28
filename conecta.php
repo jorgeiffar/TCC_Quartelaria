@@ -6,4 +6,5 @@ if (!$conexao) {
     die();
 }
 ?>
+<link rel="icon" type="image/png" href="img/icons8-soldier-man-64.png">
   <div class="bg-fallback"></div>
