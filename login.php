@@ -2,6 +2,7 @@
 include("conecta.php");
 $status = $_GET['status'] ?? null;
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -15,11 +16,41 @@ $status = $_GET['status'] ?? null;
 
   <nav>
     <div class="logo">Commander</div>
-    <ul>
-      <li><a href="cadastrar.php">Cadastro</a></li>
-    </ul>
   </nav>
+<?php
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  session_start();
 
+  $idFuncional = $_POST['idFuncional'];
+  $senha = $_POST['senha'];
+
+  $sqlSelect = "SELECT * FROM usuarios WHERE identidade_funcional_usuario = '$idFuncional'";
+  $querySelect = mysqli_query($conexao, $sqlSelect);
+
+  if (mysqli_num_rows($querySelect) == 0) {
+      echo "<div class='container'><div class='alert error'>Usuário ainda <strong>não</strong> cadastrado!</div></div>";
+  } else {
+      $dadosUser = mysqli_fetch_assoc($querySelect);
+      $senhaCript = $dadosUser['senha_usuario'];
+
+      if (password_verify($senha, $senhaCript)) {
+          $_SESSION['id_usuario'] = $dadosUser['id_usuario'];
+          $_SESSION['nome_usuario'] = $dadosUser['nome_usuario'];
+          $_SESSION['perfil_usuario'] = $dadosUser['perfil_usuario'];
+
+          if ($dadosUser['perfil_usuario'] == 1) {
+              header("Location: homeQuarteleiro.php");
+              exit;
+          } elseif ($dadosUser['perfil_usuario'] == 2) {
+              header("Location: homeSolicitante.php");
+              exit;
+          }
+      } else {
+          echo "<div class='alert error'>Senha incorreta!</div>";
+      }
+  }
+}
+?>
   <div class="container">
     <div class="form-area">
       <h2 style="margin-bottom: 20px; text-align:center;">Acesso ao Sistema</h2>
@@ -75,37 +106,4 @@ $status = $_GET['status'] ?? null;
 </body>
 </html>
 
-<?php
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  session_start();
 
-  $idFuncional = $_POST['idFuncional'];
-  $senha = $_POST['senha'];
-
-  $sqlSelect = "SELECT * FROM usuarios WHERE identidade_funcional_usuario = '$idFuncional'";
-  $querySelect = mysqli_query($conexao, $sqlSelect);
-
-  if (mysqli_num_rows($querySelect) == 0) {
-      echo "<div class='container'><div class='alert error'>Usuário ainda <strong>não</strong> cadastrado!</div></div>";
-  } else {
-      $dadosUser = mysqli_fetch_assoc($querySelect);
-      $senhaCript = $dadosUser['senha_usuario'];
-
-      if (password_verify($senha, $senhaCript)) {
-          $_SESSION['id_usuario'] = $dadosUser['id_usuario'];
-          $_SESSION['nome_usuario'] = $dadosUser['nome_usuario'];
-          $_SESSION['perfil_usuario'] = $dadosUser['perfil_usuario'];
-
-          if ($dadosUser['perfil_usuario'] == 1) {
-              header("Location: homeQuarteleiro.php");
-              exit;
-          } elseif ($dadosUser['perfil_usuario'] == 2) {
-              header("Location: homeSolicitante.php");
-              exit;
-          }
-      } else {
-          echo "<div class='container'><div class='alert error'>Senha incorreta!</div></div>";
-      }
-  }
-}
-?>

@@ -26,9 +26,7 @@ include("conecta.php");
 
   <nav>
     <div class="logo">Commander</div>
-    <ul>
-      <li><a href="login.php">Login</a></li>
-    </ul>
+  
   </nav>
 
   <div class="container">
@@ -78,7 +76,7 @@ include("conecta.php");
   </div>
 
   <footer>
-    &copy; <?php echo date("Y"); ?> COMMANDER - Sistema de Gerenciamento de Quartelaria.
+    &copy; <?php echo date("Y"); ?> COMMANDER - Sistema de Gerenciamento de Quartelaria
   </footer>
 </body>
 </html>
