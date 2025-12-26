@@ -26,7 +26,8 @@ $usuario = mysqli_fetch_assoc($resultado);
 
    <nav>
     <?php if ($_SESSION['perfil_usuario'] == 1): ?>
-      <div class="logo"><a href="homeQuarteleiro.php">Commander</a></div>
+            <div class="logo"><a href="homeQuarteleiro.php"><img src="./img/home.png" alt="Home" style="width: 28px; vertical-align: middle-top;"><span> COMMANDER</span></a></div>
+
       <ul>
         <li><a href="equipamentos.php" class="ativo">Equipamentos / Armamentos</a></li>
         <li><a href="operacoes.php">Operações</a></li>
@@ -40,7 +41,7 @@ $usuario = mysqli_fetch_assoc($resultado);
       </ul>
     <?php else: ?>
        
-        <div class="logo"><a href="homeSolicitante.php">Commander</a></div>
+        <div class="logo"><a href="homeSolicitante.php"><img src="./img/home.png" alt="Home" style="width: 28px; vertical-align: middle-top;"><span> COMMANDER</span></a></div>
         <ul>
             <li><a href="solicitarSolicitante.php">Solicitar Itens</a></li>
             <li><a href="checkListVtr.php">Solicitar Viatura</a></li>

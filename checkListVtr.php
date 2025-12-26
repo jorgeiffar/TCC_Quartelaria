@@ -24,7 +24,7 @@ $itens = mysqli_query($conexao, $sql);
 
 <!-- NAVBAR -->
 <nav>
-    <div class="logo"><a href="homeSolicitante.php">Commander</a></div>
+    <div class="logo"><a href="homeSolicitante.php"><img src="./img/home.png" alt="Home" style="width: 28px; vertical-align: middle-top;"><span> COMMANDER</span></a></div>
     <ul>
         <li><a href="solicitarSolicitante.php">Solicitar Itens</a></li>
         <li><a href="checkListVtr.php">Solicitar Viatura</a></li>

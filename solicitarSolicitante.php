@@ -109,7 +109,8 @@ $result = mysqli_query($conexao,$sql);
 <header>
     <nav>
         <?php if ($_SESSION['perfil_usuario'] == 1): ?>
-          <div class="logo"><a href="homeQuarteleiro.php">Commander</a></div>
+                <div class="logo"><a href="homeQuarteleiro.php"><img src="./img/home.png" alt="Home" style="width: 28px; vertical-align: middle-top;"><span> COMMANDER</span></a></div>
+
           <ul>
             <li><a href="equipamentos.php" class="ativo">Equipamentos / Armamentos</a></li>
             <li><a href="operacoes.php">Operações</a></li>
@@ -122,7 +123,7 @@ $result = mysqli_query($conexao,$sql);
             <li><a href="logout.php"><img src="./img/logout.png" alt="Logout" style="width: 30px; height: 30px; vertical-align: middle;"></a></li>
           </ul>
         <?php else: ?>
-          <div class="logo"><a href="homeSolicitante.php">Commander</a></div>
+          <div class="logo"><a href="homeSolicitante.php"><img src="./img/home.png" alt="Home" style="width: 28px; vertical-align: middle-top;"><span> COMMANDER</span></a></div>
           <ul>
             <li><a href="solicitarSolicitante.php">Solicitar Itens</a></li>
             <li><a href="checkListVtr.php">Solicitar Viatura</a></li>
@@ -173,11 +174,26 @@ if ($_SESSION['perfil_usuario'] == 1) {
 
 <?php if ($_SESSION['perfil_usuario'] == 1 && !empty($_SESSION['usuario_selecionado']) || $_SESSION['perfil_usuario'] != 1): ?>
 
+<br><br>
+  <div class="card" style="margin-bottom: 30px;">
+    <label for="busca-material"><strong>Pesquisar material</strong></label>
+    <input
+        type="text"
+        id="busca-material"
+        placeholder="Digite nome, código ou tipo..."
+        style="width:100%; padding:12px; font-size:1rem;"
+    >
+</div>
+
 <h2 class="section-title">Armamentos</h2>
 <div class="itens-grid">
   <?php foreach ($armamentos_por_tipo as $tipo => $armamentos): ?>
     <?php foreach ($armamentos as $arma): ?>
-      <div class="item-card">
+      <div class="item-card material-card"
+     data-nome="<?= strtolower($arma['nome_armamento']) ?>"
+     data-codigo="<?= strtolower($arma['codigo_armamento']) ?>"
+     data-tipo="<?= strtolower($tipo) ?>">
+
         <h4><?= htmlspecialchars($arma['nome_armamento']) ?></h4>
         <p><strong>Código:</strong> <?= $arma['codigo_armamento'] ?></p>
         <p><strong>Tipo:</strong> <?= htmlspecialchars($tipo) ?></p>
@@ -197,7 +213,9 @@ if ($_SESSION['perfil_usuario'] == 1) {
 <div class="itens-grid">
   <?php foreach ($equipamentos_por_tipo as $tipo => $equipamentos): ?>
     <?php foreach ($equipamentos as $equipa): ?>
-      <div class="item-card">
+      <div class="item-card material-card"
+     data-nome="<?= strtolower($equipa['nome_equipamento']) ?>"
+     data-tipo="<?= strtolower($tipo) ?>">
         <h4><?= htmlspecialchars($equipa['nome_equipamento']) ?></h4>
         <p><strong>Tipo:</strong> <?= htmlspecialchars($tipo) ?></p>
         <form method="post" action="addAoCarrinho.php">
@@ -243,11 +261,10 @@ if ($_SESSION['perfil_usuario'] == 1) {
 </div>
 <?php endif; ?>
 <!-- BOTÃO FIXO PARA IR AO FINAL DA PÁGINA -->
-<button onclick="window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'})" 
-        id="btn-ir-final" 
-        title="Ir para Finalizar Solicitação">
+<button id="btn-ir-final" title="Finalizar Solicitação">
     Finalizar Solicitação
 </button>
+
 
 <style>
     #btn-ir-final {
@@ -263,7 +280,7 @@ if ($_SESSION['perfil_usuario'] == 1) {
         font-weight: 600;
         box-shadow: 0 6px 20px rgba(0,0,0,0.3);
         cursor: pointer;
-        z-index: 999;
+        z-index: 1000;
         display: flex;
         align-items: center;
         gap: 10px;
@@ -277,7 +294,6 @@ if ($_SESSION['perfil_usuario'] == 1) {
     }
 
     #btn-ir-final::after {
-        content: "↓";
         font-size: 1.4rem;
     }
 
@@ -296,28 +312,36 @@ if ($_SESSION['perfil_usuario'] == 1) {
 </style>
 
 <script>
-window.addEventListener('scroll', function() {
-        const btn = document.getElementById('btn-ir-final');
-        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 200) {
-            btn.style.opacity = '0';
-            btn.style.pointerEvents = 'none';
-        } else {
-            btn.style.opacity = '1';
-            btn.style.pointerEvents = 'all';
-        }
-    });
-    // Garante que o botão desapareça quando estiver no final
-    window.addEventListener('scroll', function() {
-        const btn = document.getElementById('btn-ir-final');
-        if (!btn) return;
-        const distanciaDoFim = document.body.scrollHeight - (window.innerHeight + window.scrollY);
-        if (distanciaDoFim < 300) {
-            btn.style.opacity = '0.3';
-        } else {
-            btn.style.opacity = '1';
-        }
-    });
+const btn = document.getElementById('btn-ir-final');
+
+window.addEventListener('scroll', function () {
+    const footer = document.querySelector('footer');
+    if (!btn || !footer) return;
+
+    const footerRect = footer.getBoundingClientRect();
+    const windowHeight = window.innerHeight;
+
+    const chegouNoFinal = footerRect.top <= windowHeight;
+
+    if (chegouNoFinal) {
+        // sobe o botão pra não ficar atrás do footer
+        btn.style.bottom = (windowHeight - footerRect.top + 20) + 'px';
+
+        // muda texto e seta
+        btn.innerHTML = 'Voltar ao topo <span style="font-size:1.4rem;">↑</span>';
+        btn.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    } else {
+        // posição normal
+        btn.style.bottom = '25px';
+
+        // texto original
+        btn.innerHTML = 'Finalizar Solicitação <span style="font-size:1.4rem;">↓</span>';
+        btn.onclick = () => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+});
 </script>
+
 </main>
 
 
@@ -337,6 +361,38 @@ document.addEventListener("DOMContentLoaded", function() {
       sessionStorage.setItem("scrollPos", window.scrollY);
     });
   });
+});
+</script>
+<!-- separei os scripts em blocos pra ficar mais de boa de localizar -->
+<script>
+function normalizarTexto(texto) {
+    return texto
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    const campoBusca = document.getElementById("busca-material");
+    if (!campoBusca) return;
+
+    campoBusca.addEventListener("input", function () {
+        const termo = normalizarTexto(this.value);
+        const cards = document.querySelectorAll(".material-card");
+
+        cards.forEach(card => {
+            const nome = normalizarTexto(card.dataset.nome || "");
+            const codigo = normalizarTexto(card.dataset.codigo || "");
+            const tipo = normalizarTexto(card.dataset.tipo || "");
+
+            const corresponde =
+                nome.includes(termo) ||
+                codigo.includes(termo) ||
+                tipo.includes(termo);
+
+            card.style.display = corresponde ? "block" : "none";
+        });
+    });
 });
 </script>
 

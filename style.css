@@ -1,3 +1,25 @@
+@font-face {
+  font-family: 'Bronco';
+  src: url('./fonts/BroncoPersonalUse.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+.logo a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.logo span {
+  font-family: 'Bronco', Arial, sans-serif;
+  font-size: 30px;          /* AQUI está a diferença */
+  letter-spacing: 4px;
+  color: black;
+  line-height: 1;
+}
+
+
 /* ======== VARIÁVEIS GERAIS ======== */
 :root {
   --cor-fundo: #f9fafb;
@@ -22,7 +44,7 @@
 }
 
 body {
-  background: transparent;
+  background: #f2e7e75b;
   color: var(--cor-texto);
   line-height: 1.6;
   display: flex;
@@ -32,39 +54,26 @@ body {
   overflow-x: hidden;
 }
 
-/* ======== FUNDO XADREZ COM LOGO (NOVO) ======== */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background-image: url('img/logo.png');
-  background-size: 140px 140px;
-  background-repeat: repeat;
-  opacity: 0.08; /* Meio opaco */
-  z-index: -1;
-  pointer-events: none;
-}
 
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background-image: url('logo.png');
-  background-size: 140px 140px;
-  background-position: 70px 70px; /* desloca metade → efeito xadrez */
-  background-repeat: repeat;
-  opacity: 0.08;
-  z-index: -1;
-  pointer-events: none;
-}
 
-/* ======== CAMADA DE FUNDO CLARO (FALLBACK) ======== */
+
+
+/* ======== FUNDO INSTITUCIONAL DISCRETO (ESCUDO ÚNICO) ======== */
 .bg-fallback {
-  position: fixed;
-  inset: 0;
-  background: var(--cor-fundo); /* #f9fafb */
-  z-index: -2;
-  pointer-events: none;
+    position: fixed;
+    inset: 0;
+    background-image: url('./img/logo.png');
+    background-repeat: no-repeat;
+    background-position: left 40px center;
+    background-size: 420px;
+    opacity: 1;
+    pointer-events: none;
+    z-index: -1;
+}
+@media (max-width: 768px) {
+    .bg-fallback {
+        display: none;
+    }
 }
 
 /* ======== NAVBAR ======== */
@@ -477,3 +486,47 @@ body { overflow-x: hidden !important; }
   }
 }
 
+@media (max-width: 768px) {
+
+  /* Força tudo a respeitar a largura da tela */
+  html, body {
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  /* Navbar com mesma largura visual do conteúdo */
+  nav {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  /* Container alinhado exatamente com a navbar */
+  .container {
+    max-width: 100%;
+    padding-left: 16px;
+    padding-right: 16px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Cards ocupam exatamente a largura do container */
+  .card {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Tabelas alinhadas e centralizadas */
+  table,
+  .tabela {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Evita “respiro” estranho dentro da tabela */
+  th, td {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}

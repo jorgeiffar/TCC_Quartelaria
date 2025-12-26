@@ -24,7 +24,8 @@ if(isset($_GET['id'])){
 
 <header>
   <nav>
-    <div class="logo"><a href="homeQuarteleiro.php">Commander</a></div>
+          <div class="logo"><a href="homeQuarteleiro.php"><img src="./img/home.png" alt="Home" style="width: 28px; vertical-align: middle-top;"><span> COMMANDER</span></a></div>
+
     <ul>
       <li><a href="equipamentos.php">Equipamentos / Armamentos</a></li>
       <li><a href="operacoes.php">Operações</a></li>

@@ -11,6 +11,7 @@ include("conecta.php");
 <head>
     <meta charset="UTF-8">
     <title>Carrinho</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <style>
     @media (max-width: 768px) {
@@ -65,6 +66,7 @@ include("conecta.php");
             text-align: center;
         }
     }
+    
 </style>
 </head>
 <body>
@@ -75,7 +77,8 @@ include("conecta.php");
     <nav>
         <!-- seu menu exatamente igual -->
         <?php if ($_SESSION['perfil_usuario'] == 1): ?>
-          <div class="logo"><a href="homeQuarteleiro.php">Commander</a></div>
+                <div class="logo"><a href="homeQuarteleiro.php"><img src="./img/home.png" alt="Home" style="width: 28px; vertical-align: middle-top;"><span> COMMANDER</span></a></div>
+
           <ul>
             <li><a href="equipamentos.php">Equipamentos / Armamentos</a></li>
             <li><a href="operacoes.php">Operações</a></li>
@@ -88,7 +91,7 @@ include("conecta.php");
             <li><a href="logout.php"><img src="./img/logout.png" alt="Logout" style="width: 30px; height: 30px;"></a></li>
           </ul>
         <?php else: ?>
-          <div class="logo"><a href="homeSolicitante.php">Commander</a></div>
+          <div class="logo"><a href="homeSolicitante.php"><img src="./img/home.png" alt="Home" style="width: 28px; vertical-align: middle-top;"><span> COMMANDER</span></a></div>
           <ul>
             <li><a href="solicitarSolicitante.php">Solicitar Itens</a></li>
             <li><a href="checkListVtr.php">Solicitar Viatura</a></li>

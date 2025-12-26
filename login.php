@@ -15,7 +15,8 @@ $status = $_GET['status'] ?? null;
   <div class="bg-fallback"></div>
 
   <nav>
-    <div class="logo">Commander</div>
+              <div class="logo"><span>COMMANDER</span></div>
+
   </nav>
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

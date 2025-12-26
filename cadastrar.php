@@ -25,7 +25,8 @@ include("conecta.php");
   <div class="bg-fallback"></div>
 
   <nav>
-    <div class="logo">Commander</div>
+                  <div class="logo"><span>COMMANDER</span></div>
+
   
   </nav>
 

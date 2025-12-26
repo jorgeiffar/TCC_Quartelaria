@@ -24,7 +24,8 @@ $queryEquipamentos = mysqli_query($conexao, $sqlEquipamentos);
 <body>
 <header>
   <nav>
-    <div class="logo" ><a href="homeQuarteleiro.php">Commander</a></div>
+          <div class="logo"><a href="homeQuarteleiro.php"><img src="./img/home.png" alt="Home" style="width: 28px; vertical-align: middle-top;"><span> COMMANDER</span></a></div>
+
     <ul>
       <li><a href="equipamentos.php" class="ativo">Equipamentos / Armamentos</a></li>
       <li><a href="operacoes.php">Operações</a></li>
@@ -54,7 +55,7 @@ $queryEquipamentos = mysqli_query($conexao, $sqlEquipamentos);
               <th>Qtd. Disponível</th>
               <th>Qtd. Total</th>
               <th>Última Atualização</th>
-              <th>Status</th>
+              
               <th>Opções</th>
             </tr>
           </thead>
@@ -66,7 +67,7 @@ $queryEquipamentos = mysqli_query($conexao, $sqlEquipamentos);
                 $quantTotal = $dadosEquip['quantidade_equipamento'];
                 $quantDisp = $quantTotal - $dadosEquip['quantidade_disponivel_equipamento'];
                 $data = $dadosEquip['ultima_atualizacao_equipamento'];
-                $status = $dadosEquip['status_equipamento'];
+                
                 $id = $dadosEquip['id_equipamento'];
 
                 echo "<tr>
@@ -75,7 +76,7 @@ $queryEquipamentos = mysqli_query($conexao, $sqlEquipamentos);
                         <td>$quantDisp</td>
                         <td>$quantTotal</td>
                         <td>$data</td>
-                        <td>$status</td>
+                        
                         <td>
                             <a href='editarEquipamento.php?id=$id' class='link-editar'>Editar</a>
                         </td>
