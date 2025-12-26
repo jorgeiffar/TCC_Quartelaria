@@ -150,27 +150,73 @@ if (isset($_GET['status']) && $_GET['status'] === 'qtdincompativel') {
 }
 ?>
 
-<?php
-if ($_SESSION['perfil_usuario'] == 1) {
-    echo '<div class="card">';
-    echo '<h2 class="section-title">Selecionar Solicitante</h2>';
-    echo '<form method="post" action="addAoCarrinho.php">';
-    echo '<label for="usuario">Solicitante:</label>';
-    echo '<select name="usuario" id="usuario" required>';
-    echo "<option value=''>====Selecione====</option>";
+<?php if ($_SESSION['perfil_usuario'] == 1): ?>
 
-    $sqldireta = "SELECT * FROM usuarios";
-    $resultado = mysqli_query($conexao, $sqldireta);
-    while ($row = mysqli_fetch_assoc($resultado)) {
-        echo "<option value='{$row['id_usuario']}'>{$row['nome_usuario']} | {$row['identidade_funcional_usuario']}</option>";
-    }
+<div class="card">
+    <h2 class="section-title">Solicitante</h2>
 
-    echo '</select>';
-    echo '<div class="form-buttons"><button type="submit">Confirmar Solicitante</button></div>';
-    echo '</form>';
-    echo '</div>';
-}
-?>
+    <?php if (!empty($_SESSION['usuario_selecionado'])): ?>
+        <?php
+        $idUsuario = $_SESSION['usuario_selecionado'];
+        $sql = "SELECT nome_usuario, identidade_funcional_usuario 
+                FROM usuarios 
+                WHERE id_usuario = $idUsuario";
+        $res = mysqli_query($conexao, $sql);
+        $dados = mysqli_fetch_assoc($res);
+        ?>
+
+        <p><strong>Nome:</strong> <?= $dados['nome_usuario'] ?></p>
+        <p><strong>Identidade Funcional:</strong> <?= $dados['identidade_funcional_usuario'] ?></p>
+
+        <hr>
+<br>
+        <form method="post" action="addAoCarrinho.php">
+            <label>Alterar solicitante:</label>
+            <select name="usuario">
+                <option value="">— manter atual —</option>
+                <?php
+                $sqldireta = "SELECT * FROM usuarios";
+                $resultado = mysqli_query($conexao, $sqldireta);
+                while ($row = mysqli_fetch_assoc($resultado)) {
+                    echo "<option value='{$row['id_usuario']}'>
+                            {$row['nome_usuario']} | {$row['identidade_funcional_usuario']}
+                          </option>";
+                }
+                ?>
+            </select>
+
+            <div class="form-buttons">
+                <button type="submit">Alterar</button>
+            </div>
+        </form>
+
+    <?php else: ?>
+
+        <form method="post" action="addAoCarrinho.php">
+            <label for="usuario">Selecionar solicitante:</label>
+            <select name="usuario" id="usuario" required>
+                <option value="">==== Selecione ====</option>
+                <?php
+                $sqldireta = "SELECT * FROM usuarios";
+                $resultado = mysqli_query($conexao, $sqldireta);
+                while ($row = mysqli_fetch_assoc($resultado)) {
+                    echo "<option value='{$row['id_usuario']}'>
+                            {$row['nome_usuario']} | {$row['identidade_funcional_usuario']}
+                          </option>";
+                }
+                ?>
+            </select>
+
+            <div class="form-buttons">
+                <button type="submit">Confirmar</button>
+            </div>
+        </form>
+
+    <?php endif; ?>
+</div>
+
+<?php endif; ?>
+
 
 <?php if ($_SESSION['perfil_usuario'] == 1 && !empty($_SESSION['usuario_selecionado']) || $_SESSION['perfil_usuario'] != 1): ?>
 

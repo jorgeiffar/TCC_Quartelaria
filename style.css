@@ -64,7 +64,7 @@ body {
     inset: 0;
     background-image: url('./img/logo.png');
     background-repeat: no-repeat;
-    background-position: left 40px center;
+    background-position: right 40px center;
     background-size: 420px;
     opacity: 1;
     pointer-events: none;
