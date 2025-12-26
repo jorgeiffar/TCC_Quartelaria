@@ -37,7 +37,7 @@ $itens = mysqli_query($conexao, $sql);
 <div class="container">
     <h2>Checklist de Viatura</h2>
 
-    <form action="visualizar_chkvtr.php" method="post" class="form-area">
+<form action="visualizar_chkvtr.php" method="post" class="form-area" onsubmit="return validarPlaca(event)">
 
         <div class="form-grid">
             <div>
@@ -46,7 +46,7 @@ $itens = mysqli_query($conexao, $sql);
             </div>
             <div>
                 <label>Placa do veículo:</label>
-                <input type="text" name="placa" required>
+                <input type="text" name="placa" required style="text-transform: uppercase;">
             </div>
         </div>
 
@@ -88,6 +88,27 @@ $itens = mysqli_query($conexao, $sql);
 <footer>
     Quartelaria - Sistema de Solicitações
 </footer>
+<script>
+function validarPlaca(event) {
+    const input = document.querySelector('input[name="placa"]');
+    const placa = input.value.toUpperCase().trim();
+
+    // Placa antiga: ABC1234
+    const padraoAntigo = /^[A-Z]{3}[0-9]{4}$/;
+
+    // Placa Mercosul: ABC1D23
+    const padraoMercosul = /^[A-Z]{3}[0-9][A-Z][0-9]{2}$/;
+
+    if (padraoAntigo.test(placa) || padraoMercosul.test(placa)) {
+        return true; // envia o formulário
+    } else {
+        event.preventDefault(); // bloqueia envio
+        alert("Placa inválida. Use o padrão antigo (ABC1234) ou Mercosul (ABC1D23).");
+        input.focus();
+        return false;
+    }
+}
+</script>
 
 </body>
 </html>
