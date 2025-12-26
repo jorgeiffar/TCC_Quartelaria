@@ -32,7 +32,7 @@ $observacoes = "";  // Acumula observações de armamentos
 <head>
     <meta charset="UTF-8">
     <title>Solicitações Anteriores - Quartelaria</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=2">
 </head>
 <body>
 

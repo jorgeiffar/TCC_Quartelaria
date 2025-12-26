@@ -132,7 +132,7 @@ mysqli_autocommit($conexao, true);
 <head>
     <meta charset="UTF-8">
     <title>Registrar Devolução</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=2">
 </head>
 <body>
     <main class="container">

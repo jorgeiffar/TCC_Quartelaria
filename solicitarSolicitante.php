@@ -39,7 +39,7 @@ $result = mysqli_query($conexao,$sql);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Solicitação</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=2">
     <style>
       /* ====== SEUS ESTILOS ORIGINAIS – NADA ALTERADO ====== */
       h1, h2, h3 { margin-bottom: 15px; }
@@ -105,7 +105,7 @@ $result = mysqli_query($conexao,$sql);
 <body>
 <div class="bg-fallback"></div>
 
-<!-- HEADER ADICIONADO (essencial pro style.css funcionar) -->
+<!-- HEADER ADICIONADO (essencial pro style.css?v=2 funcionar) -->
 <header>
     <nav>
         <?php if ($_SESSION['perfil_usuario'] == 1): ?>

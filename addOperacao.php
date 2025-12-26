@@ -10,7 +10,7 @@ if(!isset($_SESSION['id_usuario']) || $_SESSION['perfil_usuario'] != 1){
 <head>
   <meta charset="UTF-8">
   <title>Adicionar Operação Policial</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=2">
 </head>
 <body>
 

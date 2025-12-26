@@ -9,7 +9,7 @@ $resultado = mysqli_query($conexao, $query);
 <head>
     <meta charset="UTF-8">
     <title>Lista de Usuários - Quartelaria</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=2">
 </head>
 <body>
     <div class="bg-fallback"></div>

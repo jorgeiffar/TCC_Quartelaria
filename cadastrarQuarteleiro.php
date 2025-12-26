@@ -7,7 +7,7 @@ include("conecta.php");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastrar Quarteleiro - Quartelaria</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=2">
     <script>
         function validarSenha() {
             const senha = document.getElementById("senha").value;

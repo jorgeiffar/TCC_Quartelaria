@@ -9,7 +9,7 @@ $status = $_GET['status'] ?? null;
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login - Quartelaria</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=2">
 </head>
 <body>
   <div class="bg-fallback"></div>
@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $querySelect = mysqli_query($conexao, $sqlSelect);
 
   if (mysqli_num_rows($querySelect) == 0) {
-      echo "<div class='container'><div class='alert error'>Usuário ainda <strong>não</strong> cadastrado!</div></div>";
+      echo "<div class='alert error'>Usuário ainda <strong>não</strong> cadastrado!</div>";
   } else {
       $dadosUser = mysqli_fetch_assoc($querySelect);
       $senhaCript = $dadosUser['senha_usuario'];

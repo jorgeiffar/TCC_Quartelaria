@@ -54,7 +54,7 @@ $resultado_detalhes = mysqli_query($conexao, $query_detalhes);
 <head>
     <meta charset="UTF-8">
     <title>Detalhes Checklist #<?= $id_solicitacao ?></title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=2">
 </head>
 <body>
 

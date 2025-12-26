@@ -44,7 +44,7 @@ $resultado_vtr = mysqli_query($conexao, $query_vtr);
 <head>
     <meta charset="UTF-8">
     <title>Empréstimos - Quartelaria</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=2">
 </head>
 <body>
 
