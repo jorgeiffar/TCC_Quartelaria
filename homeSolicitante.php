@@ -118,13 +118,14 @@ $result_vtr = mysqli_query($conexao, $query_vtr);
     </section>
 
     <section>
-        <h2>Checklists de Viatura Ativos</h2>
+        <h2>Solicitações de Viatura</h2>
         <hr>
 
         <div class="card">
             <?php if($result_vtr === false || mysqli_num_rows($result_vtr) === 0): ?>
-                <p>Nenhum checklist de viatura ativo no momento.</p>
+                <p>Nenhuma solicitação de viatura no momento.</p>
             <?php else: ?>
+                <div class="table-wrapper">
                 <table class="tabela">
                         <thead>
                         <tr>
@@ -148,6 +149,7 @@ $result_vtr = mysqli_query($conexao, $query_vtr);
                         <?php endwhile; ?>
                     </tbody>
                 </table>
+                </div>
             <?php endif; ?>
         </div>
     </section>
