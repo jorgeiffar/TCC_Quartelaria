@@ -83,8 +83,8 @@ $result_vtr = mysqli_query($conexao, $query_vtr);
             <?php else: ?>
                 <?php foreach($solicitacoes as $idSolicitacao => $solicitacao): ?>
                     <h3>Solicitação #<?php echo $idSolicitacao; ?></h3>
-                    Data de solicitação: <?php echo $solicitacao['data_solicitacao']; ?><br>
-                    Data prevista de devolução: <?php echo $solicitacao['data_devolucao']; ?><br>
+                    Data de solicitação: <?php echo date('d-m-Y', strtotime($solicitacao['data_solicitacao']));?><br>
+                    Data prevista de devolução: <?php echo date('d-m-Y', strtotime($solicitacao['data_devolucao'])); ?><br>
                     Status: <?php echo $solicitacao['status_solicitacao']; ?>
 
                     <table class="tabela">

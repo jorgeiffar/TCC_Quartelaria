@@ -70,7 +70,7 @@ $resultado_vtr = mysqli_query($conexao, $query_vtr);
 
   <main class="container">
     <section>
-      <h1>Empréstimos</h1>
+      <h1>Empréstimos de Itens</h1>
       <hr>
 
       <div class="card">

@@ -54,7 +54,7 @@ if (!$resultListarVtr) {
 
     <div class="container">
         <?php echo "<a href='solicitacoesAnterioresVtr.php' class=\"btn\">Solicitações Anteriores </a>";?>
-        <h1>Checklists de Viatura Pendentes</h1>
+        <h1>Solicitações de Viatura Pendentes</h1>
         <hr>
 
         <?php

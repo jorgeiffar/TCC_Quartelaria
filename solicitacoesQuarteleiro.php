@@ -106,8 +106,8 @@ if (!$resultListarSolicitacao) {
             echo "<div class='card'>";
             echo "<p><strong>Solicitante:</strong> {$dadosSolicitacao['nome_usuario']}</p>";
             echo "<p><strong>Datas:</strong><br>
-                  Solicitação: {$dadosSolicitacao['data_solicitacao']}<br>
-                  Devolução prevista: {$dadosSolicitacao['data_devolucao_item']}</p>";
+                  Solicitação: "; echo date('d-m-Y', strtotime($dadosSolicitacao['data_solicitacao']));echo"<br>
+                  Devolução prevista: "; echo date('d-m-Y', strtotime($dadosSolicitacao['data_devolucao_item']));echo"</p>";
             echo "<p><strong>Motivo:</strong> {$motivoOperacao['nome_operacao']}</p>";
             echo "<strong>Itens:</strong>";
 
