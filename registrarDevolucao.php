@@ -7,19 +7,19 @@ if(!isset($_SESSION['id_usuario'])){
 
 include("conecta.php");
 
-if($_SERVER['REQUEST_METHOD'] !== 'POST'){
+if($_SERVER['REQUEST_METHOD'] != 'POST'){
     echo "Acesso inválido.";
     exit();
 }
 
-$id_solicitacao = (int)($_POST['id_solicitacao'] ?? 0);
+$id_solicitacao   = (int)($_POST['id_solicitacao'] ?? 0);
 $observacoes      = $_POST['observacao'] ?? [];
 $qtd_utilizada    = $_POST['qtd_utilizada'] ?? [];
 $qtd_extraviada   = $_POST['qtd_extraviada'] ?? [];
 $ids_solic_itens  = $_POST['id_solicitacao_itens'] ?? [];
 $ids_item         = $_POST['id_item'] ?? [];
 
-if($id_solicitacao <= 0 || empty($ids_solic_itens) || empty($ids_item)){
+if($id_solicitacao <= 0 || empty($ids_solic_itens)){
     echo "Dados incompletos.";
     exit();
 }
@@ -27,105 +27,103 @@ if($id_solicitacao <= 0 || empty($ids_solic_itens) || empty($ids_item)){
 mysqli_autocommit($conexao, false);
 $errors = [];
 
-// Marca todos os itens como devolvidos
-$sql = "UPDATE solicitacao_itens SET status_solicitacao = 'Devolvido', data_devolucao_real_item = NOW() WHERE id_solicitacao = ?";
-$stmt = mysqli_prepare($conexao, $sql);
-mysqli_stmt_bind_param($stmt, "i", $id_solicitacao);
-mysqli_stmt_execute($stmt);
-mysqli_stmt_close($stmt);
+/* Marca todos os itens como devolvidos */
+$sql = "
+UPDATE solicitacao_itens 
+SET status_solicitacao = 'Devolvido',
+    data_devolucao_real_item = NOW()
+WHERE id_solicitacao = $id_solicitacao
+";
+mysqli_query($conexao, $sql);
 
-// Prepara statements que vamos usar
-$stmt_select = mysqli_prepare($conexao, "SELECT tipo_item, quantidade FROM solicitacao_itens WHERE id_solicitacao_itens = ?");
-$stmt_arm    = mysqli_prepare($conexao, "UPDATE armamentos SET status_armamento = 0 WHERE id_armamento = ?");
-
-// Loop principal
+/* Loop dos itens */
 foreach($ids_solic_itens as $i => $id_solic_itens){
+
     $id_solic_itens = (int)$id_solic_itens;
-    $id_item        = (int)($ids_item[$i] ?? 0);
+    $id_item = (int)($ids_item[$i] ?? 0);
 
     if($id_solic_itens <= 0 || $id_item <= 0){
-        $errors[] = "ID inválido no item (índice $i).";
+        $errors[] = "ID inválido.";
         continue;
     }
 
-    // Pega tipo e quantidade emprestada
-    mysqli_stmt_bind_param($stmt_select, "i", $id_solic_itens);
-    mysqli_stmt_execute($stmt_select);
-    $res = mysqli_stmt_get_result($stmt_select);
+    /* Busca tipo e quantidade */
+    $sql = "
+    SELECT tipo_item, quantidade 
+    FROM solicitacao_itens 
+    WHERE id_solicitacao_itens = $id_solic_itens
+    ";
+    $res = mysqli_query($conexao, $sql);
     if(mysqli_num_rows($res) == 0) continue;
 
     $row = mysqli_fetch_assoc($res);
     $tipo = strtolower(trim($row['tipo_item']));
     $qtd_emprestada = (int)$row['quantidade'];
 
-    //Salva observação (agora funciona para armamento e equipamento)
+    /* Salva observação */
     $obs = trim($observacoes[$id_solic_itens] ?? '');
-    if($obs !== ''){
-        $sql = "UPDATE solicitacao_itens SET observacao_item = ? WHERE id_solicitacao_itens = ?";
-        $s = mysqli_prepare($conexao, $sql);
-        mysqli_stmt_bind_param($s, "si", $obs, $id_solic_itens);
-        mysqli_stmt_execute($s);
-        mysqli_stmt_close($s);
+    if($obs != ''){
+        $obs = mysqli_real_escape_string($conexao, $obs);
+        $sql = "
+        UPDATE solicitacao_itens
+        SET observacao_item = '$obs'
+        WHERE id_solicitacao_itens = $id_solic_itens
+        ";
+        mysqli_query($conexao, $sql);
     }
 
-    // Se for armamento -> só libera
-    if(stripos($tipo, 'arm') !== false){
-        mysqli_stmt_bind_param($stmt_arm, "i", $id_item);
-        mysqli_stmt_execute($stmt_arm);
+    /* Armamento: só libera */
+    if(strpos($tipo, 'arm') !== false){
+        $sql = "
+        UPDATE armamentos
+        SET status_armamento = 0
+        WHERE id_armamento = $id_item
+        ";
+        mysqli_query($conexao, $sql);
         continue;
     }
 
-    // Se for equipamento
-    if($tipo !== 'equipamento') continue;
+    /* Equipamento */
+    if($tipo != 'equipamento') continue;
 
     $utilizada  = (int)($qtd_utilizada[$id_solic_itens] ?? 0);
     $extraviada = (int)($qtd_extraviada[$id_solic_itens] ?? 0);
     $total_perdido = $utilizada + $extraviada;
 
     if($total_perdido > $qtd_emprestada){
-        $errors[] = "Erro: utilizado + extraviado ($total_perdido) > emprestado ($qtd_emprestada) no item $id_solic_itens";
+        $errors[] = "Quantidade inválida no item $id_solic_itens";
         continue;
     }
 
-    //  Sempre devolve tudo dofora da quartelaria
-    $sql = "UPDATE equipamentos 
-            SET quantidade_disponivel_equipamento = quantidade_disponivel_equipamento - ? 
-            WHERE id_equipamento = ? AND quantidade_disponivel_equipamento >= ?";
-    $s = mysqli_prepare($conexao, $sql);
-    mysqli_stmt_bind_param($s, "iii", $qtd_emprestada, $id_item, $qtd_emprestada);
-    mysqli_stmt_execute($s);
-    if(mysqli_stmt_affected_rows($s) == 0){
-        $errors[] = "Falha ao devolver equipamento do campo (ID: $id_item)";
-    }
-    mysqli_stmt_close($s);
+    /* Devolve tudo do campo */
+    $sql = "
+    UPDATE equipamentos
+    SET quantidade_disponivel_equipamento =
+        quantidade_disponivel_equipamento - $qtd_emprestada
+    WHERE id_equipamento = $id_item
+    AND quantidade_disponivel_equipamento >= $qtd_emprestada
+    ";
+    mysqli_query($conexao, $sql);
 
-    //Só dá baixa no patrimônio se perdeu algo
+    if(mysqli_affected_rows($conexao) == 0){
+        $errors[] = "Erro ao devolver equipamento ID $id_item";
+    }
+
+    /* Dá baixa no patrimônio se perdeu algo */
     if($total_perdido > 0){
-        $sql = "UPDATE equipamentos 
-                SET quantidade_equipamento = quantidade_equipamento - ? 
-                WHERE id_equipamento = ? AND quantidade_equipamento >= ?";
-        $s = mysqli_prepare($conexao, $sql);
-        mysqli_stmt_bind_param($s, "iii", $total_perdido, $id_item, $total_perdido);
-        mysqli_stmt_execute($s);
-        if(mysqli_stmt_affected_rows($s) == 0){
-            $errors[] = "Falha ao dar baixa no patrimônio ($total_perdido unidades) - ID: $id_item";
+        $sql = "
+        UPDATE equipamentos
+        SET quantidade_equipamento = quantidade_equipamento - $total_perdido
+        WHERE id_equipamento = $id_item
+        AND quantidade_equipamento >= $total_perdido
+        ";
+        mysqli_query($conexao, $sql);
+
+        if(mysqli_affected_rows($conexao) == 0){
+            $errors[] = "Erro ao dar baixa no patrimônio ID $id_item";
         }
-        mysqli_stmt_close($s);
     }
 }
-
-//Finaliza 
-mysqli_stmt_close($stmt_select);
-mysqli_stmt_close($stmt_arm);
-
-if(!empty($errors)){
-    mysqli_rollback($conexao);
-    echo "<div class='error-box'><h3>Erros na devolução:</h3><ul>";
-    foreach($errors as $e) echo "<li>$e</li>";
-    echo "</ul><a href='javascript:history.back()' class='btn'>Retornar</a></div>";
-}
-
-mysqli_autocommit($conexao, true);
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
