@@ -11,7 +11,7 @@ if ($_SESSION['perfil_usuario'] == 1 && isset($_POST['usuario'])) {
    $_SESSION['usuario_selecionado'] = (int) $_POST['usuario'];
 }
 
-// === NOVA LÓGICA: marcar se deve auto-aprovar ===
+
 if ($_SESSION['perfil_usuario'] == 1) {
     $id_logado = $_SESSION['id_usuario'];
     $id_destinatario = $_SESSION['usuario_selecionado'] ?? $id_logado;
@@ -26,7 +26,6 @@ if ($_SESSION['perfil_usuario'] == 1) {
 } else {
     $_SESSION['auto_aprovar'] = false;
 }
-// === FIM DA NOVA LÓGICA ===
 
 if (isset($_POST['tipo']) && isset($_POST['id_item'])) {
     $tipo = $_POST['tipo'];

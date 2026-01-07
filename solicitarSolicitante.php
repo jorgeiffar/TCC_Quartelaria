@@ -41,7 +41,7 @@ $result = mysqli_query($conexao,$sql);
     <title>Solicitação</title>
     <link rel="stylesheet" href="style.css?v=2">
     <style>
-      /* ====== SEUS ESTILOS ORIGINAIS – NADA ALTERADO ====== */
+      
       h1, h2, h3 { margin-bottom: 15px; }
 
       .section-title {
@@ -92,7 +92,7 @@ $result = mysqli_query($conexao,$sql);
         margin-top: 50px;
       }
 
-      /* RESPONSIVIDADE EXTRA NO CELULAR (opcional – deixa os cards maiores) */
+    
       @media (max-width: 768px) {
         .itens-grid { grid-template-columns: 1fr; gap: 18px; }
         .item-card { padding: 22px; }
@@ -105,7 +105,6 @@ $result = mysqli_query($conexao,$sql);
 <body>
 <div class="bg-fallback"></div>
 
-<!-- HEADER ADICIONADO (essencial pro style.css?v=2 funcionar) -->
 <header>
     <nav>
         <?php if ($_SESSION['perfil_usuario'] == 1): ?>
@@ -135,12 +134,12 @@ $result = mysqli_query($conexao,$sql);
     </nav>
 </header>
 
-<!-- MAIN + CONTAINER (trocado de <div class="container"> para <main class="container">) -->
+
 <main class="container">
 <a href="verCarrinho.php" class="btn secundario"><img src="./img/carrinho.png" alt="Carrinho de Compras" style="width: 30px; height: 30px; vertical-align: middle;"> | Ver Carrinho </a><br>
 
 <?php
-// === NOTIFICAÇÃO ===
+//NOTIFICAÇÃO
 if (isset($_GET['status']) && $_GET['status'] === 'qtdincompativel') {
     echo "<div id='notificacao-topo' style='position:fixed;top:90px;left:50%;transform:translateX(-50%);background:#e74c3c;color:white;padding:14px 28px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.25);z-index:9999;font-weight:600;text-align:center;animation:slideDown .5s ease'>
             Quantidade incompatível com o estoque!
@@ -378,10 +377,7 @@ window.addEventListener('scroll', function () {
         btn.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
     } else {
-        // posição normal
-        btn.style.bottom = '25px';
-
-        // texto original
+        btn.style.bottom = '25px';       
         btn.innerHTML = 'Finalizar Solicitação <span style="font-size:1.4rem;">↓</span>';
         btn.onclick = () => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     }

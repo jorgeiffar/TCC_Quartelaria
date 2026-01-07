@@ -17,7 +17,7 @@ $itens_form = $_POST['itens'] ?? [];
 // Converte a data/hora do formato brasileiro (d/m/Y H:i:s) para o formato do MySQL (Y-m-d H:i:s)
 $data_mysql = DateTime::createFromFormat('d/m/Y H:i:s', $datahora_br)->format('Y-m-d H:i:s');
 
-// 2. Inserção do Checklist Principal (Tabela solicitacao_viatura)
+//Inserção do Checklist Principal (Tabela solicitacao_viatura)
 // O campo 'observacoes_viatura' não foi preenchido no formulário, então vou deixar vazio ('')
 $sql_principal = "INSERT INTO solicitacao_viatura (
     id_usuario, 
@@ -33,15 +33,15 @@ $sql_principal = "INSERT INTO solicitacao_viatura (
     '{$placa}', 
     '', 
     'Pendente' 
-)"; // Assumindo status inicial como PENDENTE
+)"; // Assume status inicial como PENDENTE
 
 $resultado_principal = mysqli_query($conexao, $sql_principal);
 
 if ($resultado_principal) {
-    // Obtém o ID da solicitação principal recém-inserida
+    // Obtém o ID da solicitação principal recem inserida
     $id_solicitacao = mysqli_insert_id($conexao);
 
-    // 3. Inserção dos Detalhes dos Itens (Tabela resultado_checklist_viatura)
+    //Inserção dos Detalhes dos Itens (Tabela resultado_checklist_viatura)
 
     // Antes de inserir os detalhes, precisamos do id_item para cada nome_item
     foreach ($itens_form as $nome_item => $dados) {
@@ -50,7 +50,7 @@ if ($resultado_principal) {
         $qap = $dados['qap']; // '1' para OK, '0' para NÃO OK
         $obs = $dados['obs'] ?? '';
         
-        // 3a. Busca o id_item na tabela itens_checklist usando o nome_item
+        //Busca o id_item na tabela itens_checklist usando o nome_item
         $sql_busca_id = "SELECT id_item FROM itens_checklist WHERE nome_item = '{$nome_item}'";
         $resultado_id = mysqli_query($conexao, $sql_busca_id);
         
@@ -59,7 +59,7 @@ if ($resultado_principal) {
             $item_data = mysqli_fetch_assoc($resultado_id);
             $id_item = $item_data['id_item'];
             
-            // 3b. Insere o detalhe do item
+            //Insere o detalhe do item
             $sql_detalhes = "INSERT INTO resultado_checklist_viatura (
                 id_solicitacao_viatura, 
                 id_item, 
@@ -72,15 +72,13 @@ if ($resultado_principal) {
                 '{$obs}'
             )";
             
-            // Tenta executar a inserção do detalhe
             if (!mysqli_query($conexao, $sql_detalhes)) {
-                 // Em caso de falha, você pode decidir o que fazer (logar, mostrar erro, etc.)
-                 // Por enquanto, apenas ignora e continua
+                
             }
         }
     }
 
-    // Sucesso em todas as inserções (ou na maioria delas)
+    // Sucesso
     header("Location: homeSolicitante.php");
     exit();
 

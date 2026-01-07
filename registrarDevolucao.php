@@ -38,7 +38,7 @@ mysqli_stmt_close($stmt);
 $stmt_select = mysqli_prepare($conexao, "SELECT tipo_item, quantidade FROM solicitacao_itens WHERE id_solicitacao_itens = ?");
 $stmt_arm    = mysqli_prepare($conexao, "UPDATE armamentos SET status_armamento = 0 WHERE id_armamento = ?");
 
-// Loop principal — aqui acontece a mágica
+// Loop principal
 foreach($ids_solic_itens as $i => $id_solic_itens){
     $id_solic_itens = (int)$id_solic_itens;
     $id_item        = (int)($ids_item[$i] ?? 0);
@@ -48,7 +48,7 @@ foreach($ids_solic_itens as $i => $id_solic_itens){
         continue;
     }
 
-    // === 1. Pega tipo e quantidade emprestada ===
+    // Pega tipo e quantidade emprestada
     mysqli_stmt_bind_param($stmt_select, "i", $id_solic_itens);
     mysqli_stmt_execute($stmt_select);
     $res = mysqli_stmt_get_result($stmt_select);
@@ -58,7 +58,7 @@ foreach($ids_solic_itens as $i => $id_solic_itens){
     $tipo = strtolower(trim($row['tipo_item']));
     $qtd_emprestada = (int)$row['quantidade'];
 
-    // === 2. Salva observação (agora funciona para armamento e equipamento) ===
+    //Salva observação (agora funciona para armamento e equipamento)
     $obs = trim($observacoes[$id_solic_itens] ?? '');
     if($obs !== ''){
         $sql = "UPDATE solicitacao_itens SET observacao_item = ? WHERE id_solicitacao_itens = ?";
@@ -68,14 +68,14 @@ foreach($ids_solic_itens as $i => $id_solic_itens){
         mysqli_stmt_close($s);
     }
 
-    // === 3. Se for armamento: só libera ===
+    // Se for armamento -> só libera
     if(stripos($tipo, 'arm') !== false){
         mysqli_stmt_bind_param($stmt_arm, "i", $id_item);
         mysqli_stmt_execute($stmt_arm);
         continue;
     }
 
-    // === 4. Se for equipamento ===
+    // Se for equipamento
     if($tipo !== 'equipamento') continue;
 
     $utilizada  = (int)($qtd_utilizada[$id_solic_itens] ?? 0);
@@ -87,7 +87,7 @@ foreach($ids_solic_itens as $i => $id_solic_itens){
         continue;
     }
 
-    // 4.1 — Sempre devolve tudo do "fora da quartelaria"
+    //  Sempre devolve tudo dofora da quartelaria
     $sql = "UPDATE equipamentos 
             SET quantidade_disponivel_equipamento = quantidade_disponivel_equipamento - ? 
             WHERE id_equipamento = ? AND quantidade_disponivel_equipamento >= ?";
@@ -99,7 +99,7 @@ foreach($ids_solic_itens as $i => $id_solic_itens){
     }
     mysqli_stmt_close($s);
 
-    // 4.2 — Só dá baixa no patrimônio se perdeu algo
+    //Só dá baixa no patrimônio se perdeu algo
     if($total_perdido > 0){
         $sql = "UPDATE equipamentos 
                 SET quantidade_equipamento = quantidade_equipamento - ? 
@@ -114,7 +114,7 @@ foreach($ids_solic_itens as $i => $id_solic_itens){
     }
 }
 
-// === Finaliza ===
+//Finaliza 
 mysqli_stmt_close($stmt_select);
 mysqli_stmt_close($stmt_arm);
 

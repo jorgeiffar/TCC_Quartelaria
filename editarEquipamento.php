@@ -126,7 +126,6 @@ if ($tipo == 'Outros') {
 </footer>
 
 <?php
-// ===== PROCESSAMENTO =====
 if (isset($_POST['EouM']) && $_POST['EouM'] == 'E') {
     $tipoMaisEquipamento = $_POST['equipamento'];
     list($nomeClasse, $tipo) = explode("|", $tipoMaisEquipamento);

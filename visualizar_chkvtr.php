@@ -16,7 +16,6 @@ $usuario = $_SESSION['nome_usuario'];
 <head>
     <meta charset="UTF-8">
 
-    <!-- RESPONSIVIDADE -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Verificação da Solicitação</title>
@@ -52,7 +51,7 @@ $usuario = $_SESSION['nome_usuario'];
 
     <h3>Itens verificados:</h3>
 
-    <!-- RESPONSIVO -->
+
     <div class="table-responsive">
         <table class="tabela">
             <thead>

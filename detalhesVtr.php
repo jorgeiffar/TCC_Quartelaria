@@ -2,7 +2,7 @@
 include("conecta.php");
 session_start();
 
-// Verificação de Acesso (MANTIDA)
+// Verificação de Acesso
 if (!isset($_SESSION['id_usuario']) || $_SESSION['perfil_usuario'] != 1) {
     header("Location: login.php?status=nao_autorizado");
     exit();
@@ -14,7 +14,6 @@ if (!isset($_GET['id'])) {
     exit();
 }
 
-// Versão simplificada e insegura (sem escape)
 $id_solicitacao = $_GET['id'];
 
 // Consulta Principal (Dados da Solicitação e do Solicitante)

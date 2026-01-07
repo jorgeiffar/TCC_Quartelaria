@@ -27,7 +27,6 @@ if(isset($_GET['id'])){
     exit();
 }
 
-// Se o formulário foi enviado (atualização geral e possivelmente alteração do código)
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
     // limpar entradas (mantém valor antigo se campo não vier)
     $nome = mysqli_real_escape_string($conexao, $_POST['nome_armamento'] ?? $dados['nome_armamento']);
@@ -76,7 +75,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     if(!isset($erro_serial) && !isset($sucesso_serial)){
         $sucesso_geral = "Dados atualizados com sucesso.";
     } elseif(!isset($erro_serial) && isset($sucesso_serial)){
-        // mostra apenas sucesso do serial (já tratado)
+        // mostra apenas sucesso do serial
     }
 }
 ?>
@@ -195,7 +194,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
             const flag = document.getElementById('allow_serial_edit');
 
             btn.addEventListener('click', function(){
-                // Confirmação no cliente — a verificação real do serial é feita no servidor
+                // Confirmação no cliente, a verificação real do serial é feita no servidor
                 const confirmar = confirm("Você quer habilitar a edição do Nº de Série? Esta ação requer que você confirme o código atual.");
                 if(confirmar){
                     box.classList.add('show');
@@ -211,9 +210,6 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                 }
             });
 
-            // Segurança UX: se o usuário pressionar Enter dentro dos campos do serial,
-            // o formulário será submetido normalmente (com allow_serial_edit = 1 quando visível).
-            // Não precisamos de código extra aqui.
         })();
     </script>
 </body>

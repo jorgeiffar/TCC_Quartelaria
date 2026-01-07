@@ -15,7 +15,7 @@ $operacao = $_SESSION['operacao'] ?? '';
 $data_devolucao = $_SESSION['data_devolucao_item'] ?? '';
 $data_solicitacao = date("Y-m-d");
 
-// Se for quartelário (perfil 1), usa o usuário selecionado no select
+// Se for quarteilero (perfil 1), usa o usuario selecionado no select
 if ($_SESSION['perfil_usuario'] == 1 && !empty($_SESSION['usuario_selecionado'])) {
     $id_destinatario = $_SESSION['usuario_selecionado'];
 } else {
