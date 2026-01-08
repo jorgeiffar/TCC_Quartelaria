@@ -93,7 +93,6 @@ $resultado_detalhes = mysqli_query($conexao, $query_detalhes);
             <h2>Dados da Viatura</h2>
             <p><strong>Placa do Veículo:</strong> <strong><?= $solicitacao['placa_veiculo'] ?></strong></p>
             <p><strong>Quilometragem:</strong> <?= $solicitacao['quilometragem'] ?> km</p>
-            <p><strong>Observações Gerais:</strong> <?= empty($solicitacao['observacoes_viatura']) ? 'N/A' : $solicitacao['observacoes_viatura'] ?></p>
             <hr>
         </div>
 
@@ -103,7 +102,7 @@ $resultado_detalhes = mysqli_query($conexao, $query_detalhes);
                 <thead>
                     <tr>
                         <th>Item</th>
-                        <th>Descrição</th>
+                        
                         <th>QAP (OK)</th>
                         <th>Observação do Solicitante</th>
                     </tr>
@@ -113,9 +112,8 @@ $resultado_detalhes = mysqli_query($conexao, $query_detalhes);
                         <?php while($item = mysqli_fetch_assoc($resultado_detalhes)): ?>
                             <tr class="<?= $item['qap'] == 0 ? 'item-problema' : 'item-ok' ?>">
                                 <td><?= $item['nome_item'] ?></td>
-                                <td><?= empty($item['descricao_item']) ? 'N/A' : $item['descricao_item'] ?></td>
                                 <td><?= $item['qap'] == 1 ? 'Sim' : 'Não' ?></td>
-                                <td><?= empty($item['observacao_item']) ? 'N/A' : $item['observacao_item'] ?></td>
+                                <td><?= empty($item['observacao_item']) ? 'Vazio' : $item['observacao_item'] ?></td>
                             </tr>
                         <?php endwhile; ?>
                     <?php else: ?>
