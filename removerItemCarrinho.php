@@ -24,6 +24,5 @@ if (isset($_GET['tipo']) && isset($_GET['id_item'])) {
     }
 }
 
-// Redireciona de volta para o carrinho
 header("Location: verCarrinho.php");
 exit;

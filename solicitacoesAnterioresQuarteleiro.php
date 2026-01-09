@@ -38,7 +38,6 @@ $observacoes = "";  // Acumula observações de armamentos
 
 <div class="bg-fallback"></div>
 
-<!-- NAVBAR -->
 <nav>
          <div class="logo"><a href="homeQuarteleiro.php"><img src="./img/home.png" alt="Home" style="width: 28px; vertical-align: middle-top;"><span> COMMANDER</span></a></div>
 
@@ -55,7 +54,6 @@ $observacoes = "";  // Acumula observações de armamentos
       </ul>
 </nav>
 
-<!-- CONTAINER PRINCIPAL -->
 <div class="container">
     <h1>Solicitações Anteriores</h1>
 

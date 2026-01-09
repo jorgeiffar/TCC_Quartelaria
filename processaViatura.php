@@ -78,7 +78,6 @@ if ($resultado_principal) {
         }
     }
 
-    // Sucesso
     header("Location: homeSolicitante.php");
     exit();
 

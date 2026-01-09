@@ -31,7 +31,6 @@ $resultado = mysqli_query($conexao, $query);
 
 </nav>
 
-    <!-- CONTEÚDO -->
     <div class="container">
         <h1>Lista de Usuários</h1>
 
@@ -67,7 +66,6 @@ $resultado = mysqli_query($conexao, $query);
         </div>
     </div>
 
-    <!-- FOOTER -->
     <footer>
 &copy; <?php echo date("Y"); ?> COMMANDER - Sistema de Gerenciamento de Quartelaria    </footer>
 </body>

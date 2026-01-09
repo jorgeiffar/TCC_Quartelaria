@@ -82,7 +82,6 @@ include("conecta.php");
         </div>
     </div>
 
-    <!-- FOOTER -->
     <footer>
 &copy; <?php echo date("Y"); ?> COMMANDER - Sistema de Gerenciamento de Quartelaria    </footer>
 </body>

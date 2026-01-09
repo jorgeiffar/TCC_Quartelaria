@@ -48,7 +48,6 @@ $resultado_vtr = mysqli_query($conexao, $query_vtr);
 </head>
 <body>
 
-  <!-- CAMADA DE FUNDO CLARO (OBRIGATÓRIA) -->
   
 
   <header>

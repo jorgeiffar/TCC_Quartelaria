@@ -75,7 +75,7 @@ include("conecta.php");
 
 <header>
     <nav>
-        <!-- seu menu exatamente igual -->
+        
         <?php if ($_SESSION['perfil_usuario'] == 1): ?>
                 <div class="logo"><a href="homeQuarteleiro.php"><img src="./img/home.png" alt="Home" style="width: 28px; vertical-align: middle-top;"><span> COMMANDER</span></a></div>
 

@@ -53,7 +53,7 @@ $usuario = mysqli_fetch_assoc($resultado);
     <?php endif; ?>
 </nav>
 
-    <!-- CONTEÚDO -->
+    
     <div class="container">
         <h1>Editar Perfil</h1>
 
@@ -80,7 +80,6 @@ $usuario = mysqli_fetch_assoc($resultado);
         </div>
     </div>
 
-    <!-- FOOTER -->
     <footer>
 &copy; <?php echo date("Y"); ?> COMMANDER - Sistema de Gerenciamento de Quartelaria    </footer>
 </body>

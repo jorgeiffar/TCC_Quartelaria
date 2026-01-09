@@ -342,7 +342,6 @@ if (isset($_GET['status']) && $_GET['status'] === 'qtdincompativel') {
         font-size: 1.4rem;
     }
 
-    /* Esconde no desktop se quiser (opcional) */
     @media (min-width: 992px) {
         #btn-ir-final {
             bottom: 30px;
@@ -352,7 +351,6 @@ if (isset($_GET['status']) && $_GET['status'] === 'qtdincompativel') {
         }
     }
 
-    /* Esconde quando já está no final (opcional – muito útil) */
     
 </style>
 

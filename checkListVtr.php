@@ -22,7 +22,7 @@ $itens = mysqli_query($conexao, $sql);
 
 <div class="bg-fallback"></div>
 
-<!-- NAVBAR -->
+
 <nav>
     <div class="logo"><a href="homeSolicitante.php"><img src="./img/home.png" alt="Home" style="width: 28px; vertical-align: middle-top;"><span> COMMANDER</span></a></div>
     <ul>
@@ -33,7 +33,6 @@ $itens = mysqli_query($conexao, $sql);
 <li><a href="logout.php"><img src="./img/logout.png" alt="Logout" style="width: 30px; height: 30px; vertical-align: middle;"></a></li>    </ul>
 </nav>
 
-<!-- CONTEÚDO -->
 <div class="container">
     <h2>Checklist de Viatura</h2>
 
@@ -52,7 +51,7 @@ $itens = mysqli_query($conexao, $sql);
 
         <br>
 
-        <!-- WRAPPER COM ROLAGEM HORIZONTAL SOMENTE NA TABELA -->
+        
         <div class="table-wrapper">
             <table class="tabela">
                 <thead>
