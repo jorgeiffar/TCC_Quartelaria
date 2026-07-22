@@ -1,5 +1,3 @@
-##|/\|/\| SISTEMA AINDA EM DESENVOLVIMENTO! |/\|/\|##
-
 ---
 
 # Sistema de Quartelaria Informatizado - 6º Batalhão de Choque
